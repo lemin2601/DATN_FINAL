@@ -102,7 +102,7 @@
 <node CREATED="1521869573249" ID="ID_602681941" LINK="https://www.jetbrains.com/help/idea/maven.html" MODIFIED="1521869573249" TEXT="https://www.jetbrains.com/help/idea/maven.html"/>
 </node>
 <node CREATED="1521870362489" ID="ID_172481500" MODIFIED="1523101003857" POSITION="right" TEXT="doc them">
-<node CREATED="1521870366738" FOLDED="true" ID="ID_1747968080" MODIFIED="1523102979641" TEXT="chung nhan crtf">
+<node CREATED="1521870366738" ID="ID_1747968080" MODIFIED="1523102985407" TEXT="chung nhan crtf">
 <node CREATED="1521870365458" ID="ID_801929630" LINK="https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html" MODIFIED="1521870365458" TEXT="https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html"/>
 </node>
 <node BACKGROUND_COLOR="#ff3333" COLOR="#ccff00" CREATED="1523081276158" ID="ID_1646002512" MODIFIED="1523081331116" TEXT="jpa la day">
@@ -116,6 +116,83 @@
 </node>
 <node CREATED="1521876356563" ID="ID_1735598101" MODIFIED="1521876358547" POSITION="right" TEXT="build">
 <node CREATED="1521876359075" ID="ID_1805749668" MODIFIED="1521876359075" TEXT="mvnw clean package"/>
+</node>
+<node CREATED="1523108121631" ID="ID_423556299" MODIFIED="1523108126729" POSITION="right" TEXT="deploy">
+<node CREATED="1523108127055" FOLDED="true" ID="ID_253581048" MODIFIED="1523108134585" TEXT="build">
+<node CREATED="1523108130139" ID="ID_887919770" MODIFIED="1523108134525" TEXT="mvnw clean package"/>
+</node>
+<node CREATED="1523108135344" ID="ID_1042975837" MODIFIED="1523108138815" TEXT="ubuntu">
+<node CREATED="1523108342296" ID="ID_1474715634" MODIFIED="1523108354519">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      user: lm
+    </p>
+    <p>
+      pass: 1
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node CREATED="1523108138817" ID="ID_1412116694" MODIFIED="1523110616070" TEXT="c&#xe1;i mysql">
+<node CREATED="1523108147838" ID="ID_556393363" MODIFIED="1523108281546">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <pre><code>sudo apt-get update</code></pre>
+    <pre><code>sudo apt-get install mysql-server</code></pre>
+    <pre><code>sudo ufw allow mysql</code></pre>
+    <pre><code>systemctl start mysql</code></pre>
+    <pre><code>systemctl enable mysql</code></pre>
+    <pre><code>/usr/bin/mysql -u root -p</code></pre>
+    <pre><code>UPDATE mysql.user SET Password = PASSWORD('123456') WHERE User = 'root';</code></pre>
+    <pre><code>FLUSH PRIVILEGES;</code></pre>
+    <pre><code>SELECT User, Host, authentication_string FROM mysql.user;</code></pre>
+    <pre></pre>
+  </body>
+</html>
+</richcontent>
+</node>
+<node CREATED="1523110621612" ID="ID_1587212706" MODIFIED="1523110628493" TEXT="CREATE DATABASE genealogy;"/>
+</node>
+<node CREATED="1523109137931" ID="ID_1890980638" MODIFIED="1523109143368" TEXT="push key">
+<node CREATED="1523109143661" ID="ID_1665963087" MODIFIED="1523109147824" TEXT="ubuntu">
+<node CREATED="1523109148381" MODIFIED="1523109148381" TEXT="sudo apt-get install ssh"/>
+<node CREATED="1523110134234" ID="ID_45545046" MODIFIED="1523110137860" TEXT="sudo apt-get install default-jre"/>
+<node CREATED="1523110146916" MODIFIED="1523110146916" TEXT="sudo apt-get install default-jdk"/>
+</node>
+<node CREATED="1523110647522" ID="ID_697847847" MODIFIED="1523110651563" TEXT="cai jdk">
+<node CREATED="1523110651995" LINK="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04" MODIFIED="1523110651995" TEXT="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04"/>
+</node>
+<node CREATED="1523109151027" ID="ID_708685861" MODIFIED="1523109152315" TEXT="win">
+<node CREATED="1523109152316" ID="ID_1150024164" MODIFIED="1523109160205" TEXT="putty64">
+<node CREATED="1523109160630" ID="ID_1383261614" MODIFIED="1523109163597" TEXT="gen key"/>
+<node CREATED="1523109176344" ID="ID_740448109" LINK="mailto:lm@192.168.0.252:pub" MODIFIED="1523109176344" TEXT="pscp pub lm@192.168.0.252:pub"/>
+<node CREATED="1523109306461" ID="ID_569063054" LINK="mailto:lm@192.168.0.252" MODIFIED="1523109306461" TEXT="plink lm@192.168.0.252 mkdir $HOME/.ssh"/>
+<node CREATED="1523109320867" ID="ID_1550445952" LINK="mailto:lm@192.168.0.252" MODIFIED="1523109337106">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      plink lm@192.168.0.252 cp $HOME/pub $HOME/.ssh/authorized_keys
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node CREATED="1523109325842" LINK="mailto:lm@192.168.0.252" MODIFIED="1523109325842" TEXT="plink lm@192.168.0.252 chmod 600 $HOME/.ssh/authorized_keys"/>
+</node>
+</node>
+</node>
+</node>
 </node>
 </node>
 </map>

@@ -30,7 +30,7 @@ public class DefaultController {
                     break;
                 }
                 else if (authority.getAuthority()
-                                  .equals("ROLE_USER")) {
+                                  .startsWith("ROLE_USER")) {
                     result = "/genealogy/home";
                     break;
                 }

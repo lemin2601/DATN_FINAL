@@ -192,7 +192,7 @@ web admin ==> home
             idField: 'name',
             pagination: true,
             search: true,
-            url: 'https://localhost:8999/admin/account/findAll',
+            url: "https://"+ document.location.host  +'/admin/account/findAll',
             // data: [{"id":4,"email":"123@gmail.com","name":"Trung"},{"id":5,"email":"3@gmail.com","name":"1"},{"id":6,"email":"4@gmail.com","name":"1"},{"id":7,"email":"5@gmail.com","name":"4"},{"id":8,"email":"trung@gmail.com","name":"trung"}],
             columns: [{
                 class: 'name',
