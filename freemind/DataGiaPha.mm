@@ -101,9 +101,17 @@
 <node CREATED="1521869558468" ID="ID_1617048922" MODIFIED="1521869563338" POSITION="right" TEXT="cai dat intelij">
 <node CREATED="1521869573249" ID="ID_602681941" LINK="https://www.jetbrains.com/help/idea/maven.html" MODIFIED="1521869573249" TEXT="https://www.jetbrains.com/help/idea/maven.html"/>
 </node>
-<node CREATED="1521870362489" ID="ID_172481500" MODIFIED="1521870365109" POSITION="right" TEXT="doc them">
-<node CREATED="1521870366738" ID="ID_1747968080" MODIFIED="1521870373375" TEXT="chung nhan crtf">
+<node CREATED="1521870362489" ID="ID_172481500" MODIFIED="1523101003857" POSITION="right" TEXT="doc them">
+<node CREATED="1521870366738" FOLDED="true" ID="ID_1747968080" MODIFIED="1523102979641" TEXT="chung nhan crtf">
 <node CREATED="1521870365458" ID="ID_801929630" LINK="https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html" MODIFIED="1521870365458" TEXT="https://docs.spring.io/spring-security/site/docs/current/reference/html/csrf.html"/>
+</node>
+<node BACKGROUND_COLOR="#ff3333" COLOR="#ccff00" CREATED="1523081276158" ID="ID_1646002512" MODIFIED="1523081331116" TEXT="jpa la day">
+<font BOLD="true" NAME="SansSerif" SIZE="12"/>
+<icon BUILTIN="button_ok"/>
+<node CREATED="1523081282036" LINK="http://www.baeldung.com/spring-data-repositories" MODIFIED="1523081282036" TEXT="baeldung.com &gt; Spring-data-repositories"/>
+</node>
+<node BACKGROUND_COLOR="#99ff33" CREATED="1523101003859" ID="ID_673152628" MODIFIED="1523101019427" TEXT="FORMAT DAYTETIME">
+<node CREATED="1523101011041" LINK="https://lankydanblog.com/2017/03/11/passing-data-transfer-objects-with-get-in-spring-boot/" MODIFIED="1523101011041" TEXT="https://lankydanblog.com/2017/03/11/passing-data-transfer-objects-with-get-in-spring-boot/"/>
 </node>
 </node>
 <node CREATED="1521876356563" ID="ID_1735598101" MODIFIED="1521876358547" POSITION="right" TEXT="build">
