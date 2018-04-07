@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,38 +36,50 @@ public class UserModel {
     @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     @Transient
+    @JsonIgnore
     private String password;
     @Column(name = "name")
     @NotEmpty(message = "*Please provide your name")
     private String name;
     @Column(name = "last_name")
     @NotEmpty(message = "*Please provide your last name")
+    @JsonIgnore
     private String lastName;
 
+    @JsonIgnore
     @Column(name = "link")
     private String link;
 
+    @JsonIgnore
     @Column(name = "img")
     private String img;
 
+    @JsonIgnore
     @Column(name = "phone")
     private String phone;
 
+    @JsonIgnore
     @Column(name = "address")
     private String address;
 
+    @JsonIgnore
     @Column(name = "birthday")
     private Date   birthday;
 
+    @JsonIgnore
     @Column(name = "active")
     private int            active;
+
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleModel> roles;
 
+    @JsonIgnore
     @Column(name = "first_name")
     private String            firstName;
 
+    @JsonIgnore
     @Column(name = "gender")
     private String            gender;
 

@@ -1,7 +1,6 @@
 package com.leemin.genealogy.service;
 
 import com.leemin.genealogy.facebook.domain.AccessToken;
-import com.leemin.genealogy.facebook.domain.UserDetails;
 import com.leemin.genealogy.model.RoleModel;
 import com.leemin.genealogy.model.UserModel;
 import com.leemin.genealogy.model.UserTokenModel;
@@ -9,6 +8,10 @@ import com.leemin.genealogy.repository.RoleRepository;
 import com.leemin.genealogy.repository.UserRepository;
 import com.leemin.genealogy.repository.UserTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service()
 public class UserServiceImpl implements UserService{
@@ -33,6 +37,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserModel findUserByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+	@Override
+	public UserModel findUserById(long id) {
+		return userRepository.findById(id);
 	}
 
 	@Override
@@ -82,5 +90,34 @@ public class UserServiceImpl implements UserService{
 		userTokenModel.setUserId(userModel.getId());
 		userTokenRepository.save(userTokenModel);
 
+	}
+
+	@Override
+	public void delete(int id) {
+	}
+
+	@Override
+	public UserModel findOne(int id) {
+		return null;
+	}
+
+	@Override
+	public void save(UserModel user) {
+	}
+
+
+
+	@Override
+	public List<UserModel> findAllBy() {
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "id"));
+        Pageable pageable = new PageRequest(0, 5, sort);
+        Page<UserModel> all = userRepository.findAll(pageable);
+        List<UserModel> content = all.getContent();
+        return content;
+
+	}
+	@Override
+	public List<UserModel> findAll() {
+		return userRepository.findAll();
 	}
 }
