@@ -1,6 +1,7 @@
 package com.leemin.genealogy.control;
 
 import com.leemin.genealogy.model.UserModel;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,9 +20,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/account", method = RequestMethod.GET)
-    public ModelAndView login(@ModelAttribute(value = "user") UserModel user, HttpServletRequest request) {
+    public ModelAndView login(Authentication authentication ,@ModelAttribute(value = "user") UserModel user, HttpServletRequest request) {
         ModelAndView mv;
         mv = new ModelAndView("/admin/account");
+        authentication.getDetails();
         return mv;
     }
 }

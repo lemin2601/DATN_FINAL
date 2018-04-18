@@ -14,7 +14,7 @@ var config = {
             title: "Chief executive officer",
             contact: "Tel: 01 213 123 134",
         },
-        image: "../headshots/2.jpg"
+        image: "/headshots/2.jpg"
     },
 
     cto = {
@@ -24,7 +24,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cbo = {
         parent: ceo,
@@ -33,7 +33,7 @@ var config = {
             name: "Linda May",
             title: "Chief Business Officer",
         },
-        image: "../headshots/5.jpg"
+        image: "/headshots/5.jpg"
     },
     cdo = {
         parent: ceo,
@@ -42,7 +42,7 @@ var config = {
             title: "Chief accounting officer",
             contact: "Tel: 01 213 123 134",
         },
-        image: "../headshots/6.jpg"
+        image: "/headshots/6.jpg"
     },
     cio = {
         parent: cto,
@@ -50,7 +50,7 @@ var config = {
             name: "Ron Blomquist",
             title: "Chief Information Security Officer"
         },
-        image: "../headshots/8.jpg"
+        image: "/headshots/8.jpg"
     },
     ciso = {
         parent: cto,
@@ -59,7 +59,7 @@ var config = {
             title: "Chief Innovation Officer",
             contact: {val: "we@aregreat.com", href: "mailto:we@aregreat.com"}
         },
-        image: "../headshots/9.jpg"
+        image: "/headshots/9.jpg"
     },
     cio2 = {
         parent: cdo,
@@ -70,7 +70,7 @@ var config = {
         link: {
             href: "http://www.google.com"
         },
-        image: "../headshots/10.jpg"
+        image: "/headshots/10.jpg"
     },
     ciso2 = {
         parent: cbo,
@@ -78,7 +78,7 @@ var config = {
             name: "Alice Lopez",
             title: "Chief Communications Officer"
         },
-        image: "../headshots/7.jpg"
+        image: "/headshots/7.jpg"
     },
     ciso3 = {
         parent: cbo,
@@ -86,7 +86,7 @@ var config = {
             name: "Mary Johnson",
             title: "Chief Brand Officer"
         },
-        image: "../headshots/4.jpg"
+        image: "/headshots/4.jpg"
     },
     ciso4 = {
         parent: cbo,
@@ -94,7 +94,7 @@ var config = {
             name: "Kirk Douglas",
             title: "Chief Business Development Officer"
         },
-        image: "../headshots/11.jpg"
+        image: "/headshots/11.jpg"
     },
     cto1 = {
         parent: ceo,
@@ -103,7 +103,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto2 = {
         parent: ceo,
@@ -112,7 +112,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto3 = {
         parent: ceo,
@@ -121,7 +121,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto4 = {
         parent: ceo,
@@ -130,7 +130,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
 
     cto5 = {
@@ -140,7 +140,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto6 = {
         parent: ceo,
@@ -149,7 +149,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto7 = {
         parent: ceo,
@@ -158,7 +158,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto8 = {
         parent: ceo,
@@ -167,7 +167,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto9 = {
         parent: ceo,
@@ -176,7 +176,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto10 = {
         parent: ceo,
@@ -185,7 +185,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto11 = {
         parent: ceo,
@@ -194,7 +194,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto12 = {
         parent: ceo,
@@ -203,7 +203,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto13 = {
         parent: ceo,
@@ -212,7 +212,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
     cto14 = {
         parent: ceo,
@@ -221,7 +221,7 @@ var config = {
             title: "Chief Technology Officer",
         },
         stackChildren: true,
-        image: "../headshots/1.jpg"
+        image: "/headshots/1.jpg"
     },
 
     chart_config = [
@@ -276,7 +276,7 @@ var config = {
                 title: "Chief executive officer",
                 contact: "Tel: 01 213 123 134",
             },
-            image: "../headshots/2.jpg",
+            image: "/headshots/2.jpg",
             children: [
                 {
                     text:{
@@ -284,14 +284,14 @@ var config = {
                         title: "Chief Technology Officer",
                     },
                     stackChildren: true,
-                    image: "../headshots/1.jpg",
+                    image: "/headshots/1.jpg",
                     children: [
                         {
                             text:{
                                 name: "Ron Blomquist",
                                 title: "Chief Information Security Officer"
                             },
-                            image: "../headshots/8.jpg"
+                            image: "/headshots/8.jpg"
                         },
                         {
                             text:{
@@ -299,7 +299,7 @@ var config = {
                                 title: "Chief Innovation Officer",
                                 contact: "we@aregreat.com"
                             },
-                            image: "../headshots/9.jpg"
+                            image: "/headshots/9.jpg"
                         }
                     ]
                 },
@@ -309,28 +309,28 @@ var config = {
                         name: "Linda May",
                         title: "Chief Business Officer",
                     },
-                    image: "../headshots/5.jpg",
+                    image: "/headshots/5.jpg",
                     children: [
                         {
                             text:{
                                 name: "Alice Lopez",
                                 title: "Chief Communications Officer"
                             },
-                            image: "../headshots/7.jpg"
+                            image: "/headshots/7.jpg"
                         },
                         {
                             text:{
                                 name: "Mary Johnson",
                                 title: "Chief Brand Officer"
                             },
-                            image: "../headshots/4.jpg"
+                            image: "/headshots/4.jpg"
                         },
                         {
                             text:{
                                 name: "Kirk Douglas",
                                 title: "Chief Business Development Officer"
                             },
-                            image: "../headshots/11.jpg"
+                            image: "/headshots/11.jpg"
                         }
                     ]
                 },
@@ -340,7 +340,7 @@ var config = {
                         title: "Chief accounting officer",
                         contact: "Tel: 01 213 123 134",
                     },
-                    image: "../headshots/6.jpg",
+                    image: "/headshots/6.jpg",
                     children: [
                         {
                             text:{
@@ -350,7 +350,7 @@ var config = {
                             link: {
                                 href: "http://www.google.com"
                             },
-                            image: "../headshots/10.jpg"
+                            image: "/headshots/10.jpg"
                         }
                     ]
                 }

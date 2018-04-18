@@ -45,7 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
              .csrf().disable()
              .authorizeRequests()
-            .antMatchers("/", "/about","/register","/test/**","/facebook/**","/registration").permitAll()
+            .antMatchers("/", "/about","/register","/test/**","/facebook/**","/registration","/admin/*","/api/**").permitAll()
             .antMatchers("/css/**","/js/**","/fonts/**").permitAll()
             .antMatchers("/account/**","/error/**","/fragments/**").hasAnyRole("ADMIN","USER")
             .antMatchers("/admin/**").hasAnyRole("ADMIN")
@@ -104,6 +104,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                    "/libs/**",
                    "/js/**",
                    "/dist/**",
+                   "/img/**",
+                   "/plugins/**",
                    "/treant/**",
                    "/headshots/**",
                    "/fragments/**"

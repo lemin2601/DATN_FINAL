@@ -1,5 +1,7 @@
 package com.leemin.genealogy;
 
+import com.leemin.genealogy.service.StorageService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +27,15 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import sun.util.locale.BaseLocale;
 
+import javax.annotation.Resource;
 import java.util.Locale;
 
 @SpringBootApplication
 @EnableAsync
-public class GenealogyApplication extends AsyncConfigurerSupport {
+public class GenealogyApplication extends AsyncConfigurerSupport implements CommandLineRunner {
+
+	@Resource
+	StorageService storageService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GenealogyApplication.class, args);
@@ -53,5 +59,12 @@ public class GenealogyApplication extends AsyncConfigurerSupport {
 		executor.setThreadNamePrefix("send-mailer-");
 		executor.initialize();
 		return executor;
+	}
+
+
+	@Override
+	public void run(String... arg) throws Exception {
+		storageService.deleteAll();
+		storageService.init();
 	}
 }

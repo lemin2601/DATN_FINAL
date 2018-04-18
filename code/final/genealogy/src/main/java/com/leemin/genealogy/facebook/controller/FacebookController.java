@@ -180,7 +180,11 @@ public class FacebookController {
             //auto login
             UserDetails userDetails = this.getUserDetailsFromAccessToken(access_token);
             UserModel   userByEmail = userService.findUserByEmail(userDetails.getEmail());
-            securityService.autoLogin(userDetails.getEmail(),userByEmail.getPassword());
+            if(userByEmail == null){
+                result = false;
+            }else{
+                securityService.autoLogin(userDetails.getEmail(),userByEmail.getPassword());
+            }
         }
         return result;
     }

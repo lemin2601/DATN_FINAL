@@ -1,6 +1,7 @@
 package com.leemin.genealogy.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private long   id;
+    private long id;
     @Column(name = "email")
     @Email(message = "*Please provide a valid Email")
     @NotEmpty(message = "{model.user.email}")
@@ -64,11 +65,11 @@ public class UserModel {
 
     @JsonIgnore
     @Column(name = "birthday")
-    private Date   birthday;
+    private Date birthday;
 
     @JsonIgnore
     @Column(name = "active")
-    private int            active;
+    private int active;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
@@ -77,11 +78,21 @@ public class UserModel {
 
     @JsonIgnore
     @Column(name = "first_name")
-    private String            firstName;
+    private String firstName;
 
     @JsonIgnore
     @Column(name = "gender")
-    private String            gender;
+    private String gender;
+//
+//    @ManyToMany
+//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "genealogy_id"))
+//    private Set<GenealogyModel> genealogys;
+//    @ManyToMany
+//    @JoinTable(name = "user_genealogy",
+//               joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+//               inverseJoinColumns = @JoinColumn(name = "genealogy_id", referencedColumnName = "genealogy_id"))
+//    private Set<GenealogyModel> genealogys = new HashSet<>();
+
 
     public String getFirstName() {
         return firstName;

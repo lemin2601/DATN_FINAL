@@ -45,6 +45,13 @@ public class TestController {
 
     }
 
+    @RequestMapping(value = "/test/upload", method = RequestMethod.GET)
+    public String upload() {
+
+        return "/test/upload";
+
+    }
+
 
     @RequestMapping(value = "/test/send-email-async", method = RequestMethod.GET)
     public String emailAsync() {

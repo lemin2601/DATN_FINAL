@@ -1,10 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
-</head>
-<body>
-web genealogy ==> member
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/user :: head"> </head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header th:replace="/fragments/user :: header"> </header>
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside th:replace="/fragments/user :: aside_menu"> </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 th:text="#{genealogy.header}">
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active"  ><a href="/genealogy"><i class="fa fa-dashboard"></i><span th:text="#{genealogy}"></span></a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- Your Page Content Here -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <button class="btn btn-default" type="button" th:text="#{add}"></button>
+
+                </div>
+                <!-- /.box-header -->
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th data-width="30%" data-sortable="true" data-field="name"> Tên</th>
+                        <th data-width="30%" data-field="email" >Email</th>
+                        <th data-width="20%" data-field="job" >Chức vụ</th>
+                        <th data-width="150px" data-formatter="actionFormatter" data-events="actionEvents" data-field="action" th:text="#{genealogy.find.table.action}"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer th:replace="/fragments/user :: footer"/>
+
+    <!-- Control Sidebar -->
+    <aside th:replace="/fragments/user :: aside"/>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+<div th:replace="/fragments/user :: js"/>
+
+<script type="text/javascript">
+    function actionFormatter(value, row, index) {
+        console.log("value "  + JSON.stringify(value));
+        console.log("row "  + JSON.stringify(row));
+        console.log("index "  + JSON.stringify(index));
+        return [
+            '<button type="button" class="view btn btn-default"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>',
+            '<button type="button" class="view btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>',
+            '<button type="button" class="view btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'
+            /*'<a type="button" class="like" href="javascript:void(0)" title="Like">',
+             '<i class="glyphicon glyphicon-heart"></i>',
+             '</a>',
+             '<a type="button" class="edit ml10" href="javascript:void(0)" title="Edit">',
+             '<i class="glyphicon glyphicon-edit"></i>',
+             '</a>',
+             '<a type="button" class="remove ml10" href="javascript:void(0)" title="Remove">',
+             '<i class="glyphicon glyphicon-remove"></i>',
+             '</a>'*/
+        ].join(' ');
+    }
+    window.actionEvents = {
+        'click .view': function (e, value, row, index) {
+            window.location.href ="/genealogy/detail?id="+ row.id;
+            alert('You click like icon, row: ' + JSON.stringify(row));
+            console.log("value" + JSON.stringify(value));
+            console.log("row" + JSON.stringify(row));
+            console.log("index" + JSON.stringify(index));
+        },
+        'click .edit': function (e, value, row, index) {
+            alert('You click edit icon, row: ' + JSON.stringify(row));
+            console.log("value" + JSON.stringify(value));
+            console.log("row" + JSON.stringify(row));
+            console.log("index" + JSON.stringify(index));
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click remove icon, row: ' + JSON.stringify(row));
+            console.log("value" + JSON.stringify(value));
+            console.log("row" + JSON.stringify(row));
+            console.log("index" + JSON.stringify(index));
+        },
+        'change ':function (e,value,row,index) {
+            console.log("chane" + JSON.stringify(index));
+        },
+        'mouseenter ':function (e,value,row,index) {
+            console.log("blur" + JSON.stringify(index));
+        }
+    };
+
+    var data = [
+        {
+            "id":1,
+            "name": "Nguyễn Văn A",
+            "email":"anguyen@gmail.com",
+            "job": "Quản lý group"
+        },
+        {
+            "id":2,
+            "name": "Nguyễn Văn B",
+            "email":"bnguyen@gmail.com",
+            "job": "Quản lý group"
+        },
+        {
+            "id":3,
+            "name": "Nguyễn Văn C",
+            "email":"cnguyen@gmail.com",
+            "job": "Thành viên"
+        },
+        {
+            "id":4,
+            "name": "Nguyễn Thị D",
+            "email":"dnguyen@gmail.com",
+            "job": "Thành viên"
+        }
+    ];
+
+    $(function () {
+        console.log("load bootstrap table");
+        $('#table').bootstrapTable({
+            search: true,
+            pagination: true,
+
+            data: data
+        });
+    });
+</script>
 </body>
 </html>

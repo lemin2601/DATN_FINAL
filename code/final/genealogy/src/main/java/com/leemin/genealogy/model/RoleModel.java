@@ -1,5 +1,7 @@
 package com.leemin.genealogy.model;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -10,6 +12,13 @@ public class RoleModel {
     private long id;
     @Column(name="role")
     private String role;
+
+    public RoleModel(String role) {
+        this.role = role;
+    }
+
+    public RoleModel() {
+    }
 
     public long getId() {
         return id;

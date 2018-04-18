@@ -56,17 +56,14 @@ public class AccountController {
     }
 
     @GetMapping("/profile")
-    public String profile(HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
-        String    userName  = "not logged in"; // Any default user  name
-        if (principal != null) {
-            userName = principal.getName();
-        }
-        if (request.isUserInRole("ROLE_ADMIN")) {
-            return "redirect:/admin";
-
-        }
-        return "/account/profile";
+    public ModelAndView profile(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("/account/profile");
+        UserModel userByEmail =userService.findUserByEmail(request.getUserPrincipal().getName());
+        mv.addObject("user",userByEmail);
+//        if (request.isUserInRole("ROLE_ADMIN")) {
+//            return "redirect:/admin";
+//        }
+        return mv;
     }
 
     //region Register

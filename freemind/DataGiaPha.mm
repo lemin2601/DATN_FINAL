@@ -2,7 +2,7 @@
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
 <node CREATED="1521435138305" ID="ID_1040918827" MODIFIED="1521463956352" TEXT="Gia ph&#x1ea3; ">
 <node CREATED="1521435168666" ID="ID_1790643009" MODIFIED="1521566525863" POSITION="right" TEXT="m&#x1ed9;t gia ph&#x1ea3;">
-<node CREATED="1521435174780" FOLDED="true" ID="ID_1827366549" MODIFIED="1521443835722" TEXT="Th&#xf4;ng tin r&#xf5; r&#xe0;ng v&#x1ec1; ng&#x1b0;&#x1edd;i sao l&#x1ee5;c (bi&#xea;n so&#x1ea1;n).">
+<node CREATED="1521435174780" ID="ID_1827366549" MODIFIED="1523820259418" TEXT="Th&#xf4;ng tin r&#xf5; r&#xe0;ng v&#x1ec1; ng&#x1b0;&#x1edd;i sao l&#x1ee5;c (bi&#xea;n so&#x1ea1;n).">
 <icon BUILTIN="button_ok"/>
 <node CREATED="1521442133038" ID="ID_1792950730" MODIFIED="1521442141618" TEXT="l&#x1ea5;y th&#xf4;ng tin profile ng&#x1b0;&#x1edd;i d&#xf9;ng"/>
 </node>
@@ -30,7 +30,7 @@
 <node CREATED="1521435248449" MODIFIED="1521435248449" TEXT="Nh&#x1eef;ng g&#x1b0;&#x1a1;ng s&#xe1;ng, nh&#x1eef;ng t&#xed;nh c&#xe1;ch, h&#xe0;nh tr&#x1ea1;ng &#x111;&#x1eb7;c bi&#x1ec7;t, ho&#x1eb7;c nh&#x1eef;ng c&#xf4;ng &#x111;&#x1ee9;c &#x111;&#x1ed1;i v&#x1edb;i l&#xe0;ng x&#xe3;, h&#x1ecd; h&#xe0;ng, x&#xf3;m gi&#x1ec1;ng... Nh&#x1eef;ng l&#x1edd;i d&#x1ea1;y b&#x1ea3;o con ch&#xe1;u &#x111;&#x1edd;i sau (di hu&#x1ea5;n), nh&#x1eef;ng l&#x1edd;i di ch&#xfa;c..."/>
 <node CREATED="1521435252553" MODIFIED="1521435252553" TEXT="Ngo&#xe0;i nh&#x1eef;ng m&#x1ee5;c ghi tr&#xea;n, gia ph&#x1ea3; nhi&#x1ec1;u h&#x1ecd; c&#xf2;n l&#x1b0;u l&#x1ea1;i nhi&#x1ec1;u s&#x1ef1; t&#xed;ch &#x111;&#x1eb7;c bi&#x1ec7;t hay giai tho&#x1ea1;i c&#x1ee7;a c&#xe1;c v&#x1ecb; ti&#xea;n t&#x1ed5;, nh&#x1eef;ng &#x111;&#xf4;i c&#xe2;u &#x111;&#x1ed1;i, nh&#x1eef;ng &#xe1;ng v&#x103;n tr&#x1b0;&#x1edb;c t&#xe1;c hay, nh&#x1eef;ng b&#xe0;i thu&#x1ed1;c gia truy&#x1ec1;n..."/>
 </node>
-<node CREATED="1521442567723" LINK="https://giaphatphcm.com/giapha/chitietkienthuc.php?id=18" MODIFIED="1521442567723" TEXT="https://giaphatphcm.com/giapha/chitietkienthuc.php?id=18"/>
+<node CREATED="1521442567723" ID="ID_734280957" LINK="https://giaphatphcm.com/giapha/chitietkienthuc.php?id=18" MODIFIED="1521442567723" TEXT="https://giaphatphcm.com/giapha/chitietkienthuc.php?id=18"/>
 </node>
 <node CREATED="1521435262090" FOLDED="true" ID="ID_489030464" MODIFIED="1521443835725" TEXT="Ti&#x1ebf;p theo, l&#xe0; t&#x1ed9;c &#x1b0;&#x1edb;c. &#x110;&#xe2;y l&#xe0; nh&#x1eef;ng quy &#x111;&#x1ecb;nh-quy &#x1b0;&#x1edb;c trong t&#x1ed9;c h&#x1ecd;, &#x111;&#x1eb7;t ra nh&#x1eb1;m &#x1ed5;n &#x111;&#x1ecb;nh t&#x1ed9;c h&#x1ecd;, c&#xf3; c&#xf4;ng th&#x1b0;&#x1edf;ng, c&#xf3; t&#x1ed9;i ph&#x1ea1;t, t&#x1ea5;t nhi&#xea;n l&#xe0; ph&#x1ea3;i ph&#xf9; h&#x1ee3;p v&#x1edb;i lu&#x1ead;t ph&#xe1;p chung.">
 <node CREATED="1521435267169" MODIFIED="1521435267169" TEXT="V&#x1edb;i m&#x1ed9;t t&#x1ed9;c h&#x1ecd; l&#x1edb;n, c&#xf3; th&#x1ec3; c&#xf3; nhi&#x1ec1;u t&#xf4;ng nh&#xe1;nh, chi ph&#xe1;i. Ph&#x1ea7;n n&#xe0;y s&#x1ebd; ghi nh&#x1eef;ng th&#xf4;ng tin chi ph&#xe1;i, ai l&#xe0; b&#x1eaf;t &#x111;&#xe2;u chi, chi hi&#x1ec7;n &#x1edf; &#x111;&#xe2;u, nh&#xe0; th&#x1edd; chi..."/>
@@ -54,10 +54,15 @@
 <node CREATED="1521464065698" ID="ID_472021720" LINK="https://kipalog.com/posts/Viet-ung-dung-dau-tien-voi-Spring" MODIFIED="1521464065698" TEXT="https://kipalog.com/posts/Viet-ung-dung-dau-tien-voi-Spring"/>
 </node>
 <node CREATED="1521464084148" ID="ID_166812064" MODIFIED="1521464087076" POSITION="right" TEXT="upload file">
-<node CREATED="1521464087422" LINK="https://www.mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/" MODIFIED="1521464087422" TEXT="c&#xe1;i n&#xe0;y n&#xe8; https://www.mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/"/>
+<node CREATED="1521464087422" ID="ID_1067492227" LINK="https://www.mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/" MODIFIED="1521464087422" TEXT="c&#xe1;i n&#xe0;y n&#xe8; https://www.mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/"/>
 <node CREATED="1521464093791" ID="ID_354143435" LINK="https://stackoverflow.com/questions/40557637/how-to-return-an-image-in-spring-boot-controller-and-serve-like-a-file-system" MODIFIED="1521464093791" TEXT="https://stackoverflow.com/questions/40557637/how-to-return-an-image-in-spring-boot-controller-and-serve-like-a-file-system"/>
 <node CREATED="1521464097140" ID="ID_530806403" LINK="http://zetcode.com/articles/springbootserveimage/" MODIFIED="1521464097140" TEXT="zetcode.com &gt; Articles &gt; Springbootserveimage"/>
 <node CREATED="1521464099697" ID="ID_619524138" LINK="https://www.youtube.com/watch?v=UHt-ptXcf84" MODIFIED="1521464099697" TEXT="https://www.youtube.com/watch?v=UHt-ptXcf84"/>
+</node>
+<node CREATED="1523867853228" ID="ID_1278456357" MODIFIED="1523867855101" POSITION="right" TEXT="export">
+<node CREATED="1523867855545" ID="ID_1719767436" MODIFIED="1523867856622" TEXT="https://aboullaite.me/spring-boot-excel-csv-and-pdf-view-example/">
+<node CREATED="1523867857301" ID="ID_1039777876" MODIFIED="1523867859652" TEXT="excelfile"/>
+</node>
 </node>
 <node CREATED="1521464113974" ID="ID_1304987015" MODIFIED="1521464114708" POSITION="right" TEXT="xu&#x1ea5;t img gia ph&#x1ea3;">
 <node CREATED="1521464117838" LINK="https://github.com/niklasvh/html2canvas/issues/461" MODIFIED="1521464117838" TEXT="https://github.com/niklasvh/html2canvas/issues/461"/>
@@ -118,7 +123,7 @@
 <node CREATED="1521876359075" ID="ID_1805749668" MODIFIED="1521876359075" TEXT="mvnw clean package"/>
 </node>
 <node CREATED="1523108121631" ID="ID_423556299" MODIFIED="1523108126729" POSITION="right" TEXT="deploy">
-<node CREATED="1523108127055" FOLDED="true" ID="ID_253581048" MODIFIED="1523108134585" TEXT="build">
+<node CREATED="1523108127055" ID="ID_253581048" MODIFIED="1523763286302" TEXT="build">
 <node CREATED="1523108130139" ID="ID_887919770" MODIFIED="1523108134525" TEXT="mvnw clean package"/>
 </node>
 <node CREATED="1523108135344" ID="ID_1042975837" MODIFIED="1523108138815" TEXT="ubuntu">
@@ -135,8 +140,7 @@
       pass: 1
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 <node CREATED="1523108138817" ID="ID_1412116694" MODIFIED="1523110616070" TEXT="c&#xe1;i mysql">
 <node CREATED="1523108147838" ID="ID_556393363" MODIFIED="1523108281546">
@@ -156,8 +160,7 @@
     <pre><code>SELECT User, Host, authentication_string FROM mysql.user;</code></pre>
     <pre></pre>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 <node CREATED="1523110621612" ID="ID_1587212706" MODIFIED="1523110628493" TEXT="CREATE DATABASE genealogy;"/>
 </node>
@@ -167,7 +170,7 @@
 <node CREATED="1523110134234" ID="ID_45545046" MODIFIED="1523110137860" TEXT="sudo apt-get install default-jre"/>
 <node CREATED="1523110146916" MODIFIED="1523110146916" TEXT="sudo apt-get install default-jdk"/>
 </node>
-<node CREATED="1523110647522" ID="ID_697847847" MODIFIED="1523110651563" TEXT="cai jdk">
+<node CREATED="1523110647522" ID="ID_697847847" MODIFIED="1523763278993" TEXT="cai jdk">
 <node CREATED="1523110651995" LINK="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04" MODIFIED="1523110651995" TEXT="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04"/>
 </node>
 <node CREATED="1523109151027" ID="ID_708685861" MODIFIED="1523109152315" TEXT="win">
@@ -185,8 +188,7 @@
       plink lm@192.168.0.252 cp $HOME/pub $HOME/.ssh/authorized_keys
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 <node CREATED="1523109325842" LINK="mailto:lm@192.168.0.252" MODIFIED="1523109325842" TEXT="plink lm@192.168.0.252 chmod 600 $HOME/.ssh/authorized_keys"/>
 </node>
