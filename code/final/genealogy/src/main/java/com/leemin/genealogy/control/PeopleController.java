@@ -20,22 +20,38 @@ public class PeopleController {
 
 
     @GetMapping("/genealogy/{idGenealogy}/pedigree/[idPedigree}/people")
-    public ModelAndView home(
+    public ModelAndView viewHome(
             Principal principal,
             @PathVariable(name = "idGenealogy") long idGenealogy,
             @PathVariable(name = "idPedigree") long idPedigree
                             ){
+        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/people");
+    }
+
+
+    @GetMapping("/genealogy/{idGenealogy}/pedigree/[idPedigree}/people/add")
+    public ModelAndView viewAdd(
+            Principal principal,
+            @PathVariable(name = "idGenealogy") long idGenealogy,
+            @PathVariable(name = "idPedigree") long idPedigree
+                            ){
+        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/people-add");
+    }
+
+    private ModelAndView getModelAndView(Principal principal,
+            @PathVariable(name = "idGenealogy")
+                    long idGenealogy,
+            @PathVariable(name = "idPedigree")
+                    long idPedigree, String s) {
         ModelAndView mv;
         if(principal == null){
             return new ModelAndView("/account/login");
         }
-        mv = new ModelAndView("/genealogy/people");
-        List<PeopleModel> all = peopleService.findAll();
+        mv = new ModelAndView(s);
         mv.addObject("idGenealogy",idGenealogy);
         mv.addObject("idPedigree",idPedigree);
         return mv;
     }
-
 
 
 }

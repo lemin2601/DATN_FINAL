@@ -1,63 +1,63 @@
-package com.leemin.genealogy.model;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+package com.leemin.genealogy.upload;
+import com.leemin.genealogy.model.PedigreeModel;
+import com.leemin.genealogy.model.PeopleModel;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "people")
-public class PeopleModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "people_id")
+public class PeopleUpload {
+
+    private boolean isRealParent;
+
+    private int statusUpload;
+
     private long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumns({ @JoinColumn(name="parent_id", referencedColumnName="people_id")})
-    private PeopleModel parent;
+    private long idParent;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumns({ @JoinColumn(name="pedigree_id", referencedColumnName="pedigree_id")})
-    private PedigreeModel pedigree;
+    private long idPedigree;
 
-    @Column(name = "index_life")
     private int lifeIndex;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "nick_name")
     private String nickName;
 
-
-    @Column(name = "gender")
     private int gender;
 
-    @Column(name = "birthday")
     private Date birthday;
 
-
-    @Column(name = "dead_day")
     private Date deadDay;
 
-    @Column(name = "address")
     private String address;
 
-
-    @Column(name = "degree")
     private String degree;
 
-    @Column(name = "img")
     private String img;
 
-    @Column(name = "des")
-    @Lob
     private String des;
 
-    @Column(name = "data_extra")
-    @Lob
     private String dataExtra;
+
+    public PeopleUpload() {
+        this.isRealParent = false;
+    }
+
+    public int getStatusUpload() {
+        return statusUpload;
+    }
+
+    public void setStatusUpload(int statusUpload) {
+        this.statusUpload = statusUpload;
+    }
+
+    public boolean isRealParent() {
+        return isRealParent;
+    }
+
+    public void setRealParent(boolean realParent) {
+        isRealParent = realParent;
+    }
 
     public long getId() {
         return id;
@@ -67,20 +67,20 @@ public class PeopleModel {
         this.id = id;
     }
 
-    public PeopleModel getParent() {
-        return parent;
+    public long getIdParent() {
+        return idParent;
     }
 
-    public void setParent(PeopleModel parent) {
-        this.parent = parent;
+    public void setIdParent(long idParent) {
+        this.idParent = idParent;
     }
 
-    public PedigreeModel getPedigree() {
-        return pedigree;
+    public long getIdPedigree() {
+        return idPedigree;
     }
 
-    public void setPedigree(PedigreeModel pedigree) {
-        this.pedigree = pedigree;
+    public void setIdPedigree(long idPedigree) {
+        this.idPedigree = idPedigree;
     }
 
     public int getLifeIndex() {

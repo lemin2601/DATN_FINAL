@@ -21,6 +21,11 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
+    public PeopleModel findById(long idPeople) {
+        return peopleRepository.findOne(idPeople);
+    }
+
+    @Override
     public List<PeopleModel> findAll() {
         return peopleRepository.findAll();
     }

@@ -27,6 +27,11 @@ public class PedigreeServiceImpl implements PedigreeService {
     }
 
     @Override
+    public PedigreeModel findByIdPedigreeModel(long idPedigree) {
+        return pedigreeRepository.findOne(idPedigree);
+    }
+
+    @Override
     public List<PedigreeModel> findAll(long idGenealogy) {
         List<GenealogyPedigreeModel> allByGenealogy_id = genealogyPedigreeRepository.findByGenealogy_Id(idGenealogy);
         List<PedigreeModel> all =  new ArrayList<>();

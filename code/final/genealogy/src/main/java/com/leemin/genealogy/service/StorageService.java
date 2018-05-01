@@ -20,6 +20,15 @@ public class StorageService {
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
     private final Path rootLocation = Paths.get("upload-dir");
 
+    public void store(MultipartFile file,String fileName) {
+        try {
+//            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+        } catch (Exception e) {
+            throw new RuntimeException("FAIL!");
+        }
+    }
+
     public void store(MultipartFile file) {
         try {
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));

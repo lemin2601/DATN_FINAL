@@ -30,7 +30,7 @@
 
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a th:href="'/pedigree/'+${idGenealogy}+'/add'" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span><span  th:text="#{add}"></span></a>
+                    <a th:href="'/genealogy/'+${idGenealogy}+'/pedigree/add'" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span><span  th:text="#{add}"></span></a>
                 </div>
                 <!-- /.box-header -->
                 <table id="table">
@@ -64,6 +64,9 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var idGenealogy = [[${idGenealogy}]];
+
+
     function actionFormatter(value, row, index) {
         console.log("value "  + JSON.stringify(value));
         console.log("row "  + JSON.stringify(row));
@@ -76,7 +79,7 @@
     }
     window.actionEvents = {
         'click .view': function (e, value, row, index) {
-            window.location.href =('/genealogy/detail/'+ row["id"] + "/");
+            window.location.href =('/genealogy/'+idGenealogy+'/pedigree/'+ row["id"] + "/detail");
         },
         'click .edit': function (e, value, row, index) {
 
@@ -94,7 +97,6 @@
             console.log("blur" + JSON.stringify(index));
         }
     };
-    var idGenealogy = [[${idGenealogy}]];
 
     $(function () {
         console.log("load bootstrap table" + idGenealogy);

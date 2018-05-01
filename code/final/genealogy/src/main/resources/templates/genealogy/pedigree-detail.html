@@ -19,10 +19,10 @@
         <section class="content-header">
             <h1 th:text="${genealogy.getName()}"></h1>
             <ol class="breadcrumb">
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/member'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Thành Viên</span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/tree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Cây Pha Giả</span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/list'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Danh sách</span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/edit'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span>Sửa</span></a>
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/member'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Thành Viên</span></a>
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree/'+${pedigree.getId()}+'/tree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Cây Phả hệ</span></a>
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree/'+${pedigree.getId()}+'/list'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Danh sách Người trong phả hệ</span></a>
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree/'+${pedigree.getId()}+'/edit'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span>Sửa Phả hệ</span></a>
                 <li>
                     <a href="/genealogy">
                         <i class="fa fa-dashboard"></i>
@@ -49,6 +49,22 @@
             <h1>History</h1>
             <div th:utext="${pedigree.getHistory()}"></div>
             <hr/>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <a th:href="'/genealogy/'+${genealogy.getId()}+'/pedigree/'+${pedigree.getId()}+'/import'" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span><span>Import danh sách</span></a>
+                </div>
+                <!-- /.box-header -->
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th data-width="20%" data-sortable="true" data-field="name" th:text="#{genealogy.find.table.name}"></th>
+                        <th data-width="70%" data-field="history" th:text="#{genealogy.find.table.description}"></th>
+                        <th data-width="150px" data-formatter="actionFormatter" data-events="actionEvents" data-field="action" th:text="#{genealogy.find.table.action}"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </section>
         <!-- /.content -->
     </div>

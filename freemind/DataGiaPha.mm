@@ -118,6 +118,9 @@
 <node BACKGROUND_COLOR="#99ff33" CREATED="1523101003859" ID="ID_673152628" MODIFIED="1523101019427" TEXT="FORMAT DAYTETIME">
 <node CREATED="1523101011041" LINK="https://lankydanblog.com/2017/03/11/passing-data-transfer-objects-with-get-in-spring-boot/" MODIFIED="1523101011041" TEXT="https://lankydanblog.com/2017/03/11/passing-data-transfer-objects-with-get-in-spring-boot/"/>
 </node>
+<node CREATED="1524009648474" ID="ID_919728340" MODIFIED="1524009653267" TEXT="c&#xe1;c kieu d&#x1ecb;nh dang">
+<node CREATED="1524009653804" LINK="https://medium.com/@grokwich/spring-boot-thymeleaf-html-form-handling-762ef0d51327" MODIFIED="1524009653804" TEXT="https://medium.com/@grokwich/spring-boot-thymeleaf-html-form-handling-762ef0d51327"/>
+</node>
 </node>
 <node CREATED="1521876356563" ID="ID_1735598101" MODIFIED="1521876358547" POSITION="right" TEXT="build">
 <node CREATED="1521876359075" ID="ID_1805749668" MODIFIED="1521876359075" TEXT="mvnw clean package"/>

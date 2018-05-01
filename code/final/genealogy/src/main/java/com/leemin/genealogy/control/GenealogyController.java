@@ -89,7 +89,7 @@ public class GenealogyController {
 //        mv.addObject("id", id);
 //        return mv;
     }
-    @RequestMapping(value = "/genealogy/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/genealogy/{id}", method = RequestMethod.GET)
     public ModelAndView detail(
             Principal principal,
             @PathVariable( value = "id",required = false) int id,
@@ -106,7 +106,7 @@ public class GenealogyController {
 
         }
     }
-    @RequestMapping(value = "/genealogy/detail/{id}/{method}", method = RequestMethod.GET)
+    @RequestMapping(value = "/genealogy/{id}/{method}", method = RequestMethod.GET)
     public ModelAndView edit(
             Principal principal,
             @PathVariable( value = "id",required = false) int id,
@@ -121,8 +121,12 @@ public class GenealogyController {
                 GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
                 mv.addObject("genealogy", genealogyModel);
                 return mv;
-            }else if(method.equalsIgnoreCase("list")){
-                mv = new ModelAndView("/genealogy/detail");
+            }else if(method.equalsIgnoreCase("pedigree")){
+                mv = new ModelAndView("/genealogy/pedigree");
+                mv.addObject("idGenealogy",id);
+                return mv;
+            }else if(method.equalsIgnoreCase("member")){
+                mv = new ModelAndView("/genealogy/member");
                 GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
                 mv.addObject("genealogy", genealogyModel);
                 return mv;

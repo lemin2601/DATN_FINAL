@@ -75,10 +75,10 @@
     }
     window.actionEvents = {
         'click .view': function (e, value, row, index) {
-            window.location.href =('/genealogy/detail/'+ row["id"] + "/");
+            window.location.href =('/genealogy/'+ row["id"] + "");
         },
         'click .edit': function (e, value, row, index) {
-            window.location.href =('/genealogy/detail/'+ row["id"] + "/edit");
+            window.location.href =('/genealogy/'+ row["id"] + "/edit");
         },
         'click .remove': function (e, value, row, index) {
             alert('You click remove icon, row: ' + JSON.stringify(row));
