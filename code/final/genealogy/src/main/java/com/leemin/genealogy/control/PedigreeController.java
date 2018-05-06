@@ -166,27 +166,28 @@ public class PedigreeController {
 
             saveUploadedFiles(uploadfiles, fileName);
             TreeMap<Long, Set<PeopleUpload>> integerSetHashMap = readExcelFile(fileName);
-            saveData(integerSetHashMap, idPedigree);
-
+            List<PeopleModel> result = saveData(integerSetHashMap, idPedigree);
+            return new ResponseEntity<>(result , HttpStatus.OK);
 
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("Successfully uploaded - "
-                                          + uploadedFileName, HttpStatus.OK);
+//        return new ResponseEntity("Successfully uploaded - "
+//                                          + uploadedFileName, HttpStatus.OK);
 
     }
+
 
     private String getExtensionsFile(String uploadedFileName) {
         return uploadedFileName.substring(uploadedFileName.lastIndexOf("."));
     }
 
-    private TreeMap<Long, Set<PeopleUpload>> saveData(TreeMap<Long, Set<PeopleUpload>> integerSetHashMap, long idPedigree) {
+    private List<PeopleModel> saveData(TreeMap<Long, Set<PeopleUpload>> integerSetHashMap, long idPedigree) {
         //find key not is parent or contain in database but not contain in list
         PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
         HashMap<Long,Long> containerRealParentKey = new HashMap<>();
-
-        if(pedigree == null) return integerSetHashMap;
+        List<PeopleModel> result = new ArrayList<>();
+        if(pedigree == null) return null;
         for(Map.Entry<Long, Set<PeopleUpload>> entry : integerSetHashMap.entrySet()) {
 
             //get real key for parent
@@ -208,6 +209,9 @@ public class PedigreeController {
                     }
                     peopleSave.setLifeIndex(parent.getLifeIndex()+1);
                     peopleSave.setParent(parent);
+                    peopleSave.setParentKey(parent.getParentKey() + "_" + parent.getId());
+                }else{
+                    peopleSave.setParentKey("r");
                 }
                 peopleSave.setPedigree(pedigree);
                 peopleSave.setName(people.getName());
@@ -217,13 +221,15 @@ public class PedigreeController {
                 peopleSave.setDeadDay(people.getDeadDay());
                 peopleSave.setAddress(people.getAddress());
                 peopleSave.setDegree(people.getDegree());
-                peopleSave.setImg(people.getImg());
+//                peopleSave.setImg(people.getImg());
+                peopleSave.setImg("/dist/img/user2-160x160.jpg");
                 peopleSave.setDes(people.getDes());
                 peopleSave.setDataExtra(people.getDataExtra());
                 PeopleModel add = peopleService.add(peopleSave);
                 if (add != null) {
                     people.setStatusUpload(StatusUpload.SUCCESS);
                     containerRealParentKey.put(people.getId(),add.getId());
+                    result.add(add);
 //                    Set<PeopleUpload> peopleUploads = integerSetHashMap.get(key);
 //                    integerSetHashMap.remove(key);
 //                    integerSetHashMap.put(add.getId(), null);
@@ -235,7 +241,7 @@ public class PedigreeController {
             // do what you have to do here
             // In your case, another loop.
         }
-        return integerSetHashMap;
+        return result;
     }
 
     private void saveUploadedFiles(MultipartFile file,String fileName) throws IOException {
@@ -369,6 +375,7 @@ public class PedigreeController {
         System.out.println();
         return peopleModel;
     }
+
 }
 
 enum UploadFormat {

@@ -157,14 +157,14 @@
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                        <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs">Alexander Pierce</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                            <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
 
                             <p>
                                 Alexander Pierce - Web Developer
@@ -483,7 +483,11 @@
             </div>
         </div>
     </div>
-
+    <script type="text/javascript" th:src="@{/js/moment.min.js}"></script>
+    <script th:unless="${#locale.toString().equals('en')}" type="text/javascript" th:src="@{/js/moment-with-locales.js}"></script>
+    <script th:unless="${#locale.toString().equals('en')}" type="text/javascript">
+        moment.updateLocale('vi', null);
+    </script>
 
     <script type="text/javascript" th:src="@{/dist/datepicker/bootstrap-datepicker.js}"></script>
     <script th:unless="${#locale.toString().equals('en')}" type="text/javascript" th:src="@{/dist/datepicker/locales/bootstrap-datepicker.vi.js}"></script>

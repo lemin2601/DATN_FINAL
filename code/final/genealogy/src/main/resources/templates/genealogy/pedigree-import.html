@@ -51,6 +51,24 @@
                     </div>
                 </div>
             </div>
+            <div class="box box-info">
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th data-field="id" data-width="20%" data-sortable="true" th:text="Id"></th>
+                        <th data-field="name" data-width="20%" data-sortable="true" th:text="Ten"></th>
+                        <th data-field="nickName" data-width="20%" data-sortable="true" th:text="NickName"></th>
+                        <th data-field="birthday" data-width="20%" data-sortable="true" th:text="Ngaysinh" data-formatter="dateFormat"></th>
+                        <th data-field="deadDay" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}" data-formatter="dateFormat"></th>
+                        <th data-field="gender" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
+                        <th data-field="img" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
+                        <th data-field="lifeIndex" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
+                        <th data-field="history" data-width="70%" th:text="#{genealogy.find.table.description}"></th>
+                        <th data-field="action" data-width="150px" data-formatter="actionFormatter" data-events="actionEvents"  th:text="#{genealogy.find.table.action}"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -124,7 +142,14 @@
             timeout: 600000,
             success: function (data) {
                 $("#result").text(data);
+                $('#table').bootstrapTable({
+                    search: true,
+                    pagination: true,
+                    // url: "https://"+ document.location.host  +'/rest/pedigree/list/' + idGenealogy,
+                    data: data
+                });
                 console.log("SUCCESS : ", data);
+                $('#inputFile').val('');
                 $("#btnSubmit").prop("disabled", false);
             },
             error: function (e) {
@@ -134,6 +159,14 @@
             }
         });
     }
+
+    function dateFormat(value, row, index) {
+        if(value == null){
+            return "";
+        }
+        return moment(value).format('DD/MM/YYYY');
+    }
+
     /*]]>*/
 </script>
 

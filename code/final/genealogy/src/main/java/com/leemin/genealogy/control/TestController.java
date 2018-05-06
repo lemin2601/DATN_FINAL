@@ -24,6 +24,11 @@ public class TestController {
         return "/test/my-locale";
     }
 
+    @RequestMapping(value = "/test/tree", method = RequestMethod.GET)
+    public String getLocalePasge() {
+        return "/genealogy/tree";
+    }
+
     @RequestMapping(value = "/test/greeting", method = RequestMethod.GET)
     public String greeting() {
         return "/greeting";

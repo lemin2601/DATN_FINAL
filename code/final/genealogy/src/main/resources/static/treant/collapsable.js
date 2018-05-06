@@ -88,8 +88,9 @@
             ]
         }
     };
+/*
 
-/* Array approach
+ // Array approach
     var config = {
         container: "#collapsable-example",
 
@@ -112,12 +113,12 @@
     lana = {
         parent: malory,
         image: "/img/lana.png"
-    }
+    },
 
     figgs = {
         parent: lana,
         image: "/img/figgs.png"
-    }
+    },
 
     sterling = {
         parent: malory,

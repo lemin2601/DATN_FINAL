@@ -1,4 +1,5 @@
 package com.leemin.genealogy.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -18,8 +19,13 @@ public class PeopleModel {
     private PeopleModel parent;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumns({ @JoinColumn(name="pedigree_id", referencedColumnName="pedigree_id")})
     private PedigreeModel pedigree;
+
+    @Column(name = "parent_key")
+    @JsonIgnore
+    private String parentKey;
 
     @Column(name = "index_life")
     private int lifeIndex;
@@ -46,6 +52,7 @@ public class PeopleModel {
 
 
     @Column(name = "degree")
+    @JsonIgnore
     private String degree;
 
     @Column(name = "img")
@@ -53,11 +60,21 @@ public class PeopleModel {
 
     @Column(name = "des")
     @Lob
+    @JsonIgnore
     private String des;
 
     @Column(name = "data_extra")
     @Lob
+    @JsonIgnore
     private String dataExtra;
+
+    public String getParentKey() {
+        return parentKey;
+    }
+
+    public void setParentKey(String parentKey) {
+        this.parentKey = parentKey;
+    }
 
     public long getId() {
         return id;

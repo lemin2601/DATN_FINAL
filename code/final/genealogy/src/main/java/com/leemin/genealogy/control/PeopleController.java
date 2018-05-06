@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Parameter;
@@ -19,23 +21,25 @@ public class PeopleController {
     PeopleService peopleService;
 
 
-    @GetMapping("/genealogy/{idGenealogy}/pedigree/[idPedigree}/people")
-    public ModelAndView viewHome(
+    @RequestMapping(value = "/genealogy/{idGenealogy}/pedigree/{idPedigree}/people-list", method = RequestMethod.GET)
+    public ModelAndView viewPeopleList(
             Principal principal,
             @PathVariable(name = "idGenealogy") long idGenealogy,
             @PathVariable(name = "idPedigree") long idPedigree
                             ){
-        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/people");
+        String a = "" ;
+        String v = "";
+        a = a + v;
+        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/pedigree-list-people");
     }
 
-
-    @GetMapping("/genealogy/{idGenealogy}/pedigree/[idPedigree}/people/add")
+    @GetMapping("/genealogy/{idGenealogy}/pedigree/{idPedigree}/people-tree")
     public ModelAndView viewAdd(
             Principal principal,
             @PathVariable(name = "idGenealogy") long idGenealogy,
             @PathVariable(name = "idPedigree") long idPedigree
                             ){
-        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/people-add");
+        return getModelAndView(principal, idGenealogy, idPedigree, "/genealogy/pedigree-tree-people");
     }
 
     private ModelAndView getModelAndView(Principal principal,

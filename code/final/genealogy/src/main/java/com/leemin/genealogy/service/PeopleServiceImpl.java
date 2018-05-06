@@ -1,4 +1,5 @@
 package com.leemin.genealogy.service;
+import com.leemin.genealogy.model.PedigreeModel;
 import com.leemin.genealogy.model.PeopleModel;
 import com.leemin.genealogy.repository.PeopleRepository;
 import com.leemin.genealogy.repository.UserRepository;
@@ -29,4 +30,15 @@ public class PeopleServiceImpl implements PeopleService {
     public List<PeopleModel> findAll() {
         return peopleRepository.findAll();
     }
+
+    @Override
+    public List<PeopleModel> findAllByPedigreeAndParentKeyStartsWith(PedigreeModel pedigreeModel,String parentKeyStartWith){
+        return peopleRepository.findAllByPedigreeAndParentKeyStartsWith(pedigreeModel,parentKeyStartWith);
+    }
+
+    @Override
+    public List<PeopleModel> findAllByPedigreeAndParentKey(PedigreeModel pedigreeModel, String parentKey) {
+        return peopleRepository.findAllByPedigreeAndParentKey(pedigreeModel,parentKey);
+    }
+
 }
