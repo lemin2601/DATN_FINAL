@@ -46,6 +46,7 @@ public class ChartConfig {
             if(children == null){
                 children = new ArrayList<>();
             }
+            if(parent != nodeStructure) parent.setCollapsed(true);
             children.add(child);
             parent.setChildren(children);
         }else{
@@ -64,8 +65,12 @@ public class ChartConfig {
         else{
             List<Child> children = child.getChildren();
             if(children == null) return null;
-            for (Child c: children) return getParentFromNode(c, keyParent);
+            Child result = null;
+            for (Child c: children){
+                result = getParentFromNode(c, keyParent);
+                if(result != null) break;
+            }
+            return result;
         }
-        return null;
     }
 }

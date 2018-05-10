@@ -30,8 +30,8 @@ public class GenealogyModel {
     @Fetch(FetchMode.JOIN)
     @Column(name = "thuy_to")
     private String thuyTo;
-/*
-    @ManyToMany
+
+    /*@ManyToMany
 //    @JoinTable(name = "user_genealogy",
 //               joinColumns = @JoinColumn(name = "genealogy_id", referencedColumnName = "genealogy_id"),
 //               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))

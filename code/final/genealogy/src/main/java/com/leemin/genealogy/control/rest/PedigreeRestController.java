@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -30,7 +31,9 @@ public class PedigreeRestController {
         while(iterator.hasNext()){
             PedigreeModel next = iterator.next();
             String history = next.getHistory();
+            history = HtmlUtils.htmlEscape(history);
             next.setHistory(history.substring(0,history.length()>50?50:history.length()));
+//            next.setHistory(history.substring(0,history.length()>50?50:history.length()));
         }
         return all;
     }

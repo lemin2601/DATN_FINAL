@@ -6,6 +6,8 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
+
+
     <!-- Main Header -->
     <header th:replace="/fragments/user :: header"> </header>
 
@@ -28,9 +30,10 @@
         <section class="content">
             <!-- Your Page Content Here -->
             <link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
-            <div class="box box-info" id="containment-wrapper" style="width: 100%; height: 100%">
+            <div class="box box-info" id="containment-wrapper" >
                 <div class="chart" id="collapsable-example"></div>
             </div>
+
         </section>
         <!-- /.content -->
     </div>
@@ -44,6 +47,51 @@
     <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
+
+
+
+    <!-- Modal view info -->
+    <div class="modal fade" id="modalViewInfo" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end modal view info -->
+    <!-- modal edit info -->
+    <div class="modal fade" id="modalEditInfo" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end modal edit info -->
 </div>
 <!-- ./wrapper -->
 
@@ -52,6 +100,13 @@
 <script th:src="@{/treant/vendor/raphael.js}"></script>
 <script th:src="@{/treant/Treant.js}"></script>
 <script th:src="@{/treant/collapsable.js}"></script>
+
+<link th:href="@{/treant/vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" type="text/css"/>
+<script th:src="@{/treant/vendor/jquery.easing.js}"></script>
+<script th:src="@{/treant/vendor/jquery.mousewheel.js}"></script>
+<script th:src="@{/treant/vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
+
+
 <script th:src="@{/js/jquery-ui.js}"></script>
 
 <script th:inline="javascript">
@@ -66,14 +121,46 @@
         cache: false,
         timeout: 600000,
         success: function (data) {
-            new Treant( data );
+            new Treant( data ,initViewDetailNode);
             console.log("SUCCESS : ", data);
             console.log(JSON.stringify(data));
+
         },
         error: function (e) {
             console.log("ERROR : ", e);
         }
     });
+
+    var initViewDetailNode = function () {
+        console.log("init view detail node");
+        $(".people_chart_node").append('' +
+            '<div class="people_chart_node_edit">' +
+            '<a onclick="viewRelation(this)"><i class="fa fa-check-square-o fa-lg"></i></a>  ' +
+            '<a onclick="editInfoNode(this)"><i class="fa fa-pencil fa-lg"></i></a>  ' +
+            '<a href="#" onclick="viewInfoNode(this)"><i class="fa fa-eye fa-lg"></i></a>  ' +
+            '</div>');
+    };
+
+    var viewRelation = function (sender) {
+        var id = $(sender).parent().parent().attr('id');
+        console.log('viewRelation' + id);
+        $("#modalEditInfo").modal();
+    };
+
+
+    var editInfoNode = function (sender) {
+        var id = $(sender).parent().parent().attr('id');
+        console.log('editInfoNode' + id);
+        $("#modalEditInfo").modal();
+    };
+
+    var viewInfoNode = function (sender) {
+        var id = $(sender).parent().parent().attr('id');
+        console.log('viewInfoNode:' + id);
+        $("#modalViewInfo").modal();
+
+    };
+
 
     /*]]>*/
 </script>

@@ -92,14 +92,34 @@ public class PedigreeController {
     }
 
 
-    @RequestMapping(value = "/genealogy/{idGenealogy}/pedigree/{idPedigree}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/genealogy/{idGenealogy}/pedigree/{idPedigree}/edit", method = RequestMethod.POST )
+    public ModelAndView updatePedigree(
+            Principal principal,
+            @PathVariable(value = "idPedigree")
+                    long idPedigree,
+            @PathVariable(name = "idGenealogy")
+                    long idGenealogy,
+            @Valid
+            @ModelAttribute(value = "pedigree")
+                    PedigreeModel pedigreeModel,
+            BindingResult bindingResult,
+            HttpServletRequest request) {
+        pedigreeModel.setId(idPedigree);
+        pedigreeModel = pedigreeService.update(pedigreeModel);
+        GenealogyModel genealogyModel = genealogyService.find(idGenealogy, principal.getName());
+        ModelAndView mv = new ModelAndView("/genealogy/pedigree-detail");
+        mv.addObject("genealogy",genealogyModel);
+        mv.addObject("pedigree",pedigreeModel);
+        return mv;
+    }
+
+    @RequestMapping(value = "/genealogy/{idGenealogy}/pedigree/{idPedigree}/edit", method = RequestMethod.GET )
     public ModelAndView editPedigree(
             Principal principal,
             @PathVariable(value = "idPedigree")
                     long idPedigree,
             @PathVariable(name = "idGenealogy")
                     long idGenealogy,
-            BindingResult bindingResult,
             HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("/genealogy/pedigree-edit");
         GenealogyModel genealogyModel = genealogyService.find(idGenealogy, principal.getName());
@@ -109,6 +129,7 @@ public class PedigreeController {
         mv.addObject("pedigree",pedigreeModel);
         return mv;
     }
+
 
     @RequestMapping(value = "/genealogy/{idGenealogy}/pedigree/{idPedigree}/detail", method = RequestMethod.GET)
     public ModelAndView detail(
@@ -188,6 +209,10 @@ public class PedigreeController {
         HashMap<Long,Long> containerRealParentKey = new HashMap<>();
         List<PeopleModel> result = new ArrayList<>();
         if(pedigree == null) return null;
+
+        //remove all people in pedigree before upload
+        peopleService.removeAllByIdPedigree(pedigree);
+
         for(Map.Entry<Long, Set<PeopleUpload>> entry : integerSetHashMap.entrySet()) {
 
             //get real key for parent
@@ -221,6 +246,7 @@ public class PedigreeController {
                 peopleSave.setDeadDay(people.getDeadDay());
                 peopleSave.setAddress(people.getAddress());
                 peopleSave.setDegree(people.getDegree());
+                peopleSave.setChildIndex(people.getChildIndex());
 //                peopleSave.setImg(people.getImg());
                 peopleSave.setImg("/dist/img/user2-160x160.jpg");
                 peopleSave.setDes(people.getDes());
@@ -337,6 +363,9 @@ public class PedigreeController {
                             peopleModel.setGender(-1);
                         }
                         break;
+                    case CON_THU:
+                        peopleModel.setChildIndex((int) currentCell.getNumericCellValue());
+                        break;
                     case NGAY_SINH:
                         peopleModel.setBirthday(currentCell.getDateCellValue());
                         break;
@@ -386,6 +415,7 @@ enum UploadFormat {
     HO_VA_TEN,
     TEN_THUONG_GOI,
     GIOI_TINH,
+    CON_THU,
     NGAY_SINH,
     NGAY_MAT,
     DIA_CHI,

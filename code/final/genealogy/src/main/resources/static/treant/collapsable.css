@@ -8,11 +8,35 @@ q:before,q:after { content:''; }
 abbr,acronym { border:0; }
 
 body { background: #fff; }
+
 /* optional Container STYLES */
 .chart { height: 100%; margin: 5px; width: 100%; }
 .Treant > .node { padding: 3px; border: 1px solid #484848; border-radius: 3px; }
-.Treant > .node img { width: 100px; height: 100px; }
+.Treant > .node img { width: 100px; height: 100px;   display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .Treant .collapse-switch { width: 100%; height: 100%; border: none; }
 .Treant .node.collapsed { background-color: #DEF82D; }
 .Treant .node.collapsed .collapse-switch { background: none; }
+
+/*
+
+!* optional Container STYLES *!
+.chart { height: 400px; margin: 5px; width: 500px; margin: 5px auto; border: 3px solid #DDD; border-radius: 3px;  }
+.Treant > .node {  }
+.Treant > p { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: bold; font-size: 12px; }
+.node-name { font-weight: bold;}
+
+.collapsable-example {
+    padding: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: 1px solid #000;
+    width: 200px;
+    font-family: Tahoma;
+    font-size: 12px;
+}*/

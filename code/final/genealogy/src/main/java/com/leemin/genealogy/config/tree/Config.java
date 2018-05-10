@@ -8,12 +8,19 @@ public class Config extends ConfigTree{
     private  boolean animateOnInit = true;
     private Node node;
     private Animation animation;
-
+    private String scrollbar = "fancy"; // None
     public Config() {
         node = new Node();
         animation = new Animation();
     }
 
+    public String getScrollbar() {
+        return scrollbar;
+    }
+
+    public void setScrollbar(String scrollbar) {
+        this.scrollbar = scrollbar;
+    }
 
     public String getContainer() {
         return container;

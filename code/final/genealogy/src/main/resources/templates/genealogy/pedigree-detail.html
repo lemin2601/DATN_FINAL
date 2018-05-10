@@ -19,6 +19,7 @@
         <section class="content-header">
             <h1 th:text="${genealogy.getName()}"></h1>
             <ol class="breadcrumb">
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Dòng tộc</span></a>
                 <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/member'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Thành Viên</span></a>
                 <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree/'+${pedigree.getId()}+'/people-tree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Cây Phả hệ</span></a>
                 <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree/'+${pedigree.getId()}+'/people-list'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Danh sách Người trong phả hệ</span></a>
@@ -36,15 +37,15 @@
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-            <h1>Lời ngỏ</h1>
+<!--            <h1>Lời ngỏ</h1>
             <div id="history" th:utext="${genealogy.getHistory()}"></div>
             <hr/>
             <h1>Phả ký</h1>
             <div id="thuyTo" th:utext="${genealogy.getThuyTo()}"></div>
-            <hr/>
+            <hr/>-->
 
             <h1>Phả hệ</h1>
-            <div th:utext="${pedigree.getName()}"></div>
+            <h1 th:utext="${pedigree.getName()}"></h1>
             <hr/>
             <h1>History</h1>
             <div th:utext="${pedigree.getHistory()}"></div>

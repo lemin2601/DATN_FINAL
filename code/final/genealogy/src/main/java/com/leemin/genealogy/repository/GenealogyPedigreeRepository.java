@@ -20,6 +20,10 @@ public interface GenealogyPedigreeRepository extends JpaRepository<GenealogyPedi
     @Query("SELECT p FROM GenealogyPedigreeModel p JOIN FETCH  p.genealogy JOIN FETCH p.pedigree WHERE p.genealogy.id = :idGenealogy")
     List<GenealogyPedigreeModel> findByGenealogy_Id(@Param("idGenealogy") long idGenealogy);
 
+    @Query("SELECT p FROM GenealogyPedigreeModel p JOIN FETCH  p.genealogy JOIN FETCH p.pedigree WHERE p.genealogy.name LIKE :name")
+    List<GenealogyPedigreeModel> findByLike(@Param("name") String search);
+
+
     List<GenealogyPedigreeModel> findAll(Sort sort);
 
     List<GenealogyPedigreeModel> findAll(Iterable<Long> iterable);

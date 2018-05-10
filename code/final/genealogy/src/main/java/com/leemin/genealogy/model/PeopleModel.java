@@ -40,6 +40,9 @@ public class PeopleModel {
     @Column(name = "gender")
     private int gender;
 
+    @Column(nullable=true, name="child_index")
+    private Integer childIndex;
+
     @Column(name = "birthday")
     private Date birthday;
 
@@ -74,6 +77,14 @@ public class PeopleModel {
 
     public void setParentKey(String parentKey) {
         this.parentKey = parentKey;
+    }
+
+    public int getChildIndex() {
+        return childIndex;
+    }
+
+    public void setChildIndex(Integer childIndex) {
+        this.childIndex = childIndex;
     }
 
     public long getId() {

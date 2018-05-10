@@ -17,9 +17,11 @@
 
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1 th:text="#{genealogy.header}">
+            <h1 th:text="'Thành viên trong dòng tộc'">
             </h1>
             <ol class="breadcrumb">
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Dòng tộc</span></a>
+                <a th:href="'/genealogy/'+ ${genealogy.getId()} +'/pedigree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Dannh sách phả hệ</span></a>
                 <li class="active"  ><a href="/genealogy"><i class="fa fa-dashboard"></i><span th:text="#{genealogy}"></span></a></li>
             </ol>
         </section>
@@ -29,17 +31,13 @@
             <!-- Your Page Content Here -->
 
             <div class="box box-info">
-                <div class="box-header with-border">
-                    <button class="btn btn-default" type="button" th:text="#{add}"></button>
-
-                </div>
                 <!-- /.box-header -->
                 <table id="table">
                     <thead>
                     <tr>
                         <th data-width="30%" data-sortable="true" data-field="name"> Tên</th>
                         <th data-width="30%" data-field="email" >Email</th>
-                        <th data-width="20%" data-field="job" >Chức vụ</th>
+                        <th data-width="20%" data-field="status" th:text="#{genealogy.find.table.status}"  data-formatter="actionFormatStatus"></th>
                         <th data-width="150px" data-formatter="actionFormatter" data-events="actionEvents" data-field="action" th:text="#{genealogy.find.table.action}"></th>
                     </tr>
                     </thead>
@@ -64,90 +62,156 @@
 <!-- REQUIRED JS SCRIPTS -->
 <div th:replace="/fragments/user :: js"/>
 
-<script type="text/javascript">
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var idPermission = [[${idPermission}]];
+    var idUser = [[${idUser}]];
+
     function actionFormatter(value, row, index) {
-        console.log("value "  + JSON.stringify(value));
-        console.log("row "  + JSON.stringify(row));
-        console.log("index "  + JSON.stringify(index));
-        return [
-            '<button type="button" class="view btn btn-default"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>',
-            '<button type="button" class="view btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>',
-            '<button type="button" class="view btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'
-            /*'<a type="button" class="like" href="javascript:void(0)" title="Like">',
-             '<i class="glyphicon glyphicon-heart"></i>',
-             '</a>',
-             '<a type="button" class="edit ml10" href="javascript:void(0)" title="Edit">',
-             '<i class="glyphicon glyphicon-edit"></i>',
-             '</a>',
-             '<a type="button" class="remove ml10" href="javascript:void(0)" title="Remove">',
-             '<i class="glyphicon glyphicon-remove"></i>',
-             '</a>'*/
-        ].join(' ');
+        // console.log("value "  + JSON.stringify(value));
+        // console.log("row "  + JSON.stringify(row));
+        // console.log("index "  + JSON.stringify(index));
+        var status = row.status;
+        var listBtn = [];
+        if(idUser != row.idUser && idPermission != 3 &&  idPermission <= status){
+            switch  (status){
+                case 0:
+                case 1:
+                case 2:
+                case 4:
+                    listBtn.push('<button type="button" class="edit btn btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>');
+                    listBtn.push('<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>');
+                    break;
+                case 3:
+                    switch (idPermission){
+                        case 1:
+                            listBtn.push('<button type="button" class="accept btn btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>');
+                            listBtn.push('<button type="button" class="deny btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>');
+                    }
+                    break;
+            }
+        }
+        return listBtn.join(' ');
+    }
+    function actionFormatStatus(value, row, index) {
+        var result = '';
+        switch (value){
+            case 0:
+                result = "Chưa đăng ký";
+                break;
+            case 1:
+                result = "Admin";
+                break;
+            case 2:
+                result = "Mod";
+                break;
+            case 3:
+                result = "Đã Đăng Ký";
+                break;
+            case 4:
+                result = "Thành viên";
+                break;
+        }
+        return result;
     }
     window.actionEvents = {
         'click .view': function (e, value, row, index) {
-            window.location.href ="/genealogy/detail?id="+ row.id;
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+            window.location = "https://"+ document.location.host  +'/genealogy/' + row.id;
         },
         'click .edit': function (e, value, row, index) {
-            alert('You click edit icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+            var inputOptions = [];
+            inputOptions.push({text: 'Click để chọn.', value: ''});
+            switch (idPermission){
+                case 1:
+                    inputOptions.push({text:  'Admin', value: '1'});
+                case 2:
+                    inputOptions.push({text:  'Mod', value: '2'});
+                case 4:
+                    inputOptions.push({text:  'Thành viên', value: '4'});
+            }
+            bootbox.prompt({
+                title: "Vui lòng chọn chức vụ bên dưới",
+                inputType: 'select',
+                inputOptions: inputOptions,
+                callback: function (result) {
+                    if(result != ''){
+                        var data= {idUserGenealogy:row.id,idPermission:result};
+                        $.post( "/rest/genealogy/member/update", data)
+                         .done(function( data,status ) {
+                             if(status == "success"){
+                                 row.status = result;
+                                 $('#table').bootstrapTable("updateRow",{index:index,row:row});
+                                 $('#table').bootstrapTable("refresh");
+
+                             }
+                             console.log("change permission" + data + status +"|"+ result);
+                         });
+                    }
+                }
+            });
+
         },
         'click .remove': function (e, value, row, index) {
-            alert('You click remove icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+            bootbox.confirm({
+                message: "Bạn muốn xóa người này ra khỏi dòng tộc?",
+                backdrop: true,//click ra ngoai huy
+                className: 'bb-alternate-modal',// giật giật
+                buttons: {
+                    confirm: {
+                        label: 'Đồng ý',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Hủy',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if(result == true){
+                        var data= {idUserGenealogy:row.id,idPermission:0};
+                        $.post( "/rest/genealogy/member/update", data)
+                         .done(function( data,status ) {
+                             if(status == "success"){
+                                 row.status = 4;
+                                 $('#table').bootstrapTable("remove",{field:"id",values:[row.id]});
+                             }
+                         });
+                    }
+                }
+            });
         },
-        'change ':function (e,value,row,index) {
-            console.log("chane" + JSON.stringify(index));
+        'click .accept': function (e, value, row, index) {
+            var data= {idUserGenealogy:row.id,idPermission:4};
+            $.post( "/rest/genealogy/member/update", data)
+             .done(function( data,status ) {
+                 if(status == "success"){
+                     row.status = 4;
+                     $('#table').bootstrapTable("updateRow",{index:index,row:row});
+                 }
+             });
         },
-        'mouseenter ':function (e,value,row,index) {
-            console.log("blur" + JSON.stringify(index));
+        'click .deny': function (e, value, row, index) {
+            var data= {idUserGenealogy:row.id,idPermission:0};
+            $.post( "/rest/genealogy/member/update", data)
+             .done(function( data,status ) {
+                 if(status == "success"){
+                     row.status = 4;
+                     $('#table').bootstrapTable("remove",{field:"id",values:[row.id]});
+                 }
+             });
         }
     };
 
-    var data = [
-        {
-            "id":1,
-            "name": "Nguyễn Văn A",
-            "email":"anguyen@gmail.com",
-            "job": "Quản lý group"
-        },
-        {
-            "id":2,
-            "name": "Nguyễn Văn B",
-            "email":"bnguyen@gmail.com",
-            "job": "Quản lý group"
-        },
-        {
-            "id":3,
-            "name": "Nguyễn Văn C",
-            "email":"cnguyen@gmail.com",
-            "job": "Thành viên"
-        },
-        {
-            "id":4,
-            "name": "Nguyễn Thị D",
-            "email":"dnguyen@gmail.com",
-            "job": "Thành viên"
-        }
-    ];
-
+    var idGenealogy = [[${idGenealogy}]];
     $(function () {
         console.log("load bootstrap table");
         $('#table').bootstrapTable({
             search: true,
             pagination: true,
-
-            data: data
+            url: "https://"+ document.location.host  +'/rest/genealogy/'+idGenealogy+'/member'
         });
     });
+    /*]]>*/
 </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 package com.leemin.genealogy.config.tree;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -6,8 +7,13 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Child extends ConfigTree{
+
+    @JsonProperty("HTMLid")
     private String HTMLid;
+
+    @JsonProperty("HTMLclass")
     private String HTMLclass;
+
     private String image;
     private Text text;
     private boolean collapsed;
@@ -41,6 +47,7 @@ public class Child extends ConfigTree{
         this.parentKey = parentKey;
     }
 
+    @JsonIgnore
     public String getHTMLid() {
         return HTMLid;
     }
@@ -49,6 +56,7 @@ public class Child extends ConfigTree{
         this.HTMLid = HTMLid;
     }
 
+    @JsonIgnore
     public String getHTMLclass() {
         return HTMLclass;
     }

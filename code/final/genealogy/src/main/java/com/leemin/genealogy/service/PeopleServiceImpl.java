@@ -5,10 +5,12 @@ import com.leemin.genealogy.repository.PeopleRepository;
 import com.leemin.genealogy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class PeopleServiceImpl implements PeopleService {
     @Autowired
     PeopleRepository peopleRepository;
@@ -39,6 +41,11 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public List<PeopleModel> findAllByPedigreeAndParentKey(PedigreeModel pedigreeModel, String parentKey) {
         return peopleRepository.findAllByPedigreeAndParentKey(pedigreeModel,parentKey);
+    }
+
+    @Override
+    public void removeAllByIdPedigree(PedigreeModel pedigree) {
+        peopleRepository.removeAllByPedigree(pedigree);
     }
 
 }

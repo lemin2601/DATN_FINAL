@@ -21,4 +21,7 @@ public interface GenealogyRepository extends JpaRepository<GenealogyModel, Long>
         List<GenealogyModel> findAll(Iterable<Long> iterable);
 
         Page<GenealogyModel> findAll(Pageable pageable);
+
+        List<GenealogyModel> findAllByNameLike(String search);
+
 }

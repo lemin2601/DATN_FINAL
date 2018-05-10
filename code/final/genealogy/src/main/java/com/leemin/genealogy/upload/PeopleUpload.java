@@ -39,8 +39,19 @@ public class PeopleUpload {
 
     private String dataExtra;
 
+    private int childIndex;
+
+
     public PeopleUpload() {
         this.isRealParent = false;
+    }
+
+    public int getChildIndex() {
+        return childIndex;
+    }
+
+    public void setChildIndex(int childIndex) {
+        this.childIndex = childIndex;
     }
 
     public int getStatusUpload() {

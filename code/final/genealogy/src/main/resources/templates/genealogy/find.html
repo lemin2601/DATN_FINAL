@@ -32,12 +32,17 @@
             <!-- Your Page Content Here -->
             <div class="container">
                 <div class="row">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..."/>
-                        <span class="input-group-btn">
-                         <button class="btn btn-default" type="button" th:text="#{search}"></button>
-                    </span>
-                    </div><!-- /input-group -->
+
+                    <form id="fileUploadForm" class="form" method="post" action="">
+                        <div class="input-group">
+                            <input id="textSearch" name="textSearch" type="text" class="form-control" placeholder="Search for..."/>
+                            <span class="input-group-btn">
+                                 <button id="btnSearch" class="btn btn-default" type="button" th:text="#{search}"></button>
+                            </span>
+                        </div><!-- /input-group -->
+
+                    </form>
+
                 </div><!-- /.row -->
             </div><!-- /.end container-->
             <h1><small th:text="#{genealogy.find.result}"></small></h1>
@@ -45,9 +50,9 @@
                 <thead>
                     <tr>
                         <th data-width="20%" data-sortable="true" data-field="name" th:text="#{genealogy.find.table.name}"></th>
-                        <th data-width="80%" data-field="description" th:text="#{genealogy.find.table.description}"></th>
-                        <th data-field="status" th:text="#{genealogy.find.table.status}"></th>
-                        <th data-width="50px" data-formatter="actionFormatter" data-events="actionEvents" data-field="action" th:text="#{genealogy.find.table.action}"></th>
+                        <th data-width="40%" data-field="history" th:text="#{genealogy.find.table.description}"></th>
+                        <th data-width="20%" data-field="status" th:text="#{genealogy.find.table.status}"  data-formatter="actionFormatStatus"></th>
+                        <th data-width="150px" data-formatter="actionFormatter" data-events="actionEvents" data-field="action" th:text="#{genealogy.find.table.action}"></th>
                     </tr>
                 </thead>
             </table>
@@ -75,83 +80,235 @@
         console.log("value "  + JSON.stringify(value));
         console.log("row "  + JSON.stringify(row));
         console.log("index "  + JSON.stringify(index));
-        return [
-            '<button type="button" class="edit btn btn-default"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>'
-            /*'<a type="button" class="like" href="javascript:void(0)" title="Like">',
-            '<i class="glyphicon glyphicon-heart"></i>',
-            '</a>',
-            '<a type="button" class="edit ml10" href="javascript:void(0)" title="Edit">',
-            '<i class="glyphicon glyphicon-edit"></i>',
-            '</a>',
-            '<a type="button" class="remove ml10" href="javascript:void(0)" title="Remove">',
-            '<i class="glyphicon glyphicon-remove"></i>',
-            '</a>'*/
-        ].join(' ');
+        var status = row.status;
+        var listBtn = [];
+        listBtn.push('<button type="button" class="view btn btn-default"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>');
+        switch  (status){
+            case 0:
+                listBtn.push('<button type="button" class="register btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>');
+                break;
+            case 1:
+                listBtn.push('<button type="button" class="edit btn btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>');
+                listBtn.push('<button type="button" class="remove btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>');
+                break;
+            case 2:
+                listBtn.push('<button type="button" class="edit btn btn-warning"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>');
+                break;
+            case 3:
+                listBtn.push('<button type="button" class="unregister btn btn-warning"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>');
+                break;
+        }
+        return listBtn.join(' ');
+    }
+    function actionFormatStatus(value, row, index) {
+        var result = '';
+        switch (value){
+            case 0:
+                result = "Chưa đăng ký";
+                break;
+            case 1:
+                result = "Admin";
+                break;
+            case 2:
+                result = "Mod";
+                break;
+            case 3:
+                result = "Đã Đăng Ký";
+                break;
+            case 4:
+                result = "Thành viên";
+                break;
+        }
+        return result;
     }
     window.actionEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+        'click .view': function (e, value, row, index) {
+            window.location = "https://"+ document.location.host  +'/genealogy/' + row.id;
         },
         'click .edit': function (e, value, row, index) {
-            alert('You click edit icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+            window.location = "https://"+ document.location.host  +'/genealogy/' + row.id+'/edit';
         },
         'click .remove': function (e, value, row, index) {
-            alert('You click remove icon, row: ' + JSON.stringify(row));
-            console.log("value" + JSON.stringify(value));
-            console.log("row" + JSON.stringify(row));
-            console.log("index" + JSON.stringify(index));
+            bootbox.confirm({
+                message: "This is a confirm with custom button text and color! Do you like it?",
+                backdrop: true,//click ra ngoai huy
+                className: 'bb-alternate-modal',// giật giật
+                buttons: {
+                    confirm: {
+                        label: 'Đồng ý',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Hủy',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    console.log('This was logged in the callback: ' + result);
+                }
+            });
         },
-        'change ':function (e,value,row,index) {
-            console.log("chane" + JSON.stringify(index));
+        'click .register': function (e, value, row, index) {
+            var data= {idGenealogy:row.id};
+            $.post( "/rest/genealogy/register", data)
+             .done(function( data,status ) {
+                 if(status == "success"){
+                     row.status = 3;
+                     $('#table').bootstrapTable("updateRow",{index:index,row:row});
+                 }
+
+                 // alert( "Data Loaded: " + data  +"|" + status);
+             });
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/rest/genealogy/register",
+            //     data: data,
+            //     processData: false, //prevent jQuery from automatically transforming the data into a query string
+            //     contentType: false,
+            //     cache: false,
+            //     timeout: 600000,
+            //     success: function (data) {
+            //         row.status = 3;
+            //         $('#table').bootstrapTable("updateRow",{index:index,row:row});
+            //     },
+            //     error: function (e) {
+            //         console.log("ERROR : ", e);
+            //         $("#btnSearch").prop("disabled", false);
+            //     }
+            // });
+            // alert('You click register icon, row: ' + JSON.stringify(row));
         },
-        'mouseenter ':function (e,value,row,index) {
-            console.log("blur" + JSON.stringify(index));
+        'click .unregister': function (e, value, row, index) {
+            var data= {idGenealogy:row.id};
+            $.post( "/rest/genealogy/unregister", data)
+             .done(function( data,status ) {
+                 if(status == "success"){
+                     row.status = 0;
+                     $('#table').bootstrapTable("updateRow",{index:index,row:row});
+                 }
+             });
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/rest/genealogy/unregister",
+            //     data: data,
+            //     processData: false, //prevent jQuery from automatically transforming the data into a query string
+            //     contentType: false,
+            //     cache: false,
+            //     timeout: 600000,
+            //     success: function (data) {
+            //         row.status = 0;
+            //         $('#table').bootstrapTable("updateRow",{index:index,row:row});
+            //     },
+            //     error: function (e) {
+            //         console.log("ERROR : ", e);
+            //         $("#btnSearch").prop("disabled", false);
+            //     }
+            // });
+            // alert('You click unregister icon, row: ' + JSON.stringify(row));
         }
     };
 
-    var data = [
-        {
-            "name": "bootstrap-table",
-            "status":"đã đăng ký",
-            "description": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
-        },
-        {
-            "name": "multiple-select",
-            "status":"đã đăng ký",
-            "description": "A jQuery plugin to select multiple elements with checkboxes :)"
-        },
-        {
-            "name": "bootstrap-show-password",
-            "status":"chưa gia nhập",
-            "description": "Show/hide password plugin for twitter bootstrap."
-        },
-        {
-            "name": "blog",
-            "status":"đã gia nhâp",
-            "description": "my blog"
-        },
-        {
-            "name": "scutech-redmine",
-            "stargazers_count": "6",
-            "forks_count": "3",
-            "description": "Redmine notification tools for chrome extension."
-        }
-    ];
+    // var data = [
+    //     {
+    //         "name": "bootstrap-table",
+    //         "status":"đã đăng ký",
+    //         "description": "An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. (supports twitter bootstrap v2 and v3) "
+    //     },
+    //     {
+    //         "name": "multiple-select",
+    //         "status":"đã đăng ký",
+    //         "description": "A jQuery plugin to select multiple elements with checkboxes :)"
+    //     },
+    //     {
+    //         "name": "bootstrap-show-password",
+    //         "status":"chưa gia nhập",
+    //         "description": "Show/hide password plugin for twitter bootstrap."
+    //     },
+    //     {
+    //         "name": "blog",
+    //         "status":"đã gia nhâp",
+    //         "description": "my blog"
+    //     },
+    //     {
+    //         "name": "scutech-redmine",
+    //         "stargazers_count": "6",
+    //         "forks_count": "3",
+    //         "description": "Redmine notification tools for chrome extension."
+    //     }
+    // ];
+    //
+    // $(function () {
+    //     $('#table').bootstrapTable({
+    //         search: true,
+    //         pagination: true,
+    //
+    //         data: data
+    //     });
+    // });
+</script>
 
-    $(function () {
-        $('#table').bootstrapTable({
-            search: true,
-            pagination: true,
 
-            data: data
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        $("#btnSearch").click(function (event) {
+            //stop submit the form, we will post it manually.
+            event.preventDefault();
+            searchGeneleogy();
         });
+        $('#table').hide();
+
+        $('#textSearch').on('keypress', function (e) {
+            if(e.which === 13){
+                event.preventDefault();
+                searchGeneleogy();
+            }
+        });
+
     });
+
+    function searchGeneleogy() {
+        // Get form
+        var form = $('#fileUploadForm')[0];
+        var data = new FormData(form);
+
+        $("#btnSearch").prop("disabled", true);
+        $.ajax({
+            type: "POST",
+            enctype: 'application/x-www-form-urlencoded',
+            url: "/rest/genealogy/find",
+            data: data,
+            processData: false, //prevent jQuery from automatically transforming the data into a query string
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                $('#table').show();
+                $('#table').bootstrapTable({
+                    search: true,
+                    pagination: true,
+                    // url: "https://"+ document.location.host  +'/rest/pedigree/list/' + idGenealogy,
+                    data: data
+                });
+                $('#table').bootstrapTable("load",data);
+                console.log("SUCCESS : ", data);
+                $("#btnSearch").prop("disabled", false);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+                $("#btnSearch").prop("disabled", false);
+            }
+        });
+    }
+
+    function dateFormat(value, row, index) {
+        if(value == null){
+            return "";
+        }
+        return moment(value).format('DD/MM/YYYY');
+    }
+
+    /*]]>*/
 </script>
 </body>
 </html>

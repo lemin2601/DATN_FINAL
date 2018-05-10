@@ -8,7 +8,7 @@ public class PermissionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="permission_id")
+        @Column(name="permission_id")
     private long id;
 
     @Column(name="name")

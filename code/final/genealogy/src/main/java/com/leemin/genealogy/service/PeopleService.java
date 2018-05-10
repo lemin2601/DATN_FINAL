@@ -15,4 +15,5 @@ public interface PeopleService {
 
     List<PeopleModel> findAllByPedigreeAndParentKey(PedigreeModel pedigreeModel,String parentKey);
 
+    void removeAllByIdPedigree(PedigreeModel pedigree);
 }

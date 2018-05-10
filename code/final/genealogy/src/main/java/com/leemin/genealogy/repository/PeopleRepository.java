@@ -9,4 +9,6 @@ public interface PeopleRepository extends JpaRepository<PeopleModel, Long> {
 
     List<PeopleModel> findAllByPedigreeAndParentKeyStartsWith(PedigreeModel pedigreeModel,String parentKeyStartWith);
     List<PeopleModel> findAllByPedigreeAndParentKey(PedigreeModel pedigreeModel,String parentKey);
+
+    void removeAllByPedigree(PedigreeModel pedigreeModel);
 }

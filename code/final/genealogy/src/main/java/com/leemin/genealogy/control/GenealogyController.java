@@ -2,7 +2,10 @@ package com.leemin.genealogy.control;
 
 import com.leemin.genealogy.model.GenealogyModel;
 import com.leemin.genealogy.model.RoleModel;
+import com.leemin.genealogy.model.UserGenealogyModel;
 import com.leemin.genealogy.model.UserModel;
+import com.leemin.genealogy.repository.UserGenealogyRepository;
+import com.leemin.genealogy.repository.UserRepository;
 import com.leemin.genealogy.service.GenealogyService;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +27,43 @@ public class GenealogyController {
     @Autowired
     GenealogyService genealogyService;
 
+    @Autowired
+    UserGenealogyRepository userGenealogyRepository;
 
-    @GetMapping("/genealogy")
-    public String home(){
-        return "/genealogy/home";
+    @Autowired
+    UserRepository userRepository;
+
+    @RequestMapping(value = "/genealogy", method = RequestMethod.GET)
+    public ModelAndView home(Principal principal) {
+        ModelAndView mv;
+        if (principal == null) {
+            return new ModelAndView("/account/login");
+        }
+        else {
+            UserModel userModel = userRepository.findByEmail(principal.getName());
+            List<UserGenealogyModel> byUser = userGenealogyRepository.findByUser(userModel);
+            boolean check = false;
+            if(byUser == null || byUser.size() == 0){
+                check = false;
+            }else{
+                check = true;
+    //
+    //                for (UserGenealogyModel model: byUser) {
+    //                    if(model.getPermission().getId() != 3){
+    //                        check = true;
+    //                    }
+    //                }
+            }
+
+
+            if(!check){
+                mv = new ModelAndView("/genealogy/find");
+            }else{
+                mv = new ModelAndView("/genealogy/home");
+            }
+            return mv;
+        }
     }
-
 
     /*@RequestMapping(value = "/genealogy/detail", method = RequestMethod.GET)
     public ModelAndView detail(
@@ -60,24 +94,22 @@ public class GenealogyController {
     @RequestMapping(value = "/genealogy/detail", method = RequestMethod.GET)
     public ModelAndView detail(
             Principal principal,
-            @ModelAttribute(value = "user") UserModel user,
+            @ModelAttribute(value = "user")
+                    UserModel user,
             HttpServletRequest request) {
         ModelAndView mv;
-        if(principal == null){
+        if (principal == null) {
             mv = new ModelAndView("/account/login");
             return mv;
-        }else{
+        }
+        else {
             mv = new ModelAndView("/genealogy/home");
             return mv;
         }
 //        principal.getName();
 //        List<GenealogyModel>genealogyModels = genealogyService.findAllByUserName(principal.getName());
 //        mv.addObject("listGenealogy", genealogyModels);
-
 //        List<GenealogyModel> all = genealogyService.findAll();
-
-
-
 //        System.out.println(user.toString());
 //        System.out.println(principal.getName());
 //
@@ -89,10 +121,12 @@ public class GenealogyController {
 //        mv.addObject("id", id);
 //        return mv;
     }
+
     @RequestMapping(value = "/genealogy/{id}", method = RequestMethod.GET)
     public ModelAndView detail(
             Principal principal,
-            @PathVariable( value = "id",required = false) int id,
+            @PathVariable(value = "id", required = false)
+                    int id,
             HttpServletRequest request) {
         ModelAndView mv;
         if (principal == null) {
@@ -106,31 +140,44 @@ public class GenealogyController {
 
         }
     }
+
     @RequestMapping(value = "/genealogy/{id}/{method}", method = RequestMethod.GET)
     public ModelAndView edit(
             Principal principal,
-            @PathVariable( value = "id",required = false) int id,
-            @PathVariable( value = "method",required = false) String method,
+            @PathVariable(value = "id", required = false)
+                    int id,
+            @PathVariable(value = "method", required = false)
+                    String method,
             HttpServletRequest request) {
         ModelAndView mv;
-        if(principal == null){
+        if (principal == null) {
             return new ModelAndView("/account/login");
-        }else{
-            if(method.equalsIgnoreCase("edit")){
+        }
+        else {
+            if (method.equalsIgnoreCase("edit")) {
                 mv = new ModelAndView("/genealogy/detail-edit");
                 GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
                 mv.addObject("genealogy", genealogyModel);
                 return mv;
-            }else if(method.equalsIgnoreCase("pedigree")){
+            }
+            else if (method.equalsIgnoreCase("pedigree")) {
                 mv = new ModelAndView("/genealogy/pedigree");
-                mv.addObject("idGenealogy",id);
+                mv.addObject("idGenealogy", id);
                 return mv;
-            }else if(method.equalsIgnoreCase("member")){
+            }
+            else if (method.equalsIgnoreCase("member")) {
                 mv = new ModelAndView("/genealogy/member");
-                GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
+//                GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
+                UserGenealogyModel byUserAndGenealogy_id = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), id);
+                UserModel byEmail = userRepository.findByEmail(principal.getName());
+                GenealogyModel genealogyModel = byUserAndGenealogy_id.getGenealogy();
                 mv.addObject("genealogy", genealogyModel);
+                mv.addObject("idUser", byEmail.getId());
+                mv.addObject("idGenealogy", genealogyModel.getId());
+                mv.addObject("idPermission", byUserAndGenealogy_id.getPermission().getId());
                 return mv;
-            }else{
+            }
+            else {
                 mv = new ModelAndView("/genealogy/detail");
                 GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
                 mv.addObject("genealogy", genealogyModel);
@@ -138,7 +185,6 @@ public class GenealogyController {
             }
         }
 //        List<GenealogyModel> all = genealogyService.findAll();
-
 //        System.out.println(user.toString());
 //        System.out.println(principal.getName());
 //
@@ -148,18 +194,19 @@ public class GenealogyController {
 //        mv.addObject("selecionado","Italia");
 //        mv.addObject("ls", ls);
 //        mv.addObject("id", id);
-
     }
+
     @RequestMapping(value = "/genealogy/pedigree/tree", method = RequestMethod.GET)
     public ModelAndView viewTree(
             Principal principal,
             Authentication authentication,
-            @RequestParam(value = "id", required = false, defaultValue = "10") int id,
+            @RequestParam(value = "id", required = false, defaultValue = "10")
+                    int id,
             HttpServletRequest request) {
         ModelAndView mv;
         mv = new ModelAndView("/genealogy/tree");
-        List<RoleModel> ls = Arrays.asList(new RoleModel("EUA"), new RoleModel( "Brasil"), new RoleModel( "Italia"));
-        mv.addObject("selecionado","Italia");
+        List<RoleModel> ls = Arrays.asList(new RoleModel("EUA"), new RoleModel("Brasil"), new RoleModel("Italia"));
+        mv.addObject("selecionado", "Italia");
         mv.addObject("ls", ls);
         return mv;
     }
@@ -168,21 +215,20 @@ public class GenealogyController {
     public ModelAndView viewList(
             Principal principal,
             Authentication authentication,
-            @ModelAttribute(value = "user") UserModel user,
+            @ModelAttribute(value = "user")
+                    UserModel user,
             HttpServletRequest request) {
         ModelAndView mv;
         mv = new ModelAndView("/genealogy/people");
         return mv;
     }
 
-
     @RequestMapping(value = "/genealogy/add", method = RequestMethod.GET)
     public ModelAndView viewList(
             Principal principal,
             HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("/genealogy/detail-add");
-
-        GenealogyModel genealogy= new GenealogyModel();
+        GenealogyModel genealogy = new GenealogyModel();
         genealogy.setName("ABC");
         genealogy.setHistory("h");
         genealogy.setThuyTo("thh");
@@ -201,47 +247,34 @@ public class GenealogyController {
         ModelAndView mv;
         GenealogyModel genealogyModel = genealogyService.create(genealogy, principal.getName());
         mv = new ModelAndView("/genealogy/detail");
-        mv.addObject("genealogy",genealogyModel);
+        mv.addObject("genealogy", genealogyModel);
         return mv;
     }
 
-
-    @RequestMapping(value = "/genealogy/edit", method = RequestMethod.GET)
-    public ModelAndView viewList(
+    @RequestMapping(value = "/genealogy/find", method = RequestMethod.GET)
+    public ModelAndView findGenealogy(
             Principal principal,
-            @ModelAttribute(value = "user") UserModel user,
+            HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("/genealogy/find");
+        return mv;
+    }
+
+    @RequestMapping(value = "/genealogy/{idGenealogy}/register", method = RequestMethod.POST)
+    public ModelAndView editGenealogy(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")
+                    long idGenealogy,
+            @Valid
+            @ModelAttribute(value = "genealogy")
+                    GenealogyModel genealogy,
+            BindingResult bindingResult,
             HttpServletRequest request) {
         ModelAndView mv;
-        mv = new ModelAndView("/genealogy/detail-edit");
-//        mv.addObject("genealogy")
+        genealogy.setId(idGenealogy);
+        GenealogyModel genealogyModel = genealogyService.update(genealogy);
+        mv = new ModelAndView("/genealogy/detail");
+        mv.addObject("genealogy", genealogyModel);
         return mv;
-    }
-
-
-
-
-
-
-
-    @GetMapping("/genealogy/create")
-    public String create(){
-        return "/genealogy/create";
-    }
-
-
-    @GetMapping("/genealogy/find")
-    public String find(){
-        return "/genealogy/find";
-    }
-
-    @GetMapping("/genealogy/member")
-    public String memberManager(){
-        return "/genealogy/member";
-    }
-
-    @GetMapping("/genealogy/people")
-    public String peopleManager(){
-        return "/genealogy/people";
     }
 
 }

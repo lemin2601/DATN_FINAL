@@ -8,15 +8,13 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" th:href="@{/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" th:href="@{/dist/css/AdminLTE.css}"/>
     <link rel="stylesheet" th:href="@{/dist/css/skins/skin-blue.min.css}"/>
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" th:href="@{/dist/datepicker/datepicker3.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}"/>
 
 
-    <link rel="stylesheet" th:href="@{/treant/Treant.css}"/>
-    <link rel="stylesheet" th:href="@{/treant/collapsable.css}"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,6 +27,52 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <style>
+        .people_chart_node:hover .people_chart_node_edit{
+            display: block;
+        }
+
+        .people_chart_node_edit{
+            display: none;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        body {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            line-height: 1.28;
+            color: #333;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+        h2, h3, h4, h5, h6 {
+            margin-top: 50px;
+        }
+        h2 {
+            font-size: 32px;
+        }
+        h3 {
+            font-size: 28px;
+        }
+        p > img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto
+        }
+        h1, h2, h3, h4, h5, h6, p, li {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+
+    <link rel="stylesheet" th:href="@{/treant/Treant.css}"/>
+    <link rel="stylesheet" th:href="@{/treant/collapsable.css}"/>
 </head>
 <body>
 
@@ -504,6 +548,8 @@
         });
     </script>
 
+    <!--confirm some thing pop up-->
+    <script type="text/javascript" th:src="@{/js/bootbox.min.js}"></script>
 
 </div>
 </body>

@@ -17,7 +17,7 @@
 
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1 th:text="#{pedigree.add.header}">
+            <h1 th:utext="#{pedigree.add.header}">
             </h1>
             <ol class="breadcrumb">
                 <li>
@@ -33,7 +33,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form class="form" th:object="${pedigree}" method="post" th:action="'/genealogy/'+${idGenealogy}+'/pedigree/add'">
+            <form class="form" th:object="${pedigree}" method="post" th:action="'/genealogy/'+${genealogy.getId()}+'/pedigree/'+${pedigree.getId()}+'/edit'">
                 <input type="hidden" class="form-control" id="inputId" placeholder="Email" th:value="*{getId()}"/>
                 <div class="box-body">
                     <div class="form-group">
@@ -51,7 +51,8 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <button id="btnSubmit" type="submit" class="btn btn-info pull-right">SAVE</button>
+                    <button id="btnSubmit" type="submit" class="btn btn-info pull-right">UPDATE</button>
+                    <a th:href="'/genealogy/'+ ${genealogy.getId()}+'/pedigree/'+ ${pedigree.getId()}" type="button" class="btn btn-info pull-right">Cancel</a>
                 </div>
                 <!-- /.box-footer -->
                 <!--<p>-->

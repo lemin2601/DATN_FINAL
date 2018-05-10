@@ -1,9 +1,7 @@
 package com.leemin.genealogy.control.rest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.leemin.genealogy.config.tree.ChartConfig;
 import com.leemin.genealogy.config.tree.Child;
-import com.leemin.genealogy.config.tree.Config;
 import com.leemin.genealogy.config.tree.ConfigTree;
 import com.leemin.genealogy.config.tree.Text;
 import com.leemin.genealogy.model.PedigreeModel;
@@ -119,7 +117,16 @@ public class PeopleRestController {
         //TODO check condition pedigree
         PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
         List<PeopleModel> r = peopleService.findAllByPedigreeAndParentKeyStartsWith(pedigree, "r");
-        r.sort((o1, o2) -> (o1.getParentKey().compareToIgnoreCase(o2.getParentKey())));
+        r.sort(new Comparator<PeopleModel>() {
+            @Override
+            public int compare(PeopleModel o1, PeopleModel o2) {
+                int compare = o1.getParentKey().compareToIgnoreCase(o2.getParentKey());
+                if(compare == 0){
+                    return o1.getChildIndex() - o2.getChildIndex();
+                }
+                return compare;
+            }
+        });
 
         ChartConfig chartConfig = getChartConfig(r);
         return chartConfig;
@@ -128,13 +135,13 @@ public class PeopleRestController {
     private ChartConfig getChartConfig(List<PeopleModel> r) {
         ChartConfig chartConfig = new ChartConfig();
         for (PeopleModel peopleModel: r) {
-            Child child = getChildFromPeopleModle(peopleModel);
+            Child child = getChildFromPeopleModel(peopleModel);
             chartConfig.addChild(child);
         }
         return chartConfig;
     }
 
-    private Child getChildFromPeopleModle(PeopleModel peopleModel) {
+    private Child getChildFromPeopleModel(PeopleModel peopleModel) {
         Child child = new Child();
         child.setHTMLid(peopleModel.getId()+"");
 
@@ -143,7 +150,7 @@ public class PeopleRestController {
         text.setName(peopleModel.getName());
         child.setText(text);
         child.setImage(peopleModel.getImg());
-        child.setHTMLclass(peopleModel.getParentKey());
+        child.setHTMLclass("people_chart_node");
         child.setParentKey(peopleModel.getParentKey());
         child.setId(peopleModel.getId());
         return  child;

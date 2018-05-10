@@ -20,6 +20,9 @@ public class GenealogyServiceImpl implements GenealogyService {
     @Autowired
     UserGenealogyRepository userGenealogyRepository;
 
+    @Autowired
+    GenealogyPedigreeRepository genealogyPedigreeRepository;
+
     @Override
     public List<GenealogyModel> findAll() {
         List<GenealogyModel> all = genealogyRepository.findAll();
@@ -44,10 +47,16 @@ public class GenealogyServiceImpl implements GenealogyService {
     }
 
     @Override
+    public List<GenealogyModel> findAllLike(String search) {
+        return genealogyRepository.findAllByNameLike(search);
+    }
+
+    @Override
     public GenealogyModel find(long idGenealogy, String username) {
         UserModel byEmail = userRepository.findByEmail(username);
-        List<UserGenealogyModel> byUserAndGenealogy_id = userGenealogyRepository.findByUserAndGenealogy_Id(byEmail, idGenealogy);
-        GenealogyModel genealogyModel = byUserAndGenealogy_id.get(0).getGenealogy();
+        UserGenealogyModel topByUserAndGenealogy_id = userGenealogyRepository.findTopByUserAndGenealogy_Id(byEmail, idGenealogy);
+//        List<UserGenealogyModel> byUserAndGenealogy_id = userGenealogyRepository.findByUserAndGenealogy_Id();
+        GenealogyModel genealogyModel = topByUserAndGenealogy_id.getGenealogy();
         return genealogyModel;
     }
 
@@ -67,15 +76,12 @@ public class GenealogyServiceImpl implements GenealogyService {
 
         UserModel user = userRepository.findByEmail(UsernameOrEmail);
 
-        PermissionModel permissionModel = new PermissionModel();
-        permissionModel.setName("ADMIN");
-        PermissionModel save1 = permissionRepository.save(permissionModel);
-
+        PermissionModel permission = permissionRepository.findOne((long) 1);
         GenealogyModel genealogyModel1 = genealogyRepository.save(genealogyModel);
 
         UserGenealogyModel userGenealogyModel = new UserGenealogyModel();
         userGenealogyModel.setUser(user);
-        userGenealogyModel.setPermission(permissionModel);
+        userGenealogyModel.setPermission(permission);
         userGenealogyModel.setGenealogy(genealogyModel1);
         UserGenealogyModel save = userGenealogyRepository.save(userGenealogyModel);
 
@@ -83,8 +89,14 @@ public class GenealogyServiceImpl implements GenealogyService {
     }
 
     @Override
-    public boolean update(GenealogyModel genealogyModel) {
-        return false;
+    public GenealogyModel update(GenealogyModel genealogyModel) {
+        GenealogyModel genealogyModel1 = genealogyRepository.save(genealogyModel);
+        return genealogyModel1;
+    }
+
+    @Override
+    public GenealogyModel findById(long id) {
+        return genealogyRepository.findOne(id);
     }
 
     @Override
