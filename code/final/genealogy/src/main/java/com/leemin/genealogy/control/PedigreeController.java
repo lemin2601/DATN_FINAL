@@ -1,13 +1,20 @@
 package com.leemin.genealogy.control;
 
 import com.leemin.genealogy.config.ErrorKey;
+import com.leemin.genealogy.data.GioiTinh;
+import com.leemin.genealogy.data.Permission;
+import com.leemin.genealogy.data.QuanHe;
+import com.leemin.genealogy.data.UploadFormat;
 import com.leemin.genealogy.model.*;
+import com.leemin.genealogy.repository.UserGenealogyRepository;
+import com.leemin.genealogy.repository.UserRepository;
 import com.leemin.genealogy.service.GenealogyService;
 import com.leemin.genealogy.service.PedigreeService;
 import com.leemin.genealogy.service.PeopleService;
 import com.leemin.genealogy.service.StorageService;
 import com.leemin.genealogy.upload.PeopleUpload;
 import com.leemin.genealogy.upload.StatusUpload;
+import com.leemin.genealogy.util.ExcelImportUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -46,6 +53,12 @@ public class PedigreeController {
 
     @Autowired
     PeopleService peopleService;
+
+    @Autowired
+    UserGenealogyRepository userGenealogyRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     private final Logger logger = LoggerFactory.getLogger(RestUploadController.class);
 
@@ -104,12 +117,22 @@ public class PedigreeController {
                     PedigreeModel pedigreeModel,
             BindingResult bindingResult,
             HttpServletRequest request) {
-        pedigreeModel.setId(idPedigree);
-        pedigreeModel = pedigreeService.update(pedigreeModel);
-        GenealogyModel genealogyModel = genealogyService.find(idGenealogy, principal.getName());
+
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
         ModelAndView mv = new ModelAndView("/genealogy/pedigree-detail");
-        mv.addObject("genealogy",genealogyModel);
-        mv.addObject("pedigree",pedigreeModel);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD)){
+                pedigreeModel.setId(idPedigree);
+                pedigreeModel = pedigreeService.update(pedigreeModel);
+                GenealogyModel genealogyModel = genealogyService.find(idGenealogy, principal.getName());
+                mv.addObject("genealogy",genealogyModel);
+                mv.addObject("pedigree",pedigreeModel);
+                return mv;
+            }
+        }else{
+            mv.setViewName("redirect:/genealogy/" + idGenealogy +"/pedigree" + idPedigree);
+        }
         return mv;
     }
 
@@ -186,8 +209,8 @@ public class PedigreeController {
             String fileName = idGenealogy + idPedigree + System.currentTimeMillis() + "update" + getExtensionsFile(uploadedFileName);
 
             saveUploadedFiles(uploadfiles, fileName);
-            TreeMap<Long, Set<PeopleUpload>> integerSetHashMap = readExcelFile(fileName);
-            List<PeopleModel> result = saveData(integerSetHashMap, idPedigree);
+            TreeMap<Long, List<PeopleUpload>> integerSetHashMap = readExcelFile(fileName);
+            List<PeopleUpload> result = saveData(integerSetHashMap, idPedigree);
             return new ResponseEntity<>(result , HttpStatus.OK);
 
         } catch (IOException e) {
@@ -203,17 +226,17 @@ public class PedigreeController {
         return uploadedFileName.substring(uploadedFileName.lastIndexOf("."));
     }
 
-    private List<PeopleModel> saveData(TreeMap<Long, Set<PeopleUpload>> integerSetHashMap, long idPedigree) {
+    private List<PeopleUpload> saveData(TreeMap<Long, List<PeopleUpload>> integerSetHashMap, long idPedigree) {
         //find key not is parent or contain in database but not contain in list
         PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
         HashMap<Long,Long> containerRealParentKey = new HashMap<>();
-        List<PeopleModel> result = new ArrayList<>();
+        List<PeopleUpload> result = new ArrayList<>();
         if(pedigree == null) return null;
 
         //remove all people in pedigree before upload
         peopleService.removeAllByIdPedigree(pedigree);
 
-        for(Map.Entry<Long, Set<PeopleUpload>> entry : integerSetHashMap.entrySet()) {
+        for(Map.Entry<Long, List<PeopleUpload>> entry : integerSetHashMap.entrySet()) {
 
             //get real key for parent
             Long key = entry.getKey();
@@ -221,7 +244,13 @@ public class PedigreeController {
             if(realKey != null) key = realKey;
 
             //upload child of parent
-            Set<PeopleUpload> value = entry.getValue();
+            List<PeopleUpload> value = entry.getValue();
+            value.sort(new Comparator<PeopleUpload>() {
+                @Override
+                public int compare(PeopleUpload o1, PeopleUpload o2) {
+                    return o2.getRelation() - o1.getRelation();
+                }
+            });
             for (PeopleUpload people : value) {
                 PeopleModel peopleSave = new PeopleModel();
                 long idParent = people.isRealParent()? people.getIdParent():key;
@@ -229,15 +258,29 @@ public class PedigreeController {
                     PeopleModel parent = peopleService.findById(key);
                     if (parent == null) {
                         people.setStatusUpload(StatusUpload.CANT_FIND_PARENT);
-                        peopleSave.setLifeIndex(0);
+                        peopleSave.setLifeIndex(1);
                         continue;
                     }
-                    peopleSave.setLifeIndex(parent.getLifeIndex()+1);
+                    peopleSave.setLifeIndex(PeopleModel.getIndexLife(parent));
                     peopleSave.setParent(parent);
-                    peopleSave.setParentKey(parent.getParentKey() + "_" + parent.getId());
+                    peopleSave.setParentKey(PeopleModel.getKeyParent(parent));
+                    if(people.getRelation() == QuanHe.CHONG.ordinal() || people.getRelation() == QuanHe.VO.ordinal()){
+
+                    }else{
+                        Long idMother = people.isRealMother()? people.getIdMother():containerRealParentKey.get(people.getIdMother());
+                        if(idMother != null && idMother != -1 ){
+                            PeopleModel mother = peopleService.findById(idMother);
+                            peopleSave.setIdMother(mother.getId());
+                        }
+                    }
+
+
                 }else{
-                    peopleSave.setParentKey("r");
+                    peopleSave.setParentKey(PeopleModel.getKeyParent(null));
                 }
+
+
+                peopleSave.setRelation(people.getRelation());
                 peopleSave.setPedigree(pedigree);
                 peopleSave.setName(people.getName());
                 peopleSave.setNickName(people.getNickName());
@@ -247,15 +290,16 @@ public class PedigreeController {
                 peopleSave.setAddress(people.getAddress());
                 peopleSave.setDegree(people.getDegree());
                 peopleSave.setChildIndex(people.getChildIndex());
-//                peopleSave.setImg(people.getImg());
-                peopleSave.setImg("/dist/img/user2-160x160.jpg");
+                peopleSave.setImg(people.getImg());
                 peopleSave.setDes(people.getDes());
                 peopleSave.setDataExtra(people.getDataExtra());
                 PeopleModel add = peopleService.add(peopleSave);
                 if (add != null) {
                     people.setStatusUpload(StatusUpload.SUCCESS);
                     containerRealParentKey.put(people.getId(),add.getId());
-                    result.add(add);
+
+
+                    result.add(getPeopleUpdateFromPeopleModel(add));
 //                    Set<PeopleUpload> peopleUploads = integerSetHashMap.get(key);
 //                    integerSetHashMap.remove(key);
 //                    integerSetHashMap.put(add.getId(), null);
@@ -270,6 +314,22 @@ public class PedigreeController {
         return result;
     }
 
+    private PeopleUpload getPeopleUpdateFromPeopleModel(PeopleModel add) {
+        PeopleUpload result = new PeopleUpload();
+        result.setId(add.getId());
+        if(add.getParent() != null)
+            result.setIdParent(add.getParent().getId());
+        if(add.getIdMother() != null)
+            result.setIdMother(add.getIdMother());
+        result.setNickName(add.getNickName());
+        result.setName(add.getName());
+        result.setRelation(add.getRelation());
+        result.setLifeIndex(add.getLifeIndex());
+        result.setBirthday(add.getBirthday());
+        result.setGender(add.getGender());
+        return result;
+    }
+
     private void saveUploadedFiles(MultipartFile file,String fileName) throws IOException {
             if (file.isEmpty()) {
                 return;
@@ -279,8 +339,8 @@ public class PedigreeController {
 
     private final Path rootLocation = Paths.get("upload-dir");
 
-    private TreeMap<Long,Set<PeopleUpload>> readExcelFile(String fileName){
-        TreeMap<Long,Set<PeopleUpload>> containerPeople = new TreeMap<>();
+    private TreeMap<Long,List<PeopleUpload>> readExcelFile(String fileName){
+        TreeMap<Long,List<PeopleUpload>> containerPeople = new TreeMap<>();
         try {
 
             FileInputStream excelFile = new FileInputStream(this.rootLocation.resolve(fileName).toFile());
@@ -295,9 +355,9 @@ public class PedigreeController {
                 long  idParent = peopleModel.getIdParent();
                 boolean isRealParent = peopleModel.isRealParent();
                 long key = (isRealParent ? -2 : idParent);
-                Set<PeopleUpload> peopleModels = containerPeople.get(idParent);
+                List<PeopleUpload> peopleModels = containerPeople.get(idParent);
                 if(peopleModels == null) {
-                    peopleModels = new HashSet<>();
+                    peopleModels = new ArrayList<>();
                 }
                 peopleModels.add(peopleModel);
                 containerPeople.put(idParent, peopleModels);
@@ -312,7 +372,6 @@ public class PedigreeController {
     private PeopleUpload readPeopleFromRow(Row currentRow) {
 
         PeopleUpload peopleModel = new PeopleUpload();
-        peopleModel.setIdParent( - 1);
 
         Iterator<Cell> cellIterator = currentRow.iterator();
         int indexCell = 0;
@@ -341,10 +400,28 @@ public class PedigreeController {
                             peopleModel.setIdParent((long) currentCell.getNumericCellValue());
                         }
                         break;
+                    case STT_ME:
+                        CellType cellIdMother = currentCell.getCellTypeEnum();
+                        if(cellIdMother == CellType.STRING){
+                            String value = currentCell.getStringCellValue();
+                            if(value.isEmpty()){
+                                peopleModel.setIdMother(-1);
+                            }else
+                            if(value.startsWith("#")){
+                                peopleModel.setRealParent(true);
+                                peopleModel.setIdMother(Long.parseLong(value.substring(value.lastIndexOf("#")+1)));
+                            }else{
+                                peopleModel.setIdMother(Long.parseLong(value));
+                            }
+                        }else if(cellIdMother == CellType.NUMERIC){
+                            peopleModel.setIdMother((long) currentCell.getNumericCellValue());
+                        }
+                        break;
                     case DOI:
                         peopleModel.setLifeIndex((int) currentCell.getNumericCellValue());
                         break;
                     case MOI_QUAN_HE:
+                        peopleModel.setRelation(ExcelImportUtil.getQuanHe(currentCell).ordinal());
                         break;
                     case HO_VA_TEN:
                         peopleModel.setName(currentCell.getStringCellValue());
@@ -353,24 +430,17 @@ public class PedigreeController {
                         peopleModel.setNickName(currentCell.getStringCellValue());
                         break;
                     case GIOI_TINH:
-                        String gender = currentCell.getStringCellValue();
-                        gender = gender.trim().toLowerCase();
-                        if(gender.equalsIgnoreCase("nam") || gender.equalsIgnoreCase("male")){
-                            peopleModel.setGender(1);
-                        }else if(gender.equalsIgnoreCase("nữ") || gender.equalsIgnoreCase("female")){
-                                peopleModel.setGender(0);
-                        }else{
-                            peopleModel.setGender(-1);
-                        }
+                        peopleModel.setGender(ExcelImportUtil.getGender(currentCell).ordinal());
+                        peopleModel.setImg(ExcelImportUtil.getImgDefault(GioiTinh.values()[peopleModel.getGender()]));
                         break;
                     case CON_THU:
                         peopleModel.setChildIndex((int) currentCell.getNumericCellValue());
                         break;
                     case NGAY_SINH:
-                        peopleModel.setBirthday(currentCell.getDateCellValue());
+                        peopleModel.setBirthday(ExcelImportUtil.getDate(currentCell));
                         break;
                     case NGAY_MAT:
-                        peopleModel.setDeadDay(currentCell.getDateCellValue());
+                        peopleModel.setDeadDay(ExcelImportUtil.getDate(currentCell));
                         break;
                     case DIA_CHI:
                         peopleModel.setAddress(currentCell.getStringCellValue());
@@ -379,7 +449,7 @@ public class PedigreeController {
                         peopleModel.setDegree(currentCell.getStringCellValue());
                         break;
                     case LINK_HINH_ANH:
-                        peopleModel.setImg(currentCell.getStringCellValue());
+                        peopleModel.setImg(ExcelImportUtil.getImg(currentCell));
                         break;
                     case MO_TA:
                         peopleModel.setDes(currentCell.getStringCellValue());
@@ -405,22 +475,4 @@ public class PedigreeController {
         return peopleModel;
     }
 
-}
-
-enum UploadFormat {
-    STT,
-    STT_CHA,
-    DOI,
-    MOI_QUAN_HE,
-    HO_VA_TEN,
-    TEN_THUONG_GOI,
-    GIOI_TINH,
-    CON_THU,
-    NGAY_SINH,
-    NGAY_MAT,
-    DIA_CHI,
-    TRINH_DO_HOC_VAN,
-    LINK_HINH_ANH,
-    MO_TA,
-    SU_TICH_CAU_NOI
 }

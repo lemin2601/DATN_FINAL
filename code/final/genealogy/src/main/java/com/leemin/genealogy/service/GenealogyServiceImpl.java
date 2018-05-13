@@ -90,8 +90,7 @@ public class GenealogyServiceImpl implements GenealogyService {
 
     @Override
     public GenealogyModel update(GenealogyModel genealogyModel) {
-        GenealogyModel genealogyModel1 = genealogyRepository.save(genealogyModel);
-        return genealogyModel1;
+        return genealogyRepository.save(genealogyModel);
     }
 
     @Override

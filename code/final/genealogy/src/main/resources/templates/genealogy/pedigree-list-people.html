@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/user :: head"> </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -36,15 +36,17 @@
                 <table id="table">
                     <thead>
                     <tr>
-                        <th data-field="id" data-width="20%" data-sortable="true" th:text="Id"></th>
-                        <th data-field="parent" data-width="20%" data-sortable="true" th:text="Parrent"  data-formatter="getParent"></th>
-                        <th data-field="lifeIndex" data-width="20%" data-sortable="true" th:text="lifeIndex"></th>
+                        <th data-field="id" data-width="5%" data-sortable="true" th:text="Id"></th>
+                        <th data-field="lifeIndex" data-width="3%" data-sortable="true" th:text="lifeIndex"></th>
+                        <th data-field="parent" data-width="20%" data-sortable="true" data-formatter="getParent">Tên Cha</th>
+                        <th data-field="mother" data-width="20%" data-sortable="true" th:text="Parrent"  data-formatter="getMother"> Tên mẹ</th>
+                        <th data-field="relation" data-width="20%" data-sortable="true" th:text="Parrent"  data-formatter="relationFormat">Quan hệ</th>
                         <th data-field="name" data-width="20%" data-sortable="true" th:text="Ten"></th>
                         <th data-field="nickName" data-width="20%" data-sortable="true" th:text="NickName"></th>
-                        <th data-field="birthday" data-width="20%" data-sortable="true" th:text="Ngaysinh" data-formatter="dateFormat"></th>
-                        <th data-field="deadDay" data-width="20%" data-sortable="true" th:text="Dead" data-formatter="dateFormat"></th>
-                        <th data-field="gender" data-width="20%" data-sortable="true" th:text="gender"></th>
-                        <th data-field="img" data-width="20%" data-sortable="true" th:text="img"  data-formatter="getImg"></th>
+                        <th data-field="birthday" data-width="15%" data-sortable="true" th:text="Ngaysinh" data-formatter="dateFormat"></th>
+                        <th data-field="deadDay" data-width="15%" data-sortable="true" th:text="Dead" data-formatter="dateFormat"></th>
+                        <th data-field="gender" data-width="5%" data-sortable="true" th:text="gender"></th>
+                        <th data-field="img" data-width="10%" data-sortable="true" th:text="img"  data-formatter="getImg"></th>
                         <th data-field="action" data-width="150px" data-formatter="actionFormatter" data-events="actionEvents"  th:text="#{genealogy.find.table.action}"></th>
                     </tr>
                     </thead>
@@ -128,6 +130,12 @@
         }
         return value.name;
     }
+   function getMother(value, row, index) {
+        if(value == null){
+            return "";
+        }
+        return value.name;
+    }
 
     function getImg(value, row, index) {
         if(value == null){
@@ -138,10 +146,6 @@
         ].join(' ');
     }
     /*]]>*/
-</script>
-
-<script type="text/javascript">
-
 </script>
 </body>
 </html>

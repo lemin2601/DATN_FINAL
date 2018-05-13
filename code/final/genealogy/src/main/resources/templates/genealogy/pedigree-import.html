@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/user :: head"> </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -20,6 +20,12 @@
             <h1 th:text="#{genealogy.header}">
             </h1>
             <ol class="breadcrumb">
+                <a th:href="'/genealogy/'+ ${idGenealogy} +'/'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Dòng tộc</span></a>
+                <a th:href="'/genealogy/'+ ${idGenealogy} +'/member'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span >Thành Viên</span></a>
+                <a th:href="'/genealogy/'+ ${idGenealogy} +'/pedigree/'+${idPedigree}+'/people-list'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Danh sách Người trong phả hệ</span></a>
+                <a th:href="'/genealogy/'+ ${idGenealogy} +'/pedigree/'+${idPedigree}+'/people-tree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Cây phả hệ</span></a>
+                <a th:href="'/genealogy/'+ ${idGenealogy} +'/pedigree/'+${idPedigree}+'/detail'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span>Quay lại Phả hệ</span></a>
+
                 <li class="active"  ><a href="/genealogy"><i class="fa fa-dashboard"></i><span th:text="#{genealogy}"></span></a></li>
             </ol>
         </section>
@@ -51,20 +57,20 @@
                     </div>
                 </div>
             </div>
-            <div class="box box-info">
+            <div class="box box-info" id="nodeTableResultImport">
                 <table id="table">
                     <thead>
                     <tr>
-                        <th data-field="id" data-width="20%" data-sortable="true" th:text="Id"></th>
+                        <th data-field="id" data-width="5%" data-sortable="true" th:text="Id"></th>
+                        <th data-field="idParent" data-width="5%" data-sortable="true" > Id Cha</th>
+                        <th data-field="idMother" data-width="5%" data-sortable="true" > Id Mẹ </th>
+                        <th data-field="relation" data-width="5%" data-sortable="true" data-formatter="relationFormat" > Quan hệ </th>
+                        <th data-field="lifeIndex" data-width="5%" data-sortable="true" > Đời </th>
                         <th data-field="name" data-width="20%" data-sortable="true" th:text="Ten"></th>
                         <th data-field="nickName" data-width="20%" data-sortable="true" th:text="NickName"></th>
                         <th data-field="birthday" data-width="20%" data-sortable="true" th:text="Ngaysinh" data-formatter="dateFormat"></th>
                         <th data-field="deadDay" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}" data-formatter="dateFormat"></th>
-                        <th data-field="gender" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
-                        <th data-field="img" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
-                        <th data-field="lifeIndex" data-width="20%" data-sortable="true" th:text="#{genealogy.find.table.name}"></th>
-                        <th data-field="history" data-width="70%" th:text="#{genealogy.find.table.description}"></th>
-                        <th data-field="action" data-width="150px" data-formatter="actionFormatter" data-events="actionEvents"  th:text="#{genealogy.find.table.action}"></th>
+                        <th data-field="gender" data-width="5%" data-sortable="true" data-formatter="genderFormat">Giới tính</th>
                     </tr>
                     </thead>
                 </table>
@@ -94,6 +100,7 @@
     var idGenealogy = [[${idGenealogy}]];
     var idPedigree = [[${idPedigree}]];
     $(document).ready(function () {
+        $('#nodeTableResultImport').hide();
         $("#btnSubmit").click(function (event) {
             //stop submit the form, we will post it manually.
             event.preventDefault();
@@ -148,6 +155,8 @@
                     // url: "https://"+ document.location.host  +'/rest/pedigree/list/' + idGenealogy,
                     data: data
                 });
+                $('#nodeTableResultImport').show();
+
                 console.log("SUCCESS : ", data);
                 $('#inputFile').val('');
                 $("#btnSubmit").prop("disabled", false);
@@ -160,12 +169,6 @@
         });
     }
 
-    function dateFormat(value, row, index) {
-        if(value == null){
-            return "";
-        }
-        return moment(value).format('DD/MM/YYYY');
-    }
 
     /*]]>*/
 </script>

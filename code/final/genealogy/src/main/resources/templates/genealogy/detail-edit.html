@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/user :: head"> </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -20,10 +20,6 @@
             <h1 th:utext="#{general.edit.header}">
             </h1>
             <ol class="breadcrumb">
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/member'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span th:text="${id}"></span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/tree'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Cây Pha Giả</span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/list'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>Danh sách</span></a>
-                <a th:href="'/genealogy/detail/'+ ${genealogy.getId()} +'/edit'" type="button" class="view btn btn-default btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span>Sửa</span></a>
                 <li>
                     <a href="/genealogy">
                         <i class="fa fa-dashboard"></i>

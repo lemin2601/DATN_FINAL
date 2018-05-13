@@ -199,5 +199,237 @@
 </node>
 </node>
 </node>
+<node CREATED="1526018586852" ID="ID_1480761960" MODIFIED="1526018588348" POSITION="right" TEXT="tools">
+<node CREATED="1526018588792" ID="ID_1976758313" LINK="https://sqldbm.com/Project/MySQL/Draft/" MODIFIED="1526018588792" TEXT="https://sqldbm.com/Project/MySQL/Draft/"/>
+</node>
+<node CREATED="1526097868524" ID="ID_1156989682" MODIFIED="1526097875262" POSITION="right" TEXT="json v&#x1ebd; cay">
+<node CREATED="1526097875530" ID="ID_1091365541" MODIFIED="1526097880012" TEXT="m&#x1ee5;c ti&#xea;u">
+<node CREATED="1526097880490" ID="ID_1303047826" MODIFIED="1526097884983" TEXT="G&#x1ed1;c cha">
+<node CREATED="1526097884984" ID="ID_1740665419" MODIFIED="1526097894443" TEXT="v&#x1ee3; (n&#x1ebf;u c&#xf3;, kh&#xf4;ng c&#xf3; b&#x1ecf; qua)">
+<node CREATED="1526097894871" ID="ID_1928969590" MODIFIED="1526097903466" TEXT="danh s&#xe1;ch c&#xe1;c con"/>
+</node>
+</node>
+<node CREATED="1526097906819" ID="ID_1197024688" MODIFIED="1526097991425" TEXT="vi d&#x1ee5;">
+<node CREATED="1526097909581" ID="ID_861266055" MODIFIED="1526097914329" TEXT="G&#x1ed1;c">
+<node CREATED="1526097918905" ID="ID_941374324" MODIFIED="1526097983959" TEXT="              ">
+<node CREATED="1526097920256" ID="ID_1102235677" MODIFIED="1526097925244" TEXT="Con 1"/>
+<node CREATED="1526097926255" ID="ID_1712552082" MODIFIED="1526097927535" TEXT="Con 2"/>
+<node CREATED="1526097928115" ID="ID_861754534" MODIFIED="1526097929542" TEXT="Con 3"/>
+</node>
+<node CREATED="1526097914329" ID="ID_1138702982" MODIFIED="1526098005084" TEXT="V&#x1ee3; G&#x1ed1;c 1">
+<node CREATED="1526097931833" ID="ID_1451565254" MODIFIED="1526097944026" TEXT="Con G&#x1ed1;c + v&#x1ee3; 1"/>
+<node CREATED="1526097944544" ID="ID_1341911243" MODIFIED="1526097952945" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2"/>
+<node CREATED="1526097946116" ID="ID_859345271" MODIFIED="1526097947739" TEXT="Con G&#x1ed1;c + v&#x1ee3; 3"/>
+</node>
+<node CREATED="1526097914329" ID="ID_896631946" MODIFIED="1526098031465" TEXT="V&#x1ee3; g&#x1ed1;c 2">
+<node CREATED="1526097931833" ID="ID_1403000683" MODIFIED="1526098042480" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2.1"/>
+<node CREATED="1526097944544" ID="ID_812797750" MODIFIED="1526098045770" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2.2"/>
+<node CREATED="1526097946116" ID="ID_1894529665" MODIFIED="1526098049910" TEXT="Con G&#x1ed1;c + v&#x1ee3; 3.3">
+<node CREATED="1526097918905" ID="ID_703615621" MODIFIED="1526097983959" TEXT="              ">
+<node CREATED="1526097920256" ID="ID_1387311226" MODIFIED="1526097925244" TEXT="Con 1"/>
+<node CREATED="1526097926255" ID="ID_1126729763" MODIFIED="1526097927535" TEXT="Con 2"/>
+<node CREATED="1526097928115" ID="ID_757567481" MODIFIED="1526097929542" TEXT="Con 3"/>
+</node>
+<node CREATED="1526097914329" ID="ID_1960200640" MODIFIED="1526098005084" TEXT="V&#x1ee3; G&#x1ed1;c 1">
+<node CREATED="1526097931833" ID="ID_1826398727" MODIFIED="1526097944026" TEXT="Con G&#x1ed1;c + v&#x1ee3; 1"/>
+<node CREATED="1526097944544" ID="ID_268400025" MODIFIED="1526097952945" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2"/>
+<node CREATED="1526097946116" ID="ID_1412217678" MODIFIED="1526097947739" TEXT="Con G&#x1ed1;c + v&#x1ee3; 3"/>
+</node>
+<node CREATED="1526097914329" ID="ID_133949269" MODIFIED="1526098031465" TEXT="V&#x1ee3; g&#x1ed1;c 2">
+<node CREATED="1526097931833" ID="ID_1487362525" MODIFIED="1526098042480" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2.1"/>
+<node CREATED="1526097944544" ID="ID_1515844768" MODIFIED="1526098045770" TEXT="Con G&#x1ed1;c + v&#x1ee3; 2.2"/>
+<node CREATED="1526097946116" ID="ID_1863838828" MODIFIED="1526098049910" TEXT="Con G&#x1ed1;c + v&#x1ee3; 3.3"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+</node>
+<node CREATED="1526098095845" ID="ID_934977403" MODIFIED="1526098099387" TEXT="c&#xe1;ch v&#x1ebd;">
+<node CREATED="1526098099387" ID="ID_440114406" MODIFIED="1526098106076" TEXT="danh s&#xe1;ch">
+<node CREATED="1526098106077" ID="ID_635785869" MODIFIED="1526098110775" TEXT="id"/>
+<node CREATED="1526098141403" ID="ID_252375425" MODIFIED="1526098145163" TEXT="parentKey"/>
+<node CREATED="1526098111606" ID="ID_1341790847" MODIFIED="1526098113813" TEXT="parent"/>
+<node CREATED="1526098114316" ID="ID_438028126" MODIFIED="1526098115793" TEXT="mother"/>
+<node CREATED="1526098116023" ID="ID_858157566" MODIFIED="1526098124140" TEXT="relation"/>
+</node>
+<node CREATED="1526098303247" ID="ID_696710435" LINK="1.SortFollowKeyParent.txt" MODIFIED="1526098481939" TEXT="1. s&#x1eaf;p x&#x1ebf;p theo keyParent"/>
+<node CREATED="1526098919416" ID="ID_1266783370" MODIFIED="1526098929207" TEXT="S&#x1eaf;p x&#x1ebf;p theo con kh&#xf4;ng c&#xf3; m&#x1eb9;"/>
+<node CREATED="1526098629718" ID="ID_1059489010" LINK="2.SortFollowRelationParent.txt" MODIFIED="1526098729951" TEXT="2. s&#x1eaf;p theo ti&#x1ebf;p theo parent_relation ( &#x1edf; day c&#xe0;ng l&#x1edb;n c&#xe0;ng &#x1b0;u ti&#xea;u l&#xea;n &#x111;&#xe2;u)"/>
+<node CREATED="1526098757268" ID="ID_473801186" MODIFIED="1526098764543" TEXT="3. b&#x1eaf;t &#x111;&#x1ea7;u t&#x1ea1;o g&#x1ed1;c">
+<node CREATED="1526098764543" ID="ID_1268238914" MODIFIED="1526098771661" TEXT="1. t&#x1eeb; &#x111;&#x1ea7;u &#x111;&#x1ebf;n cu&#x1ed1;i"/>
+<node CREATED="1526098772468" ID="ID_528824581" MODIFIED="1526098799539" TEXT="2. idParent = null =&gt; g&#x1ed1;c">
+<node CREATED="1526108169895" ID="ID_79883495" MODIFIED="1526108176376" TEXT="m&#xe0;u tr&#x1eaf;ng"/>
+</node>
+<node CREATED="1526098801147" ID="ID_933657252" MODIFIED="1526098831575" TEXT="3. C&#xf3; quan h&#x1ec7; v&#x1ee3;, ch&#x1ed3;ng ==&gt; con g&#x1ea7;n nh&#x1ea5;t">
+<node CREATED="1526108181993" ID="ID_578541775" MODIFIED="1526108187571" TEXT="m&#xe0;u x&#xe1;m"/>
+</node>
+<node CREATED="1526098839391" ID="ID_1802510258" MODIFIED="1526098852134" TEXT="3. c&#xf3; quan h&#x1ec7; cha,me">
+<node CREATED="1526098852135" ID="ID_1683058135" MODIFIED="1526098877037" TEXT="C&#xf3; idMother">
+<node CREATED="1526098877037" ID="ID_1101018202" MODIFIED="1526098884018" TEXT="l&#xe0; con c&#x1ee7;a m&#x1eb9;">
+<node CREATED="1526108218874" ID="ID_479405515" MODIFIED="1526108227917" TEXT="trai m&#xe0;u xanh da tr&#x1edd;i"/>
+<node CREATED="1526108228376" ID="ID_1324925043" MODIFIED="1526108231182" TEXT="gi&#xe1; m&#xe0;u h&#x1ed3;ng"/>
+</node>
+</node>
+<node CREATED="1526098885033" ID="ID_731314805" MODIFIED="1526098889123" TEXT="kh&#xf4;ng c&#xf3; idMother">
+<node CREATED="1526098889123" ID="ID_338775929" MODIFIED="1526108211779" TEXT="con c&#x1ee7;a cha unknown"/>
+</node>
+</node>
+<node CREATED="1526098977975" ID="ID_1103598095" MODIFIED="1526098983370" TEXT="4. duy&#x1ec7;t cho &#x111;&#x1ebf;n h&#x1ebf;t"/>
+</node>
+</node>
+</node>
+<node CREATED="1526111621840" ID="ID_676508890" MODIFIED="1526111624823" POSITION="right" TEXT="c&#xe1;ch g&#x1ecd;i t&#xea;n">
+<node CREATED="1526112059814" ID="ID_558222880" MODIFIED="1526112060847" TEXT="t&#x1ed5; ti&#xea;n, k&#x1ef5;, c&#x1ee5;, &#xf4;ng b&#xe0;, cha m&#x1eb9;, con, ch&#xe1;u, ch&#x1eaf;t, ch&#xfa;t, v&#xe0; ch&#xed;t."/>
+<node CREATED="1526111625082" ID="ID_207592393" MODIFIED="1526111632253" TEXT="ti&#x1ec1;n g&#x1ed1;c">
+<node CREATED="1526111641854" ID="ID_485601904" MODIFIED="1526111661604" TEXT="R_1_2_3|R_1_4_5"/>
+</node>
+<node CREATED="1526111632944" ID="ID_1467165830" MODIFIED="1526111640272" TEXT="xem quan h&#x1ec7;">
+<node CREATED="1526111663686" ID="ID_562906327" MODIFIED="1526111672844" TEXT="l&#xe0; v&#x1ee3; ==&gt; ngang vai v&#x1edb;i root"/>
+<node CREATED="1526111675088" ID="ID_1750111764" MODIFIED="1526111683869" TEXT="l&#xe0; ch&#x1ed3;ng==&gt; ngang vai v&#xf3;i v&#x1ee3;"/>
+</node>
+<node CREATED="1526116593659" ID="ID_589590972" MODIFIED="1526116597445" TEXT="c&#xe1;c c&#xe1;ch g&#x1ecd;i t&#xea;n"/>
+<node CREATED="1526111836329" FOLDED="true" ID="ID_1856100044" MODIFIED="1526116573380" TEXT="danh s&#xe1;ch g&#x1ecd;i">
+<node CREATED="1526111846931" ID="ID_457770784" MODIFIED="1526111851131" TEXT="Ch&#xed;nh m&#xec;nh">
+<node CREATED="1526111856462" ID="ID_738310372" MODIFIED="1526111858202" TEXT="t&#xf4;i"/>
+<node CREATED="1526111858930" ID="ID_117381537" MODIFIED="1526111859794" TEXT="t&#xf4;i"/>
+</node>
+<node CREATED="1526111860892" ID="ID_306405422" MODIFIED="1526111870451" TEXT="Cha con">
+<node CREATED="1526111922922" ID="ID_1831172091" MODIFIED="1526111936409" TEXT="cha l&#xe0; nam"/>
+<node CREATED="1526111936644" ID="ID_613062085" MODIFIED="1526111939961" TEXT="con tr&#x1ef1;c ti&#x1ebf;p"/>
+</node>
+<node CREATED="1526111874007" ID="ID_254990695" MODIFIED="1526111876693" TEXT="M&#x1eb9; con">
+<node CREATED="1526111941122" ID="ID_1964653030" MODIFIED="1526111959745" TEXT="cha l&#xe0; m&#x1eb9; + con tr&#x1ef1;c ti&#xea;p"/>
+<node CREATED="1526111960341" ID="ID_423385239" MODIFIED="1526111973826" TEXT="C&#xf9;ng cha">
+<node CREATED="1526111976713" ID="ID_925392222" MODIFIED="1526111979880" TEXT="cha l&#xe0; m&#x1eb9;"/>
+<node CREATED="1526111980125" ID="ID_824217375" MODIFIED="1526111986964" TEXT="1 l&#xe0; ch&#xf4;ng "/>
+<node CREATED="1526111987297" ID="ID_810418245" MODIFIED="1526111988779" TEXT="1 l&#xe0; con"/>
+</node>
+</node>
+<node CREATED="1526111876945" ID="ID_1239387882" MODIFIED="1526111885598" TEXT="C&#xf4; - ch&#xe1;u"/>
+<node CREATED="1526111886078" ID="ID_709872237" MODIFIED="1526111893114" TEXT="Ch&#xfa; - ch&#xe1;u"/>
+<node CREATED="1526111893603" ID="ID_921882394" MODIFIED="1526111896579" TEXT="B&#xe1;c - ch&#xe1;u"/>
+<node CREATED="1526111896860" ID="ID_550550815" MODIFIED="1526111905264" TEXT="C&#x1ead;u - ch&#xe1;u"/>
+<node CREATED="1526111905624" ID="ID_148127794" MODIFIED="1526111914434" TEXT="M&#x1ee3; - ch&#xe1;u"/>
+<node CREATED="1526111914896" ID="ID_345998915" MODIFIED="1526111921075" TEXT="G&#xec; - ch&#xe1;u"/>
+<node CREATED="1526112212086" ID="ID_1879767177" MODIFIED="1526112264345" TEXT="&#xd4;ng s&#x1a1; - b&#xe0; s&#x1a1; ( tr&#xea;n c&#x1ed1;"/>
+<node CREATED="1526112217208" ID="ID_627631269" MODIFIED="1526112226951" TEXT="&#xf4;ng c&#x1ed1; - b&#xe0; c&#x1ed1;"/>
+<node CREATED="1526112265709" ID="ID_435465982" MODIFIED="1526112274908" TEXT="&#xf4;ng n&#x1ed9;i - b&#xe0; n&#x1ed9;i"/>
+<node CREATED="1526112275158" ID="ID_529154509" MODIFIED="1526112281158" TEXT="&#xf4;ng ngo&#x1ea1;i b&#xe0; ngo&#x1ea1;i"/>
+<node CREATED="1526112294798" ID="ID_1469611438" MODIFIED="1526112296300" TEXT="cha m&#x1eb9;"/>
+<node CREATED="1526112296655" ID="ID_676407093" MODIFIED="1526112348254" TEXT="Ch&#xfa; b&#xe1;c thi&#x1ebf;m"/>
+<node CREATED="1526112337308" ID="ID_1319522594" MODIFIED="1526112371921" TEXT="R&#x1ec3;"/>
+<node CREATED="1526112372649" ID="ID_822295479" MODIFIED="1526112378710" TEXT="Con d&#xe2;u"/>
+<node CREATED="1526112388139" ID="ID_260301315" MODIFIED="1526112391108" TEXT="Con ru&#x1ed9;t"/>
+<node CREATED="1526112391413" ID="ID_780347430" MODIFIED="1526112397705" TEXT="Con ngo&#xe0;i gi&#xe1; th&#xfa;"/>
+<node CREATED="1526112398074" ID="ID_844842402" MODIFIED="1526112403956" TEXT="Anh ch&#x1ed3;ng"/>
+<node CREATED="1526112404366" ID="ID_1562291265" MODIFIED="1526112406129" TEXT="Anh v&#x1ee3;"/>
+<node CREATED="1526112406365" ID="ID_142429565" MODIFIED="1526112408612" TEXT="em ch&#x1ed3;ng"/>
+<node CREATED="1526112408853" ID="ID_905676703" MODIFIED="1526112411328" TEXT="em v&#x1ee3;"/>
+<node CREATED="1526112411572" ID="ID_1205294015" MODIFIED="1526112423845" TEXT="anh r&#x1ec3;"/>
+<node CREATED="1526112424116" ID="ID_1993105426" MODIFIED="1526112425913" TEXT="em r&#x1ec3;"/>
+<node CREATED="1526112429614" ID="ID_1921134948" MODIFIED="1526112434207" TEXT="Ch&#x1ecb; ch&#x1ed3;ng"/>
+<node CREATED="1526112434430" ID="ID_1325281031" MODIFIED="1526112438811" TEXT="anh ch&#x1ed3;ng"/>
+<node CREATED="1526112439287" ID="ID_1364599354" MODIFIED="1526112441661" TEXT="e ch&#x1ed3;ng"/>
+<node CREATED="1526112309984" ID="ID_1000546002" MODIFIED="1526112462771" TEXT="Ch&#x1ecb; ch&#x1ed3;ng"/>
+<node CREATED="1526112463506" ID="ID_243413727" MODIFIED="1526112463506" TEXT=""/>
+<node CREATED="1526112488275" MODIFIED="1526112488275" TEXT="&#xd4;ng s&#x1a1;, b&#xe0; s&#x1a1;: Cao t&#x1ed5; ph&#x1ee5;, cao t&#x1ed5; m&#x1eab;u."/>
+<node CREATED="1526112488277" MODIFIED="1526112488277" TEXT="Ch&#xed;t: Huy&#x1ec1;n t&#xf4;n."/>
+<node CREATED="1526112488277" MODIFIED="1526112488277" TEXT="&#xd4;ng c&#x1ed1;, b&#xe0; c&#x1ed1;: T&#x1eb1;ng t&#x1ec9; ph&#x1ee5;, t&#x1eb1;ng t&#x1ec9; m&#x1eab;u."/>
+<node CREATED="1526112488278" MODIFIED="1526112488278" TEXT="Ch&#x1eaf;t: T&#x1eb1;ng t&#xf4;n."/>
+<node CREATED="1526112488278" MODIFIED="1526112488278" TEXT="&#xd4;ng n&#x1ed9;i, b&#xe0; n&#x1ed9;i: N&#x1ed9;i t&#x1ed5; ph&#x1ee5;, n&#x1ed9;i t&#x1ed5; m&#x1eab;u."/>
+<node CREATED="1526112488278" MODIFIED="1526112488278" TEXT="Ch&#xe1;u n&#x1ed9;i: N&#x1ed9;i t&#xf4;n."/>
+<node CREATED="1526112488279" MODIFIED="1526112488279" TEXT="&#xd4;ng n&#x1ed9;i, b&#xe0; n&#x1ed9;i ch&#x1ebf;t r&#x1ed3;i th&#xec; x&#x1b0;ng: N&#x1ed9;i t&#x1ed5; kh&#x1ea3;o, n&#x1ed9;i t&#x1ed5; t&#x1ef7;."/>
+<node CREATED="1526112488279" MODIFIED="1526112488279" TEXT="Ch&#xe1;u x&#x1b0;ng l&#xe0;: N&#x1ed9;i t&#xf4;n."/>
+<node CREATED="1526112488279" MODIFIED="1526112488279" TEXT="Ch&#xe1;u n&#x1ed1;i d&#xf2;ng x&#x1b0;ng l&#xe0;: &#x110;&#xed;ch t&#xf4;n (ch&#xe1;u n&#x1ed9;i)."/>
+<node CREATED="1526112488280" MODIFIED="1526112488280" TEXT="&#xd4;ng ngo&#x1ea1;i, b&#xe0; ngo&#x1ea1;i: Ngo&#x1ea1;i t&#x1ed5; ph&#x1ee5;, ngo&#x1ea1;i t&#x1ed5; m&#x1eab;u (c&#x169;ng g&#x1ecd;i l&#xe0; ngo&#x1ea1;i c&#xf4;ng, ngo&#x1ea1;i b&#xe0;)."/>
+<node CREATED="1526112488281" MODIFIED="1526112488281" TEXT="&#xd4;ng ngo&#x1ea1;i, b&#xe0; ngo&#x1ea1;i ch&#x1ebf;t r&#x1ed3;i th&#xec; x&#x1b0;ng: Ngo&#x1ea1;i t&#x1ed3; kh&#x1ea3;o, ngo&#x1ea1;i t&#x1ed5; t&#x1ef7;."/>
+<node CREATED="1526112488282" MODIFIED="1526112488282" TEXT="Ch&#xe1;u ngo&#x1ea1;i: Ngo&#x1ea1;i t&#xf4;n."/>
+<node CREATED="1526112488282" MODIFIED="1526112488282" TEXT="&#xd4;ng n&#x1ed9;i v&#x1ee3;, b&#xe0; n&#x1ed9;i v&#x1ee3;: Nh&#x1ea1;c t&#x1ed5; ph&#x1ee5;, nh&#x1ea1;c t&#x1ed5; m&#x1eab;u."/>
+<node CREATED="1526112488283" MODIFIED="1526112488283" TEXT="&#xd4;ng n&#x1ed9;i v&#x1ee3;, b&#xe0; n&#x1ed9;i v&#x1ee3; ch&#x1ebf;t r&#x1ed3;i th&#xec; x&#x1b0;ng: Nh&#x1ea1;c t&#x1ed5; kh&#x1ea3;o, nh&#x1ea1;c t&#x1ed5; t&#x1ef7;."/>
+<node CREATED="1526112488283" MODIFIED="1526112488283" TEXT="Ch&#xe1;u n&#x1ed9;i r&#x1ec3;: T&#xf4;n n&#x1eef; t&#x1ebf;."/>
+<node CREATED="1526112488284" MODIFIED="1526112488284" TEXT="Cha m&#x1eb9; ch&#x1ebf;t r&#x1ed3;i th&#xec; x&#x1b0;ng: Hi&#x1ec3;n kh&#x1ea3;o, hi&#x1ec1;n t&#x1ef7;."/>
+<node CREATED="1526112488284" MODIFIED="1526112488284" TEXT="Cha ch&#x1ebf;t r&#x1ed3;i th&#xec; con t&#x1ef1; x&#x1b0;ng l&#xe0;: C&#xf4; t&#x1eed;, c&#xf4; n&#x1eef; (c&#xf4; t&#x1eed;: con trai, c&#xf4; n&#x1eef;: con g&#xe1;i)."/>
+<node CREATED="1526112488285" MODIFIED="1526112488285" TEXT="M&#x1eb9; ch&#x1ebf;t r&#x1ed3;i th&#xec; con t&#x1ef1; x&#x1b0;ng l&#xe0;: Ai t&#x1eed;, ai n&#x1eef;."/>
+<node CREATED="1526112488285" MODIFIED="1526112488285" TEXT="Cha m&#x1eb9; &#x111;&#x1ec1;u ch&#x1ebf;t h&#x1ebf;t th&#xec; con t&#x1ef1; x&#x1b0;ng l&#xe0;: C&#xf4; ai t&#x1eed;, c&#xf4; ai n&#x1eef;."/>
+<node CREATED="1526112488286" MODIFIED="1526112488286" TEXT="Cha ru&#x1ed9;t: Th&#xe2;n ph&#x1ee5;."/>
+<node CREATED="1526112488287" MODIFIED="1526112488287" TEXT="Cha gh&#x1ebb;: K&#x1ebf; ph&#x1ee5;."/>
+<node CREATED="1526112488287" MODIFIED="1526112488287" TEXT="Cha nu&#xf4;i: D&#x1b0;&#x1ee1;ng ph&#x1ee5;."/>
+<node CREATED="1526112488288" MODIFIED="1526112488288" TEXT="Cha &#x111;&#x1ee1; &#x111;&#x1ea7;u: Ngh&#x129;a ph&#x1ee5;."/>
+<node CREATED="1526112488289" MODIFIED="1526112488289" TEXT="Con trai l&#x1edb;n (con c&#x1ea3;, con th&#x1ee9; hai): Tr&#x1b0;&#x1edf;ng t&#x1eed;, tr&#x1b0;&#x1edf;ng nam."/>
+<node CREATED="1526112488290" MODIFIED="1526112488290" TEXT="Con g&#xe1;i l&#x1edb;n: Tr&#x1b0;&#x1edf;ng n&#x1eef;."/>
+<node CREATED="1526112488290" MODIFIED="1526112488290" TEXT="Con k&#x1ebf;. Th&#x1ee9; nam, th&#x1ee9; n&#x1eef;."/>
+<node CREATED="1526112488291" MODIFIED="1526112488291" TEXT="Con &#xfa;t (trai): Qu&#xfd; nam, v&#xe3;n nam. G&#xe1;i: qu&#xfd; n&#x1eef;, v&#xe3;n n&#x1eef;."/>
+<node CREATED="1526112488291" MODIFIED="1526112488291" TEXT="M&#x1eb9; ru&#x1ed9;t: Sanh m&#x1eab;u, t&#x1eeb; m&#x1eab;u."/>
+<node CREATED="1526112488292" MODIFIED="1526112488292" TEXT="M&#x1eb9; gh&#x1ebb;: K&#x1ebf; m&#x1eab;u: Con c&#x1ee7;a b&#xe0; v&#x1ee3; nh&#x1ecf; k&#xea;u v&#x1ee3; l&#x1edb;n c&#x1ee7;a cha l&#xe0; m&#xe1; hai: &#x110;&#xed;ch m&#x1eab;u."/>
+<node CREATED="1526112488292" MODIFIED="1526112488292" TEXT="M&#x1eb9; nu&#xf4;i: D&#x1b0;&#x1ee1;ng m&#x1eab;u."/>
+<node CREATED="1526112488292" MODIFIED="1526112488292" TEXT="M&#x1eb9; c&#xf3; ch&#x1ed3;ng kh&#xe1;c: Gi&#xe1; m&#x1eab;u."/>
+<node CREATED="1526112488293" MODIFIED="1526112488293" TEXT="M&#xe1; nh&#x1ecf;, t&#x1ee9;c v&#x1ee3; b&#xe9; c&#x1ee7;a cha: Th&#x1ee9; m&#x1eab;u."/>
+<node CREATED="1526112488293" MODIFIED="1526112488293" TEXT="M&#x1eb9; b&#x1ecb; cha t&#x1eeb; b&#x1ecf;: Xu&#x1ea5;t m&#x1eab;u."/>
+<node CREATED="1526112488293" MODIFIED="1526112488293" TEXT="B&#xe0; v&#xfa;: Nh&#x169; m&#x1eab;u."/>
+<node CREATED="1526112488294" MODIFIED="1526112488294" TEXT="Ch&#xfa;, b&#xe1;c v&#x1ee3;: Th&#xfa;c nh&#x1ea1;c, b&#xe1; nh&#x1ea1;c."/>
+<node CREATED="1526112488294" MODIFIED="1526112488294" TEXT="Ch&#xe1;u r&#x1ec3;: &#x110;i&#x1ec7;t n&#x1eef; t&#x1ebf;."/>
+<node CREATED="1526112488295" MODIFIED="1526112488295" TEXT="Ch&#xfa;, b&#xe1;c ru&#x1ed9;t: Th&#xfa;c ph&#x1ee5;, b&#xe1; ph&#x1ee5;."/>
+<node CREATED="1526112488295" MODIFIED="1526112488295" TEXT="V&#x1ee3; c&#x1ee7;a ch&#xfa;: Thi&#x1ebf;m, Th&#x1ea9;m."/>
+<node CREATED="1526112488295" MODIFIED="1526112488295" TEXT="Ch&#xe1;u c&#x1ee7;a ch&#xfa; v&#xe0; b&#xe1;c, t&#x1ef1; x&#x1b0;ng l&#xe0; n&#x1ed9;i &#x111;i&#x1ec7;t."/>
+<node CREATED="1526112488296" MODIFIED="1526112488296" TEXT="Cha ch&#x1ed3;ng: Ch&#x1b0;&#x1a1;ng ph&#x1ee5;."/>
+<node CREATED="1526112488296" MODIFIED="1526112488296" TEXT="D&#xe2;u l&#x1edb;n: Tr&#x1b0;&#x1edf;ng t&#x1ee9;c."/>
+<node CREATED="1526112488297" MODIFIED="1526112488297" TEXT="D&#xe2;u th&#x1ee9;: Th&#x1ee9; t&#x1ee9;c."/>
+<node CREATED="1526112488297" MODIFIED="1526112488297" TEXT="D&#xe2;u &#xfa;t: Qu&#xfd; t&#x1ee9;c."/>
+<node CREATED="1526112488298" MODIFIED="1526112488298" TEXT="Cha v&#x1ee3; (s&#x1ed1;ng): Nh&#x1ea1;c ph&#x1ee5;, (ch&#x1ebf;t): Ngo&#x1ea1;i kh&#x1ea3;o."/>
+<node CREATED="1526112488298" MODIFIED="1526112488298" TEXT="M&#x1eb9; v&#x1ee3; (s&#x1ed1;ng): Nh&#x1ea1;c m&#x1eab;u, (ch&#x1ebf;t): Ngo&#x1ea1;i t&#x1ef7;."/>
+<node CREATED="1526112488298" MODIFIED="1526112488298" TEXT="R&#x1ec3;: T&#x1ebf;."/>
+<node CREATED="1526112488299" MODIFIED="1526112488299" TEXT="Ch&#x1ecb;, em g&#xe1;i c&#x1ee7;a cha, ta k&#xea;u b&#x1eb1;ng c&#xf4;: Th&#xe2;n c&#xf4;."/>
+<node CREATED="1526112488299" MODIFIED="1526112488299" TEXT="Ta t&#x1ef1; x&#x1b0;ng l&#xe0;: N&#x1ed9;i &#x111;i&#x1ec7;t."/>
+<node CREATED="1526112488300" MODIFIED="1526112488300" TEXT="Ch&#x1ed3;ng c&#x1ee7;a c&#xf4;: D&#x1b0;&#x1ee3;ng (C&#xf4; tr&#x1b0;&#x1ee3;ng, t&#xf4;n tr&#x1b0;&#x1ee3;ng)."/>
+<node CREATED="1526112488300" MODIFIED="1526112488300" TEXT="Ch&#x1ed3;ng c&#x1ee7;a d&#xec;: D&#x1b0;&#x1ee3;ng (Di tr&#x1b0;&#x1ee3;ng, bi&#x1ec3;u tr&#x1b0;&#x1ee3;ng)."/>
+<node CREATED="1526112488300" MODIFIED="1526112488300" TEXT="C&#x1ead;u, m&#x1ee3;: C&#x1ef1;u ph&#x1ee5;, c&#x1ef1;u m&#x1eab;u. M&#x1ee3; c&#xf2;n g&#x1ecd;i l&#xe0;: C&#xe2;m."/>
+<node CREATED="1526112488301" MODIFIED="1526112488301" TEXT="C&#xf2;n ta t&#x1ef1; x&#x1b0;ng l&#xe0;: Sanh t&#xf4;n."/>
+<node CREATED="1526112488301" MODIFIED="1526112488301" TEXT="C&#x1ead;u v&#x1ee3;: C&#x1ef1;u nh&#x1ea1;c."/>
+<node CREATED="1526112488302" MODIFIED="1526112488302" TEXT="Ch&#xe1;u r&#x1ec3;: Sanh t&#x1ebf;."/>
+<node CREATED="1526112488302" MODIFIED="1526112488302" TEXT="V&#x1ee3;: Chuy&#x1ebf;t kinh, v&#x1ee3; ch&#x1ebf;t r&#x1ed3;i: T&#x1ea9;n."/>
+<node CREATED="1526112488302" MODIFIED="1526112488302" TEXT="Ta t&#x1ef1; x&#x1b0;ng: L&#x1b0;&#x1a1;ng phu, Ki&#x1ec3;u ch&#xe2;m."/>
+<node CREATED="1526112488303" MODIFIED="1526112488303" TEXT="V&#x1ee3; b&#xe9;: Th&#x1ee9; th&#xea;, tr&#x1eaf;c th&#x1ea5;t."/>
+<node CREATED="1526112488303" MODIFIED="1526112488303" TEXT="V&#x1ee3; l&#x1edb;n: Ch&#xe1;nh th&#x1ea5;t."/>
+<node CREATED="1526112488303" MODIFIED="1526112488303" TEXT="V&#x1ee3; sau (v&#x1ee3; ch&#x1ebf;t r&#x1ed3;i c&#x1b0;&#x1edb;i v&#x1ee3; kh&#xe1;c): K&#x1ebf; th&#x1ea5;t."/>
+<node CREATED="1526112488304" MODIFIED="1526112488304" TEXT="Anh ru&#x1ed9;t: B&#xe0;o huynh."/>
+<node CREATED="1526112488304" MODIFIED="1526112488304" TEXT="Em trai: B&#xe0;o &#x111;&#x1ec7; (c&#x169;ng g&#x1ecd;i: X&#xe1; &#x111;&#x1ec7;)."/>
+<node CREATED="1526112488305" MODIFIED="1526112488305" TEXT="Em g&#xe1;i: B&#xe0;o mu&#x1ed9;i (c&#x169;ng g&#x1ecd;i: X&#xe1; mu&#x1ed9;i)."/>
+<node CREATED="1526112488305" MODIFIED="1526112488305" TEXT="Ch&#x1ecb; ru&#x1ed9;t: B&#xe0;o t&#x1ef7;."/>
+<node CREATED="1526112488305" MODIFIED="1526112488305" TEXT="Anh r&#x1ec3;: T&#x1ef7; tr&#x1b0;&#x1ee3;ng."/>
+<node CREATED="1526112488306" MODIFIED="1526112488306" TEXT="Em r&#x1ec3;: Mu&#x1ed9;i tr&#x1b0;&#x1ee3;ng."/>
+<node CREATED="1526112488306" MODIFIED="1526112488306" TEXT="Anh r&#x1ec3;: T&#x1ef7; phu."/>
+<node CREATED="1526112488306" MODIFIED="1526112488306" TEXT="Em r&#x1ec3;: Mu&#x1ed9;i tr&#x1b0;&#x1ee3;ng, c&#xf2;n g&#x1ecd;i: Kh&#xe2;m &#x111;&#x1ec7;."/>
+<node CREATED="1526112488307" MODIFIED="1526112488307" TEXT="Ch&#x1ecb; d&#xe2;u: T&#x1ee3; ph&#x1ee5;, T&#x1ea9;u, ho&#x1eb7;c t&#x1ea9;u t&#x1eed;."/>
+<node CREATED="1526112488307" MODIFIED="1526112488307" TEXT="Em d&#xe2;u: &#x110;&#x1ec7; ph&#x1ee5;, &#x110;&#x1ec7; t&#x1ee9;c."/>
+<node CREATED="1526112488308" MODIFIED="1526112488308" TEXT="Ch&#x1ecb; ch&#x1ed3;ng: &#x110;&#x1ea1;i c&#xf4;."/>
+<node CREATED="1526112488308" MODIFIED="1526112488308" TEXT="Em ch&#x1ed3;ng: Ti&#x1ec3;u c&#xf4;."/>
+<node CREATED="1526112488308" MODIFIED="1526112488308" TEXT="Anh ch&#x1ed3;ng: Phu huynh: &#x110;&#x1ea1;i b&#xe1;."/>
+<node CREATED="1526112488309" MODIFIED="1526112488309" TEXT="Em ch&#x1ed3;ng: Phu &#x111;&#x1ec7;, Ti&#x1ec3;u th&#xfa;c."/>
+<node CREATED="1526112488309" MODIFIED="1526112488309" TEXT="Ch&#x1ecb; v&#x1ee3;: &#x110;&#x1ea1;i di."/>
+<node CREATED="1526112488309" MODIFIED="1526112488309" TEXT="Em v&#x1ee3; (g&#xe1;i): Ti&#x1ec3;u di t&#x1eed;, Th&#xea; mu&#x1ed9;i."/>
+<node CREATED="1526112488310" MODIFIED="1526112488310" TEXT="Anh v&#x1ee3;: Th&#xea; huynh: &#x110;&#x1ea1;i c&#x1ef1;u: Ngo&#x1ea1;i huynh."/>
+<node CREATED="1526112488310" MODIFIED="1526112488310" TEXT="Em v&#x1ee3; (trai): Th&#xea; &#x111;&#x1ec7;, Ti&#x1ec3;u c&#x1ef1;u t&#x1eed;."/>
+<node CREATED="1526112488311" MODIFIED="1526112488311" TEXT="Con g&#xe1;i &#x111;&#xe3; c&#xf3; ch&#x1ed3;ng: Gi&#xe1; n&#x1eef;."/>
+<node CREATED="1526112488311" MODIFIED="1526112488311" TEXT="Con g&#xe1;i ch&#x1b0;a c&#xf3; ch&#x1ed3;ng: S&#x1b0;&#x1a1;ng n&#x1eef;."/>
+<node CREATED="1526112488311" MODIFIED="1526112488311" TEXT="Cha gh&#x1ebb;, con t&#x1ef1; x&#x1b0;ng: Ch&#x1ea5;p t&#x1eed;."/>
+<node CREATED="1526112488312" MODIFIED="1526112488312" TEXT="T&#x1edb; trai: Ngh&#x129;a b&#x1ed9;c."/>
+<node CREATED="1526112488312" MODIFIED="1526112488312" TEXT="T&#x1edb; g&#xe1;i: Ngh&#x129;a n&#xf4;."/>
+<node CREATED="1526112488313" MODIFIED="1526112488313" TEXT="Cha ch&#x1ebf;t tr&#x1b0;&#x1edb;c, sau &#xf4;ng n&#x1ed9;i ch&#x1ebf;t, t&#xf4;n con c&#x1ee7;a tr&#x1b0;&#x1edf;ng t&#x1eed; &#x111;&#x1ee9;ng &#x111;&#x1ec3; tang, g&#x1ecd;i l&#xe0;: &#x110;&#xed;ch t&#xf4;n th&#x1eeb;a tr&#x1ecd;ng."/>
+<node CREATED="1526112488313" MODIFIED="1526112488313" TEXT="Cha, m&#x1eb9; ch&#x1ebf;t ch&#x1b0;a ch&#xf4;n: C&#x1ed1; ph&#x1ee5;, c&#x1ed1; m&#x1eab;u."/>
+<node CREATED="1526112488313" MODIFIED="1526112488313" TEXT="Cha, m&#x1eb9; ch&#x1ebf;t &#x111;&#xe3; ch&#xf4;n: Hi&#x1ec1;n kh&#x1ea3;o, hi&#x1ec3;n t&#x1ef7;."/>
+<node CREATED="1526112488314" MODIFIED="1526112488314" TEXT="M&#x1edb;i ch&#x1ebf;t: T&#x1eed;."/>
+<node CREATED="1526112488314" MODIFIED="1526112488314" TEXT="&#x110;&#xe3; ch&#xf4;n: Vong."/>
+</node>
+<node CREATED="1526175598460" ID="ID_1898951084" MODIFIED="1526175603433" TEXT="g&#x1ed9;p gia ph&#x1ea3;">
+<node CREATED="1526175603716" ID="ID_110317851" MODIFIED="1526175612722" TEXT="ch&#x1ecd;n gia ph&#x1ea3; c&#x1ea7;n g&#x1ed9;p"/>
+<node CREATED="1526175613084" ID="ID_839118308" MODIFIED="1526175618335" TEXT="g&#x1ed9;p v&#xe0;o gia ph&#x1ea3;">
+<node CREATED="1526175618798" ID="ID_876807793" MODIFIED="1526175621811" TEXT="t&#xea;n ng&#x1b0;&#x1edd;i cha"/>
+<node CREATED="1526175622355" ID="ID_90328364" MODIFIED="1526175626168" TEXT="t&#xea;n ngu&#xf2;i m&#x1eb9;"/>
+<node CREATED="1526175626415" ID="ID_901303646" MODIFIED="1526175628073" TEXT="con th&#x1ee9;"/>
+</node>
+<node CREATED="1526175630913" ID="ID_396885491" MODIFIED="1526175634391" TEXT="x&#xe1;c nh&#x1ead;n g&#x1ed9;p"/>
+</node>
+</node>
 </node>
 </map>

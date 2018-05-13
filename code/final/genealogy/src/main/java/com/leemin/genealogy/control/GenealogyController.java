@@ -1,5 +1,6 @@
 package com.leemin.genealogy.control;
 
+import com.leemin.genealogy.data.Permission;
 import com.leemin.genealogy.model.GenealogyModel;
 import com.leemin.genealogy.model.RoleModel;
 import com.leemin.genealogy.model.UserGenealogyModel;
@@ -133,9 +134,23 @@ public class GenealogyController {
             return new ModelAndView("/account/login");
         }
         else {
-            mv = new ModelAndView("/genealogy/detail");
-            GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
-            mv.addObject("genealogy", genealogyModel);
+            UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), id);
+            if(userGenealogy != null) {
+                Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+                if(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW)){
+                    mv = new ModelAndView("/genealogy/detail");
+                    mv.addObject("idPermission", permission.ordinal());
+                    mv.addObject("genealogy", userGenealogy.getGenealogy());
+                    return mv;
+                }
+            }
+
+            mv = new ModelAndView();
+            mv.setViewName("redirect:/genealogy");
+
+//            mv = new ModelAndView("/genealogy/detail");
+//            GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
+//            mv.addObject("genealogy", genealogyModel);
             return mv;
 
         }
@@ -155,14 +170,32 @@ public class GenealogyController {
         }
         else {
             if (method.equalsIgnoreCase("edit")) {
-                mv = new ModelAndView("/genealogy/detail-edit");
-                GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
-                mv.addObject("genealogy", genealogyModel);
-                return mv;
+                UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), id);
+                if(userGenealogy != null) {
+                    Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+                    if(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD)){
+                        mv = new ModelAndView("/genealogy/detail-edit");
+                        mv.addObject("genealogy", userGenealogy.getGenealogy());
+                        return mv;
+                    }
+                }
             }
             else if (method.equalsIgnoreCase("pedigree")) {
                 mv = new ModelAndView("/genealogy/pedigree");
-                mv.addObject("idGenealogy", id);
+                UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), id);
+                if(userGenealogy != null) {
+                    Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+                    if(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW)){
+                        GenealogyModel genealogyModel = userGenealogy.getGenealogy();
+                        mv.addObject("genealogy", genealogyModel);
+                        mv.addObject("idPermission", userGenealogy.getPermission().getId());
+                        mv.addObject("idGenealogy", id);
+                        return mv;
+                    }
+                }else{
+                    mv.setViewName("redirect:/genealogy");
+                }
+
                 return mv;
             }
             else if (method.equalsIgnoreCase("member")) {
@@ -184,6 +217,10 @@ public class GenealogyController {
                 return mv;
             }
         }
+        mv = new ModelAndView("/genealogy/detail");
+        GenealogyModel genealogyModel = genealogyService.find(id, principal.getName());
+        mv.addObject("genealogy", genealogyModel);
+        return mv;
 //        List<GenealogyModel> all = genealogyService.findAll();
 //        System.out.println(user.toString());
 //        System.out.println(principal.getName());
@@ -250,7 +287,29 @@ public class GenealogyController {
         mv.addObject("genealogy", genealogyModel);
         return mv;
     }
-
+    @RequestMapping(value = "/genealogy/{idGenealogy}/edit", method = RequestMethod.POST)
+    public ModelAndView createGenealogy(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")
+                    long idGenealogy,
+            @Valid
+            @ModelAttribute(value = "genealogy")
+                    GenealogyModel genealogy,
+            BindingResult bindingResult,
+            HttpServletRequest request) {
+        ModelAndView mv;
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD)){
+                genealogy.setId(idGenealogy);
+                genealogy = genealogyService.update(genealogy);
+            }
+        }
+        mv = new ModelAndView("/genealogy/detail");
+        mv.addObject("genealogy", genealogy);
+        return mv;
+    }
     @RequestMapping(value = "/genealogy/find", method = RequestMethod.GET)
     public ModelAndView findGenealogy(
             Principal principal,

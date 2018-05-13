@@ -24,6 +24,8 @@ public interface GenealogyPedigreeRepository extends JpaRepository<GenealogyPedi
     List<GenealogyPedigreeModel> findByLike(@Param("name") String search);
 
 
+    GenealogyPedigreeModel findByGenealogy_IdAndPedigreeId(long idGenealogy,long idPedigree);
+
     List<GenealogyPedigreeModel> findAll(Sort sort);
 
     List<GenealogyPedigreeModel> findAll(Iterable<Long> iterable);

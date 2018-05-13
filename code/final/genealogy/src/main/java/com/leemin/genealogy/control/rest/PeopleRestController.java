@@ -1,19 +1,35 @@
 package com.leemin.genealogy.control.rest;
 
+import com.leemin.genealogy.config.ConfigFormat;
+import com.leemin.genealogy.config.ErrorKey;
 import com.leemin.genealogy.config.tree.ChartConfig;
 import com.leemin.genealogy.config.tree.Child;
 import com.leemin.genealogy.config.tree.ConfigTree;
 import com.leemin.genealogy.config.tree.Text;
-import com.leemin.genealogy.model.PedigreeModel;
-import com.leemin.genealogy.model.PeopleModel;
+import com.leemin.genealogy.data.*;
+import com.leemin.genealogy.model.*;
+import com.leemin.genealogy.repository.GenealogyPedigreeRepository;
+import com.leemin.genealogy.repository.PeopleRepository;
+import com.leemin.genealogy.repository.UserGenealogyRepository;
+import com.leemin.genealogy.repository.UserRepository;
 import com.leemin.genealogy.service.PedigreeService;
 import com.leemin.genealogy.service.PeopleService;
+import com.leemin.genealogy.service.StorageService;
+import com.leemin.genealogy.util.ExcelImportUtil;
+import com.leemin.genealogy.util.Util;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -25,6 +41,23 @@ public class PeopleRestController {
     @Autowired
     PeopleService peopleService;
 
+    @Autowired
+    StorageService storageService;
+
+    @Autowired
+    UserGenealogyRepository userGenealogyRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PeopleRepository peopleRepository;
+
+    @Autowired
+    GenealogyPedigreeRepository genealogyPedigreeRepository;
+
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/list" , produces = "application/json")
     public Collection<PeopleModel> getAll(
             Principal principal,
@@ -44,6 +77,123 @@ public class PeopleRestController {
     }
 
 
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/people/{idPeople}/husband-wife" )
+    public ResponseEntity<?> getHusbandOrWifeById(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")long idGenealogy,
+            @PathVariable(name = "idPedigree")long idPedigree,
+            @PathVariable(name = "idPeople") long idPeople
+                                                   ){
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return new ResponseEntity<>("" , HttpStatus.EXPECTATION_FAILED);
+            }
+        }
+        PeopleModel people = peopleService.findById(idPeople);
+        PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
+        String keyParent = PeopleModel.getKeyParent(people);
+        int relationfind = QuanHe.VO.ordinal();
+        if(people.getGender() == GioiTinh.NU.ordinal()) relationfind = QuanHe.CHONG.ordinal();
+        List<PeopleModel> result = peopleRepository.findAllByPedigreeAndParentKeyAndRelationEquals(pedigree, keyParent, relationfind);
+        List<FindHusbandWife> findHusbandWives = new ArrayList<>();
+        for (PeopleModel c :result ) {
+            FindHusbandWife item  = new FindHusbandWife();
+            item.setId(c.getId());
+            item.setName(c.getName());
+            findHusbandWives.add(item);
+        }
+        return new ResponseEntity<>(findHusbandWives , HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/people/{idPeople}/get-mother" )
+    public ResponseEntity<?> getMother(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")long idGenealogy,
+            @PathVariable(name = "idPedigree")long idPedigree,
+            @PathVariable(name = "idPeople") long idPeople
+                                                 ){
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return new ResponseEntity<>("" , HttpStatus.EXPECTATION_FAILED);
+            }
+        }
+        PeopleModel people = peopleService.findById(idPeople);
+        Long idMother = people.getIdMother();
+        if(idMother != null){
+            PeopleModel mother = peopleService.findById(idMother);
+            FindHusbandWife findHusbandWife = new FindHusbandWife();
+            findHusbandWife.setId(mother.getId());
+            findHusbandWife.setName(mother.getName());
+            return new ResponseEntity<>(findHusbandWife , HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>("" , HttpStatus.FAILED_DEPENDENCY);
+
+    }
+
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/people/{idPeople}/get-info-add" )
+    public ResponseEntity<?> getInfoFormAddChild(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")long idGenealogy,
+            @PathVariable(name = "idPedigree")long idPedigree,
+            @PathVariable(name = "idPeople") long idPeople
+                                                 ){
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return new ResponseEntity<>("" , HttpStatus.EXPECTATION_FAILED);
+            }
+        }
+        PeopleModel people = peopleService.findById(idPeople);
+        if(people== null) return new ResponseEntity<>(idPeople , HttpStatus.NOT_FOUND);
+        String keyParent = PeopleModel.getKeyParent(people);
+        PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
+        int relationfind = QuanHe.VO.ordinal();
+        if(people.getGender() == GioiTinh.NU.ordinal()) relationfind = QuanHe.CHONG.ordinal();
+        //keim tra relation ==> neu la vo/chong
+        List<FindHusbandWife> findHusbandWives  = new ArrayList<>();
+        System.out.println(QuanHe.values()[people.getRelation()].name());
+        switch (QuanHe.values()[people.getRelation()]) {
+            case CHA:
+            case ME:
+                List<PeopleModel> result = peopleRepository.findAllByPedigreeAndParentKeyAndRelationEquals(pedigree, keyParent, relationfind);
+                FindHusbandWife itemDontKnow  = new FindHusbandWife();
+                itemDontKnow.setId(-1);
+                itemDontKnow.setName("Không rõ");
+                findHusbandWives.add(itemDontKnow);
+                for (PeopleModel c :result ) {
+                    FindHusbandWife item  = new FindHusbandWife();
+                    item.setId(c.getId());
+                    item.setName(c.getName());
+                    findHusbandWives.add(item);
+                }
+                break;
+            case CHONG:
+            case VO:
+                keyParent = people.getParentKey();
+                FindHusbandWife item  = new FindHusbandWife();
+                item.setId(people.getId());
+                item.setName(people.getName());
+                findHusbandWives.add(item);
+                break;
+        }
+        PeopleModel parent = peopleService.findById(Long.parseLong(keyParent.substring(keyParent.lastIndexOf("_") + 1 )));
+        FindInfoFormAddChild findInfoFormAddChild = new FindInfoFormAddChild();
+        findInfoFormAddChild.setIdParent(parent.getId());
+        findInfoFormAddChild.setNameParent(parent.getName());
+        findInfoFormAddChild.setFindHusbandWifes(findHusbandWives);
+
+        return new ResponseEntity<>(findInfoFormAddChild , HttpStatus.OK);
+    }
+
+
+
     //"https://"+ document.location.host  +'/rest/genealogy/'+idGenealogy+'/pedigree/' + idPedigree+'list-people',
     @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/list-people" , produces = "application/json")
     public Collection<PeopleModel> getAllListPeople(
@@ -51,7 +201,13 @@ public class PeopleRestController {
             @PathVariable(name = "idGenealogy")long idGenealogy,
             @PathVariable(name = "idPedigree")long idPedigree
                                                      ){
-
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return null;
+            }
+        }
         //TODO check condition pedigree
         PedigreeModel byIdPedigreeModel = pedigreeService.findByIdPedigreeModel(idPedigree);
         List<PeopleModel> r = peopleService.findAllByPedigreeAndParentKeyStartsWith(byIdPedigreeModel, "r");
@@ -64,6 +220,108 @@ public class PeopleRestController {
         return r;
     }
 
+    //"https://"+ document.location.host  +'/rest/genealogy/'+idGenealogy+'/pedigree/' + idPedigree+'list-people',
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/all-people-name")
+    public ResponseEntity<?> getAllListPeopleForSelect(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")long idGenealogy,
+            @PathVariable(name = "idPedigree")long idPedigree
+                                                   ){
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return null;
+            }
+        }
+        //TODO check condition pedigree
+        PedigreeModel byIdPedigreeModel = pedigreeService.findByIdPedigreeModel(idPedigree);
+        List<PeopleModel> r = peopleService.findAllByPedigreeAndParentKeyStartsWith(byIdPedigreeModel, "r");
+        List<FindHusbandWife> findHusbandWives = new ArrayList<>();
+        for(PeopleModel people:r){
+            FindHusbandWife item = new FindHusbandWife();
+            item.setId(people.getId());
+            item.setName(people.getName());
+            findHusbandWives.add(item);
+        }
+        return new ResponseEntity<>(findHusbandWives, HttpStatus.OK);
+    }
+    //"https://"+ document.location.host  +'/rest/genealogy/'+idGenealogy+'/pedigree/' + idPedigree+'list-people',
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/all-people-name-node-parent")
+    public ResponseEntity<?> getAllListPeopleForSelectParent(
+            Principal principal,
+            @PathVariable(name = "idGenealogy")long idGenealogy,
+            @PathVariable(name = "idPedigree")long idPedigree
+                                                      ){
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return null;
+            }
+        }
+        //TODO check condition pedigree
+        PedigreeModel byIdPedigreeModel = pedigreeService.findByIdPedigreeModel(idPedigree);
+        List<PeopleModel> r = peopleService.findAllByPedigreeAndParentKeyStartsWith(byIdPedigreeModel, "r");
+        List<FindHusbandWife> findHusbandWives = new ArrayList<>();
+        for(PeopleModel people:r){
+            QuanHe quanHe = QuanHe.values()[people.getRelation()];
+            if(quanHe == QuanHe.CHA ||quanHe == QuanHe.ME){
+                FindHusbandWife item = new FindHusbandWife();
+                item.setId(people.getId());
+                item.setName(people.getName());
+                findHusbandWives.add(item);
+            }
+        }
+        return new ResponseEntity<>(findHusbandWives, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/rest/people/detail/{idPeople}")
+    public ResponseEntity<?> getDetailPeople(
+            Principal principal,
+            @PathVariable(name = "idPeople")long idPeople
+                                                   ){
+        //TODO check condition pedigree
+        PeopleModel people = peopleService.findById(idPeople);
+        FindInfoPeopleDetail findInfoPeopleDetail = new FindInfoPeopleDetail();
+        if(people == null){
+            return new ResponseEntity<>("", HttpStatus.FAILED_DEPENDENCY);
+        }
+        if(people.getIdMother()!= null){
+            PeopleModel mother = peopleService.findById(people.getIdMother());
+            if(mother != null){
+                findInfoPeopleDetail.setNameMother(mother.getName());
+            }
+        }
+        if(people.getParent() != null){
+            findInfoPeopleDetail.setNameParent(people.getParent().getName());
+        }
+        findInfoPeopleDetail.setImg(people.getImg());
+        findInfoPeopleDetail.setName(people.getName());
+        findInfoPeopleDetail.setNickName(people.getNickName());
+        findInfoPeopleDetail.setRelation(people.getRelation());
+        findInfoPeopleDetail.setAddress(people.getAddress());
+        findInfoPeopleDetail.setLifeIndex(people.getLifeIndex());
+        findInfoPeopleDetail.setBirthDay(Util.dateToString(people.getBirthday()));
+        findInfoPeopleDetail.setDeadDay(Util.dateToString(people.getDeadDay()));
+        findInfoPeopleDetail.setDataExtra(people.getDataExtra());
+        findInfoPeopleDetail.setDegree(people.getDegree());
+        findInfoPeopleDetail.setChildIndex(people.getChildIndex());
+        findInfoPeopleDetail.setDes(people.getDes());
+        return new ResponseEntity<>(findInfoPeopleDetail, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/rest/people/relation/{idXemQuanHe1}/{idXemQuanHe2}")
+    public ResponseEntity<?> getRelation(
+            Principal principal,
+            @PathVariable(name = "idXemQuanHe1")long idXemQuanHe1,
+            @PathVariable(name = "idXemQuanHe2")long idXemQuanHe2
+                                 ){
+        //TODO check condition pedigree
+        PeopleModel nguoi1 = peopleService.findById(idXemQuanHe1);
+        PeopleModel nguoi2 = peopleService.findById(idXemQuanHe2);
+        return new ResponseEntity<>(nguoi1.getParentKey()+ "|" + nguoi2.getParentKey() , HttpStatus.OK);
+    }
     /*@GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/list-people-tree" , produces = "application/json")
     public List<ConfigTree>  getAllListPeopleViewTree(
             Principal principal,
@@ -117,18 +375,18 @@ public class PeopleRestController {
         //TODO check condition pedigree
         PedigreeModel pedigree = pedigreeService.findByIdPedigreeModel(idPedigree);
         List<PeopleModel> r = peopleService.findAllByPedigreeAndParentKeyStartsWith(pedigree, "r");
-        r.sort(new Comparator<PeopleModel>() {
-            @Override
-            public int compare(PeopleModel o1, PeopleModel o2) {
-                int compare = o1.getParentKey().compareToIgnoreCase(o2.getParentKey());
-                if(compare == 0){
-                    return o1.getChildIndex() - o2.getChildIndex();
-                }
-                return compare;
-            }
-        });
+//        r.sort(new Comparator<PeopleModel>() {
+//            @Override
+//            public int compare(PeopleModel o1, PeopleModel o2) {
+//                int compare = o1.getParentKey().compareToIgnoreCase(o2.getParentKey());
+//                if(compare == 0){
+//                    return o1.getChildIndex() - o2.getChildIndex();
+//                }
+//                return compare;
+//            }
+//        });
 
-        ChartConfig chartConfig = getChartConfig(r);
+        ChartConfig chartConfig = getChartConfigNew(r);
         return chartConfig;
     }
 
@@ -136,7 +394,16 @@ public class PeopleRestController {
         ChartConfig chartConfig = new ChartConfig();
         for (PeopleModel peopleModel: r) {
             Child child = getChildFromPeopleModel(peopleModel);
-            chartConfig.addChild(child);
+            chartConfig.addChildHaveMother(child);
+        }
+        return chartConfig;
+    }
+
+    private ChartConfig getChartConfigNew(List<PeopleModel> r) {
+        ChartConfig chartConfig = new ChartConfig();
+        for (PeopleModel peopleModel: r) {
+            Child child = getChildFromPeopleModel(peopleModel);
+            chartConfig.addChildHaveMother(child);
         }
         return chartConfig;
     }
@@ -146,9 +413,12 @@ public class PeopleRestController {
         child.setHTMLid(peopleModel.getId()+"");
 
         Text text= new Text();
-        text.setTitle(peopleModel.getLifeIndex()+"");
+        text.setTitle(ConfigFormat.getStringFromDate(peopleModel.getBirthday())+" - " + ConfigFormat.getStringFromDate(peopleModel.getDeadDay()));
         text.setName(peopleModel.getName());
         child.setText(text);
+        child.setGender(peopleModel.getGender());
+        child.setRelation(peopleModel.getRelation());
+        child.setIdMother(peopleModel.getIdMother());
         child.setImage(peopleModel.getImg());
         child.setHTMLclass("people_chart_node");
         child.setParentKey(peopleModel.getParentKey());
@@ -166,4 +436,218 @@ public class PeopleRestController {
         }
         return null;
     }
+
+
+    @PostMapping(value = "/rest/people/add")
+    public ResponseEntity<?> addChildPeople(
+            Principal principal,
+            @RequestParam(value = "idGenealogy", required = true, defaultValue = "") long idGenealogy,
+            @RequestParam(value = "idPedigree", required = true, defaultValue = "") long idPedigree,
+            @RequestParam(value = "addChildIdParent", required = true, defaultValue = "") String addChildIdParent,
+            @RequestParam(value = "addChildInputIdMother", required = true, defaultValue = "") String addChildInputIdMother,
+            @RequestParam(value = "addChildInputRelation", required = true, defaultValue = "") String addChildInputRelation,
+            @RequestParam(value = "addChildInputConThu", required = true, defaultValue = "") String addChildInputConThu,
+            @RequestParam(value = "addChildInputName", required = true, defaultValue = "") String addChildInputName,
+            @RequestParam(value = "addChildInputNickName", required = true, defaultValue = "") String addChildInputNickName,
+            @RequestParam(value = "addChildInputGender", required = true, defaultValue = "") String addChildInputGender,
+            @RequestParam(value = "addChildInputAddress", required = true, defaultValue = "") String addChildInputAddress,
+            @RequestParam(value = "addChildInputBirthday", required = true, defaultValue = "") String addChildInputBirthday,
+            @RequestParam(value = "addChildInputDeadDay", required = true, defaultValue = "") String addChildInputDeadDay,
+            @RequestParam(value = "addChildInputDegree", required = false, defaultValue = "") String addChildInputDegree,
+            @RequestParam(value = "addChildInputDes", required = false, defaultValue = "") String addChildInputDes,
+            @RequestParam(value = "addChildInputDataExtra", required = false, defaultValue = "") String addChildInputDataExtra,
+            @RequestParam("addChildInputFileImg") MultipartFile addChildInputFileImg
+                                           ){
+        //TODO check condition pedigree
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD) || permission.equals(Permission.VIEW))){
+                return null;
+            }
+        }
+        int errorCode = ErrorKey.SUCCESS;
+        PedigreeModel pedigreeModel = pedigreeService.findByIdPedigreeModel(idPedigree);
+        PeopleModel peopleModel  = new PeopleModel();
+        peopleModel.setName(addChildInputName);
+        peopleModel.setNickName(addChildInputNickName);
+        PeopleModel parent = null;
+        if(!addChildIdParent.equals("") && !addChildIdParent.equals("-1")){ // -1 is root
+            parent = peopleService.findById(Integer.parseInt(addChildIdParent));
+
+            if(parent != null){
+
+                peopleModel.setParent(parent);
+            }else{
+                errorCode = ErrorKey.PEDIGREE;
+            }
+        }
+        peopleModel.setParentKey(PeopleModel.getKeyParent(parent));
+
+
+        if(!addChildInputIdMother.equalsIgnoreCase("-1")){
+            PeopleModel mother = peopleService.findById(Integer.parseInt(addChildInputIdMother));
+            if(mother != null && mother.getParentKey().equals(peopleModel.getParentKey())){
+                peopleModel.setIdMother(mother.getId());
+            }else{
+                errorCode = ErrorKey.MOTHER;
+            }
+        }
+
+        peopleModel.setLifeIndex(PeopleModel.getIndexLife(parent));
+        peopleModel.setPedigree(pedigreeModel);
+        peopleModel.setBirthday(ExcelImportUtil.getDate(addChildInputBirthday));
+        peopleModel.setDeadDay(ExcelImportUtil.getDate(addChildInputDeadDay));
+        peopleModel.setRelation(Integer.parseInt(addChildInputRelation));
+        peopleModel.setDegree(addChildInputDegree);
+        peopleModel.setGender(Integer.parseInt(addChildInputGender));
+        peopleModel.setDes(addChildInputDes);
+        peopleModel.setChildIndex(Integer.parseInt(addChildInputConThu));
+        peopleModel.setAddress(addChildInputAddress);
+        peopleModel.setDataExtra(addChildInputDataExtra);
+        peopleModel.setImg(ExcelImportUtil.getImgDefault(peopleModel.getGender()));
+        if(errorCode == ErrorKey.SUCCESS){
+            PeopleModel add = peopleService.add(peopleModel);
+            String uploadedFileName = addChildInputFileImg.getOriginalFilename();
+            if(!uploadedFileName.isEmpty()){
+                uploadedFileName = +  add.getId() + "_" + System.currentTimeMillis() + uploadedFileName.substring(uploadedFileName.lastIndexOf("."));
+                String fileImg = "img/"  + uploadedFileName;
+                add.setImg("/image/" + uploadedFileName);
+                storageService.store(addChildInputFileImg,fileImg);
+                add = peopleService.add(peopleModel);
+            }
+//            Child child = getChildFromPeopleModel(add);
+            return new ResponseEntity<>(errorCode , HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(errorCode , HttpStatus.OK);
+
+    }
+
+    @PostMapping(value = "/rest/people/edit")
+    public ResponseEntity<?> editChild(
+            Principal principal,
+            @RequestParam(value = "idGenealogy", required = true, defaultValue = "") long idGenealogy,
+            @RequestParam(value = "idPedigree", required = true, defaultValue = "") long idPedigree,
+            @RequestParam(value = "editChildId", required = true, defaultValue = "") String editChildId,
+            @RequestParam(value = "editChildIdParent", required = true, defaultValue = "") String editChildIdParent,
+            @RequestParam(value = "editChildInputIdMother", required = true, defaultValue = "") String editChildInputIdMother,
+            @RequestParam(value = "editChildInputRelation", required = true, defaultValue = "") String editChildInputRelation,
+            @RequestParam(value = "editChildInputConThu", required = true, defaultValue = "") String editChildInputConThu,
+            @RequestParam(value = "editChildInputName", required = true, defaultValue = "") String editChildInputName,
+            @RequestParam(value = "editChildInputNickName", required = true, defaultValue = "") String editChildInputNickName,
+            @RequestParam(value = "editChildInputGender", required = true, defaultValue = "") String editChildInputGender,
+            @RequestParam(value = "editChildInputAddress", required = true, defaultValue = "") String editChildInputAddress,
+            @RequestParam(value = "editChildInputBirthday", required = true, defaultValue = "") String editChildInputBirthday,
+            @RequestParam(value = "editChildInputDeadDay", required = true, defaultValue = "") String editChildInputDeadDay,
+            @RequestParam(value = "editChildInputDegree", required = false, defaultValue = "") String editChildInputDegree,
+            @RequestParam(value = "editChildInputDes", required = false, defaultValue = "") String editChildInputDes,
+            @RequestParam(value = "editChildInputDataExtra", required = false, defaultValue = "") String editChildInputDataExtra,
+            @RequestParam("editChildInputFileImg") MultipartFile editChildInputFileImg
+                                           ){
+        //TODO check condition pedigree
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN) || permission.equals(Permission.MOD))){
+                return null;
+            }
+        }
+
+        int errorCode = ErrorKey.SUCCESS;
+        PedigreeModel pedigreeModel = pedigreeService.findByIdPedigreeModel(idPedigree);
+        PeopleModel peopleModel  = peopleService.findById(Integer.parseInt(editChildId));
+        peopleModel.setName(editChildInputName);
+        peopleModel.setNickName(editChildInputNickName);
+//        if( !editChildInputIdMother.isEmpty() && !editChildInputIdMother.equalsIgnoreCase("-1")){
+//            PeopleModel mother = peopleService.findById(Integer.parseInt(editChildInputIdMother));
+//            if(mother != null && mother.getParentKey().equals(peopleModel.getParentKey())){
+//                peopleModel.setIdMother(mother.getId());
+//            }else{
+//                errorCode = ErrorKey.MOTHER;
+//            }
+//        }
+        peopleModel.setBirthday(ExcelImportUtil.getDate(editChildInputBirthday));
+        peopleModel.setDeadDay(ExcelImportUtil.getDate(editChildInputDeadDay));
+//        peopleModel.setRelation(Integer.parseInt(editChildInputRelation));
+        peopleModel.setDegree(editChildInputDegree);
+        peopleModel.setGender(Integer.parseInt(editChildInputGender));
+        peopleModel.setDes(editChildInputDes);
+        peopleModel.setChildIndex(Integer.parseInt(editChildInputConThu));
+        peopleModel.setAddress(editChildInputAddress);
+        peopleModel.setAddress(editChildInputDataExtra);
+        peopleModel.setImg(ExcelImportUtil.getImgDefault(peopleModel.getGender()));
+        if(errorCode == ErrorKey.SUCCESS){
+            PeopleModel add = peopleService.add(peopleModel);
+            String uploadedFileName = editChildInputFileImg.getOriginalFilename();
+            if(!uploadedFileName.isEmpty()){
+                uploadedFileName = +  add.getId() + "_" + System.currentTimeMillis() + uploadedFileName.substring(uploadedFileName.lastIndexOf("."));
+                String fileImg = "img/"  + uploadedFileName;
+                add.setImg("/image/" + uploadedFileName);
+                storageService.store(editChildInputFileImg,fileImg);
+                add = peopleService.add(peopleModel);
+            }
+//            Child child = getChildFromPeopleModel(add);
+            return new ResponseEntity<>(errorCode , HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(errorCode , HttpStatus.OK);
+
+    }
+    @PostMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/people/{idPeople}/delete")
+    public ResponseEntity<?> deleteChildPeople(
+            Principal principal,
+            @PathVariable(value = "idGenealogy", required = true) long idGenealogy,
+            @PathVariable(value = "idPedigree", required = true) long idPedigree,
+            @PathVariable(value = "idPeople", required = true) long idPeople
+            ){
+        //TODO check condition pedigree
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN))){
+                return null;
+            }
+        }
+        int errorCode = ErrorKey.SUCCESS;
+        GenealogyPedigreeModel byGenealogy_idAndPedigreeId = genealogyPedigreeRepository.findByGenealogy_IdAndPedigreeId(idGenealogy, idPedigree);
+        if(byGenealogy_idAndPedigreeId != null){
+            PeopleModel del = peopleService.findById(idPeople);
+            if(del.getPedigree().getId() == byGenealogy_idAndPedigreeId.getPedigree().getId()){
+                peopleService.deleteChild(del.getId(),PeopleModel.getKeyParent(del));
+            }
+        }
+        return new ResponseEntity<>(errorCode , HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/people/{idPeople}/update")
+    public ResponseEntity<?> updateParrentKey(
+            Principal principal,
+            @PathVariable(value = "idGenealogy", required = true) long idGenealogy,
+            @PathVariable(value = "idPedigree", required = true) long idPedigree,
+            @PathVariable(value = "idPeople", required = true) long idPeople
+                                              ){
+        //TODO check condition pedigree
+        UserGenealogyModel userGenealogy = userGenealogyRepository.findTopByUserAndGenealogy_Id(userRepository.findByEmail(principal.getName()), idGenealogy);
+        if(userGenealogy != null) {
+            Permission permission = Permission.values()[(int) userGenealogy.getPermission().getId()];
+            if(!(permission.equals(Permission.ADMIN))){
+                return null;
+            }
+        }
+        int errorCode = ErrorKey.SUCCESS;
+        GenealogyPedigreeModel byGenealogy_idAndPedigreeId = genealogyPedigreeRepository.findByGenealogy_IdAndPedigreeId(idGenealogy, idPedigree);
+        if(byGenealogy_idAndPedigreeId != null){
+            peopleService.updateParentKey("RR" , "r");
+        }
+        return new ResponseEntity<>(errorCode , HttpStatus.OK);
+    }
+
+    private void saveUploadedFiles(MultipartFile file,String fileName) throws IOException {
+        if (file.isEmpty()) {
+            return;
+        }
+        storageService.store(file,fileName);
+    }
+
 }

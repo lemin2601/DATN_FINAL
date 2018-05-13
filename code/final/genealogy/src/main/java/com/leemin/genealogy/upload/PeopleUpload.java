@@ -1,57 +1,53 @@
 package com.leemin.genealogy.upload;
+import com.leemin.genealogy.data.GioiTinh;
 import com.leemin.genealogy.model.PedigreeModel;
 import com.leemin.genealogy.model.PeopleModel;
+import com.leemin.genealogy.util.ExcelImportUtil;
 
 import javax.persistence.*;
 import java.util.Date;
 
 public class PeopleUpload {
 
-    private boolean isRealParent;
-
     private int statusUpload;
-
-    private long id;
-
-    private long idParent;
+    private boolean isRealParent;
+    private boolean isRealMother;
 
     private long idPedigree;
-
+    private long id;
+    private long idParent;
+    private long idMother;
+    private int relation;
     private int lifeIndex;
-
     private String name;
-
     private String nickName;
-
     private int gender;
-
     private Date birthday;
-
     private Date deadDay;
-
     private String address;
-
     private String degree;
-
     private String img;
-
     private String des;
-
     private String dataExtra;
-
     private int childIndex;
 
 
     public PeopleUpload() {
+
         this.isRealParent = false;
+        this.isRealMother = false;
+        this.setGender(GioiTinh.KHONG_RO.ordinal());
+        this.setImg(ExcelImportUtil.getImgDefault(GioiTinh.KHONG_RO));
+        this.setIdParent(-1);
+        this.setIdMother(-1);
     }
 
-    public int getChildIndex() {
-        return childIndex;
+    public int getRelation() {
+        return relation;
     }
 
-    public void setChildIndex(int childIndex) {
-        this.childIndex = childIndex;
+    public void setRelation(int relation) {
+        this.relation = relation;
     }
 
     public int getStatusUpload() {
@@ -70,8 +66,24 @@ public class PeopleUpload {
         isRealParent = realParent;
     }
 
+    public long getIdPedigree() {
+        return idPedigree;
+    }
+
+    public void setIdPedigree(long idPedigree) {
+        this.idPedigree = idPedigree;
+    }
+
     public long getId() {
         return id;
+    }
+
+    public boolean isRealMother() {
+        return isRealMother;
+    }
+
+    public void setRealMother(boolean realMother) {
+        isRealMother = realMother;
     }
 
     public void setId(long id) {
@@ -86,12 +98,12 @@ public class PeopleUpload {
         this.idParent = idParent;
     }
 
-    public long getIdPedigree() {
-        return idPedigree;
+    public long getIdMother() {
+        return idMother;
     }
 
-    public void setIdPedigree(long idPedigree) {
-        this.idPedigree = idPedigree;
+    public void setIdMother(long idMother) {
+        this.idMother = idMother;
     }
 
     public int getLifeIndex() {
@@ -180,5 +192,13 @@ public class PeopleUpload {
 
     public void setDataExtra(String dataExtra) {
         this.dataExtra = dataExtra;
+    }
+
+    public int getChildIndex() {
+        return childIndex;
+    }
+
+    public void setChildIndex(int childIndex) {
+        this.childIndex = childIndex;
     }
 }

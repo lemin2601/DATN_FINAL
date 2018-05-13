@@ -6,12 +6,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Config extends ConfigTree{
     private String container = "#collapsable-example";
     private  boolean animateOnInit = true;
+    private Connectors connectors;
     private Node node;
     private Animation animation;
     private String scrollbar = "fancy"; // None
     public Config() {
+        connectors = new Connectors();
         node = new Node();
         animation = new Animation();
+    }
+
+    public Connectors getConnectors() {
+        return connectors;
+    }
+
+    public void setConnectors(Connectors connectors) {
+        this.connectors = connectors;
     }
 
     public String getScrollbar() {

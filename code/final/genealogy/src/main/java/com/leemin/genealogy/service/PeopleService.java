@@ -9,11 +9,20 @@ public interface PeopleService {
 
     PeopleModel findById(long idPeople);
 
+    PeopleModel findByIdAndFetch(long idPeople);
+
     List<PeopleModel> findAll();
+
 
     List<PeopleModel> findAllByPedigreeAndParentKeyStartsWith(PedigreeModel pedigreeModel,String parentKeyStartWith);
 
     List<PeopleModel> findAllByPedigreeAndParentKey(PedigreeModel pedigreeModel,String parentKey);
 
     void removeAllByIdPedigree(PedigreeModel pedigree);
+
+    void deleteChild(Long id, String keyParent);
+
+    void updateParentKey(String oldKey,String newKey);
+
+    boolean gopPhaHe(long idGeneaogy,long idPedigreeFrom, long idPedigreeTo, long idParent,long idMother,int childIndex);
 }

@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -36,16 +37,7 @@
             display: none;
             position: absolute;
             right: 0;
-            bottom: 0;
-        }
-        body {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            font-family: 'Roboto', sans-serif !important;
-            font-size: 15px !important;
-            font-weight: 400 !important;
-            line-height: 1.28;
-            color: #333;
+            top: 0;
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Roboto', sans-serif;
@@ -54,11 +46,15 @@
         h2, h3, h4, h5, h6 {
             margin-top: 50px;
         }
-        h2 {
-            font-size: 32px;
+
+        h1, h2 {
+            font-size: 24px;
         }
         h3 {
-            font-size: 28px;
+            font-size: 20px;
+        }
+        h4 {
+            font-size: 16px;
         }
         p > img {
             display: block;
@@ -254,14 +250,13 @@
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="/dist/img/user2-160x160.jpg "  class="img-circle" width="50" height="50" alt="User Image"/>
+                <img src="https://localhost:8999/dist/img/user2-160x160.jpg"  class="img-circle" width="50" height="50" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Username here</p>
+                <p th:text="${#authentication.getPrincipal().getUsername()}">Username here</p>
                 <!-- Status -->
                 <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-circle text-success"></i><span th:text="#{sidebar.menu.profile.edit}"></span></a>
             </div>
@@ -543,9 +538,43 @@
 
     <script type="text/javascript">
         //Date picker
-        $('#datepicker').datepicker({
-            autoclose: true
-        });
+        // $('#datepicker').datepicker({
+        //     autoclose: true
+        // });
+
+
+        function dateFormat(value, row, index) {
+            if(value == null){
+                return "";
+            }
+            return moment(value).format('DD/MM/YYYY');
+        }
+
+        function relationFormat(value, row, index) {
+            switch (value){
+                case 0:
+                    return "Cha";
+                case 1:
+                    return "Mẹ";
+                case 2:
+                    return "Chồng";
+                case 3:
+                    return "Vợ";
+            }
+            return "";
+        }
+        function genderFormat(value, row, index) {
+            switch (value){
+                case 0:
+                    return "Nam";
+                case 1:
+                    return "Nũ";
+                case 2:
+                    return "?";
+
+            }
+            return "?"
+        }
     </script>
 
     <!--confirm some thing pop up-->

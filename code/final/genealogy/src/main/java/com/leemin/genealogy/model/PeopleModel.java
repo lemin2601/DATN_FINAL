@@ -1,9 +1,11 @@
 package com.leemin.genealogy.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.leemin.genealogy.config.ConfigFormat;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 @Entity
@@ -12,11 +14,18 @@ public class PeopleModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "people_id")
-    private long id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns({ @JoinColumn(name="parent_id", referencedColumnName="people_id")})
     private PeopleModel parent;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumns({ @JoinColumn(name="mother_id", referencedColumnName="people_id")})
+//    private PeopleModel mother;
+
+    @Column(name = "mother_id")
+    private Long idMother;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -26,6 +35,10 @@ public class PeopleModel {
     @Column(name = "parent_key")
     @JsonIgnore
     private String parentKey;
+
+
+    @Column(name = "parent_relation")
+    private Integer relation;
 
     @Column(name = "index_life")
     private int lifeIndex;
@@ -71,27 +84,14 @@ public class PeopleModel {
     @JsonIgnore
     private String dataExtra;
 
-    public String getParentKey() {
-        return parentKey;
+    public PeopleModel() {
     }
 
-    public void setParentKey(String parentKey) {
-        this.parentKey = parentKey;
-    }
-
-    public int getChildIndex() {
-        return childIndex;
-    }
-
-    public void setChildIndex(Integer childIndex) {
-        this.childIndex = childIndex;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -103,12 +103,36 @@ public class PeopleModel {
         this.parent = parent;
     }
 
+    public Long getIdMother() {
+        return idMother;
+    }
+
+    public void setIdMother(Long idMother) {
+        this.idMother = idMother;
+    }
+
     public PedigreeModel getPedigree() {
         return pedigree;
     }
 
     public void setPedigree(PedigreeModel pedigree) {
         this.pedigree = pedigree;
+    }
+
+    public String getParentKey() {
+        return parentKey;
+    }
+
+    public void setParentKey(String parentKey) {
+        this.parentKey = parentKey;
+    }
+
+    public Integer getRelation() {
+        return relation;
+    }
+
+    public void setRelation(Integer relation) {
+        this.relation = relation;
     }
 
     public int getLifeIndex() {
@@ -141,6 +165,14 @@ public class PeopleModel {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public Integer getChildIndex() {
+        return childIndex;
+    }
+
+    public void setChildIndex(Integer childIndex) {
+        this.childIndex = childIndex;
     }
 
     public Date getBirthday() {
@@ -197,5 +229,36 @@ public class PeopleModel {
 
     public void setDataExtra(String dataExtra) {
         this.dataExtra = dataExtra;
+    }
+
+    public static String getKeyParent(PeopleModel parent) {
+        if(parent == null) return "r";
+        return parent.getParentKey() + "_" + parent.getId();
+    }
+
+    public static int getIndexLife(PeopleModel parent) {
+        if(parent == null) return 1;
+        return parent.getLifeIndex() + 1;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+                " \"id\":" + id +
+                ", \"parentKey\":\"" + parentKey + '"' +
+                ", \"lifeIndex\":" + lifeIndex +
+                ", \"name\":\"" + name + '"' +
+                ", \"nickName\":\"" + (nickName==null?"":nickName) + '"' +
+                ", \"gender\":" + gender +
+                ", \"childIndex\":" + childIndex +
+                ", \"birthday\":\"" + ConfigFormat.getStringFromDate(birthday)  + '"' +
+                ", \"deadDay\":\"" + ConfigFormat.getStringFromDate(deadDay)  + '"' +
+                ", \"address\":\"" + address + '"' +
+                ", \"degree\":\"" + (degree==null?"":degree) + '"' +
+                ", \"img\":\"" + img + '"' +
+                ", \"des\":\"" + des + '"' +
+                ", \"dataExtra\":\"" + (dataExtra==null?"":dataExtra) + '"' +
+                '}';
     }
 }

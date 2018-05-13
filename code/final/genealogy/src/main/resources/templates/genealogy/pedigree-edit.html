@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/user :: head"> </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -52,7 +52,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button id="btnSubmit" type="submit" class="btn btn-info pull-right">UPDATE</button>
-                    <a th:href="'/genealogy/'+ ${genealogy.getId()}+'/pedigree/'+ ${pedigree.getId()}" type="button" class="btn btn-info pull-right">Cancel</a>
+                    <a th:href="'/genealogy/'+ ${genealogy.getId()}+'/pedigree/'+ ${pedigree.getId()} + '/detail'" type="button" class="btn btn-info pull-right">Cancel</a>
                 </div>
                 <!-- /.box-footer -->
                 <!--<p>-->

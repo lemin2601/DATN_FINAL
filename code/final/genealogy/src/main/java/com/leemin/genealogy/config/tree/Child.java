@@ -2,7 +2,9 @@ package com.leemin.genealogy.config.tree;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leemin.genealogy.data.ClassColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,13 +24,47 @@ public class Child extends ConfigTree{
     private String parentKey;
     @JsonProperty("data-id")
     private long id;
+
+    @JsonProperty("data-id_mother")
+    private Long idMother;
+
+    @JsonProperty("data-relation")
+    private int relation;
+
     private List<Child> children;
 
+    @JsonIgnore
+    private int gender;
 
 
 
     public Child() {
+        childrenDropLevel = 0;
+    }
 
+    @JsonIgnore
+    public int getGender() {
+        return gender;
+    }
+    @JsonIgnore
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public int getRelation() {
+        return relation;
+    }
+
+    public void setRelation(int relation) {
+        this.relation = relation;
+    }
+
+    public Long getIdMother() {
+        return idMother;
+    }
+
+    public void setIdMother(Long idMother) {
+        this.idMother = idMother;
     }
 
     public long getId() {
@@ -60,6 +96,12 @@ public class Child extends ConfigTree{
     public String getHTMLclass() {
         return HTMLclass;
     }
+
+    @JsonIgnore
+    public void addHTMLclass(ClassColor className) {
+        HTMLclass = HTMLclass + " " + className.name();
+    }
+
 
     public void setHTMLclass(String HTMLclass) {
         this.HTMLclass = HTMLclass;
@@ -103,5 +145,28 @@ public class Child extends ConfigTree{
 
     public void setChildren(List<Child> children) {
         this.children = children;
+    }
+
+    @JsonIgnore
+    public Child getChildrenUnknown() {
+        if(children == null) children = new ArrayList<>();
+        for (Child c: children) {
+            if(c.getId() == -2){
+                return c;
+            }
+        }
+        Child result = new Child();
+        result.setId(-2);
+        result.setCollapsed(true);
+        result.setImage("/img/avatar-default-unknown.png");
+        result.addHTMLclass(ClassColor.people_chart_node);
+        result.addHTMLclass(ClassColor.people_node_unknown);
+        Text text = new Text();
+        text.setName("Không rõ");
+        text.setTitle("? - ?");
+        result.setText(text);
+        result.setChildren(new ArrayList<>());
+        children.add(result);
+        return result;
     }
 }

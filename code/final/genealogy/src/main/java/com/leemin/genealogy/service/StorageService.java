@@ -1,5 +1,6 @@
 package com.leemin.genealogy.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -23,7 +24,11 @@ public class StorageService {
     public void store(MultipartFile file,String fileName) {
         try {
 //            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+            Path resolve = this.rootLocation.resolve(fileName);
+            if(Files.notExists(resolve.getParent())){
+                Files.createDirectory(resolve.getParent());
+            }
+            Files.copy(file.getInputStream(), resolve);
         } catch (Exception e) {
             throw new RuntimeException("FAIL!");
         }
@@ -52,12 +57,13 @@ public class StorageService {
     }
 
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+//        FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     public void init() {
         try {
-            Files.createDirectory(rootLocation);
+            if(Files.notExists(rootLocation))
+                Files.createDirectory(rootLocation);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage!");
         }

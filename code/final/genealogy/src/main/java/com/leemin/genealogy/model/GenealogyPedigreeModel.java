@@ -14,11 +14,11 @@ public class GenealogyPedigreeModel implements Serializable {
     @Column(name = "genealogy_pedigree")
     private long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumns({ @JoinColumn(name="genealogy_id", referencedColumnName="genealogy_id")})
     private GenealogyModel genealogy;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumns({ @JoinColumn(name="pedigree_id", referencedColumnName="pedigree_id")})
     private PedigreeModel  pedigree;
 
