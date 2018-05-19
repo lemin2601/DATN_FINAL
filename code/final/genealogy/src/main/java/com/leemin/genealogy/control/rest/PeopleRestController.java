@@ -7,6 +7,7 @@ import com.leemin.genealogy.config.tree.Child;
 import com.leemin.genealogy.config.tree.ConfigTree;
 import com.leemin.genealogy.config.tree.Text;
 import com.leemin.genealogy.data.*;
+import com.leemin.genealogy.data.cachgoiten.CachGoiTen;
 import com.leemin.genealogy.model.*;
 import com.leemin.genealogy.repository.GenealogyPedigreeRepository;
 import com.leemin.genealogy.repository.PeopleRepository;
@@ -26,11 +27,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.*;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 @RestController
 public class PeopleRestController {
@@ -317,11 +320,175 @@ public class PeopleRestController {
             @PathVariable(name = "idXemQuanHe1")long idXemQuanHe1,
             @PathVariable(name = "idXemQuanHe2")long idXemQuanHe2
                                  ){
-        //TODO check condition pedigree
+        if(idXemQuanHe1 == idXemQuanHe2) return new ResponseEntity<>("is one people" , HttpStatus.NOT_FOUND);
         PeopleModel nguoi1 = peopleService.findById(idXemQuanHe1);
         PeopleModel nguoi2 = peopleService.findById(idXemQuanHe2);
-        return new ResponseEntity<>(nguoi1.getParentKey()+ "|" + nguoi2.getParentKey() , HttpStatus.OK);
+        /*keyParrent
+        so sánh đến lúc khác
+            get key 2 cái khác nhau
+                so sánh vai vế ChildIndex
+                    ==> bên ngoài lớn hơn
+                    bằng nhau ==> sinh đôi
+                        thằng id<hơn làm anh
+
+        nếu key parrent là giới tính nữ => bên ngoài dòng họ
+        nếu keyParrent cuối cùng là nữ và con là chồng thì vẫn là bên trong dòng họ
+
+        so sánh độ dại + quan hệ
+            Nếu là vợ chông
+                đô dài key + 1
+            nếu là cha me
+                dữ nguyên
+            ==> chênh lệch câps
+        */
+        if(nguoi1 == null || nguoi2 == null)  return new ResponseEntity<>("not found people with that id" , HttpStatus.NOT_FOUND);
+        String parentKey1 = nguoi1.getParentKey();
+        String parentKey2 = nguoi2.getParentKey();
+        GioiTinh gender1 = GioiTinh.values()[nguoi1.getGender()];
+        GioiTinh gender2 = GioiTinh.values()[nguoi2.getGender()];
+        int level = 0;
+
+        QuanHe quanHe1 = QuanHe.values()[nguoi1.getRelation()];
+        QuanHe quanHe2 = QuanHe.values()[nguoi2.getRelation()];
+        //neu la vo hoac chong thi dung o vai ve nguoi con lai de so sanh
+        if(quanHe1 == QuanHe.CHONG || quanHe1 == QuanHe.VO){
+            Long idParent = Long.parseLong(parentKey1.substring(parentKey1.lastIndexOf("_")+1));
+            nguoi1 = peopleService.findById(idParent);
+            parentKey1 = nguoi1.getParentKey();
+            quanHe1 = QuanHe.values()[nguoi1.getRelation()];
+        }
+        if(quanHe2 == QuanHe.CHONG || quanHe2 == QuanHe.VO){
+            Long idParent = Long.parseLong(parentKey2.substring(parentKey2.lastIndexOf("_")+1));
+            nguoi2 = peopleService.findById(idParent);
+            parentKey2 = nguoi2.getParentKey();
+            quanHe2 = QuanHe.values()[nguoi2.getRelation()];
+        }
+
+        String[] arrKey1 = parentKey1.split("_");
+        String[] arrKey2 = parentKey2.split("_");
+
+        boolean people1Higher = false;
+        boolean people2Higher = false;
+
+        boolean peopleOutside1 = false;
+        boolean peopleOutside2 = false;
+
+        boolean isParent1 = false;
+        boolean isParent2 = false;
+
+        int level1 = arrKey1.length;
+        int level2 = arrKey2.length;
+
+        int length = arrKey1.length;
+        if(arrKey2.length < arrKey1.length){
+            length = arrKey2.length;
+            people2Higher = false;
+            people1Higher = true;
+        }else if( arrKey2.length < arrKey1.length){
+            people2Higher = true;
+            people1Higher = false;
+        }
+        int indexDifferent = -1;
+        if(!nguoi1.getId()
+                  .equals(nguoi2.getId())){
+            for( int i  = 1; i <length ; i++){
+                if(!arrKey1[i].equals(arrKey2[i])){
+                    PeopleModel temp1 = peopleService.findById(Long.parseLong(arrKey1[i]));
+                    PeopleModel temp2 = peopleService.findById(Long.parseLong(arrKey2[i]));
+                    if(temp1 != null && temp2 != null) {
+                        people1Higher = temp1.getChildIndex() > temp2.getChildIndex() || temp1.getChildIndex() >= temp2.getChildIndex() && (temp1.getId() < temp2.getId());
+                        people2Higher = ! people1Higher;
+                        indexDifferent = i;
+                        break;
+                    }
+                }
+            }
+            if(people1Higher == people2Higher) {
+                people1Higher = nguoi1.getChildIndex() > nguoi2.getChildIndex() || nguoi1.getChildIndex() <= nguoi2.getChildIndex() && (nguoi1.getId() > nguoi2.getId());
+            }
+            people2Higher = !people1Higher;
+        }else{
+            isParent1 = true;
+            isParent2 = true;
+        }
+
+        if(indexDifferent != -1){
+            if(indexDifferent < arrKey1.length-1){
+                for(int i = indexDifferent; i < arrKey1.length;i++){
+                    PeopleModel temp = peopleService.findById(Long.parseLong(arrKey1[i]));
+                    if(temp.getGender() == GioiTinh.NU.ordinal()){
+                        if(!(i == arrKey1.length -1 && nguoi1.getRelation() == QuanHe.CHONG.ordinal())){
+                            peopleOutside1 = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(indexDifferent< arrKey2.length-1){
+                for(int i = indexDifferent; i < arrKey2.length;i++){
+                    PeopleModel temp = peopleService.findById(Long.parseLong(arrKey2[i]));
+                    if(temp.getGender() == GioiTinh.NU.ordinal()){
+                        if(!(i == arrKey2.length -1 && nguoi2.getRelation() == QuanHe.CHONG.ordinal())){
+                            peopleOutside2 = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if(quanHe1 == QuanHe.CHONG || quanHe1 == QuanHe.VO){
+            level1 -= 1;
+            if(arrKey1[arrKey1.length-1].equals(nguoi2.getId() + "")){
+                isParent1 = true;
+                isParent2 = true;
+                people2Higher = false;
+                people1Higher = false;
+            }
+            if(!(quanHe2 == QuanHe.CHONG || quanHe2 == QuanHe.VO)){
+                if(nguoi1.getParentKey().equals(nguoi2.getParentKey())){
+                    isParent1 = true;
+                    isParent2 = true;
+                    people1Higher = true;
+                    people2Higher = false;
+                }
+            }
+        }
+        if(quanHe2 == QuanHe.CHONG || quanHe2 == QuanHe.VO){
+            level2 -= 1;
+            if(arrKey2[arrKey2.length-1].equals(nguoi1.getId() + "")){
+                isParent1 = true;
+                isParent2 = true;
+                people2Higher = false;
+                people1Higher = false;
+            }
+            if(!(quanHe1 == QuanHe.CHONG || quanHe1 == QuanHe.VO)){
+                if(nguoi1.getParentKey().equals(nguoi2.getParentKey())){
+                    isParent1 = true;
+                    isParent2 = true;
+                    people1Higher = false;
+                    people2Higher = true;
+                }
+            }
+        }
+        if(arrKey2[arrKey2.length-1].equals(nguoi1.getId() + "")){
+            isParent1 = true;
+            isParent2 = true;
+        }
+        if(arrKey1[arrKey1.length-1].equals(nguoi2.getId() + "")){
+            isParent1 = true;
+            isParent2 = true;
+        }
+        level = Math.abs(level1 - level2);
+        //check special if vk/ck
+
+
+
+        String call1 = CachGoiTen.getInstance().getName(gender2,level,people1Higher,peopleOutside1,isParent1);
+        String call2 = CachGoiTen.getInstance().getName(gender1,level,people2Higher,peopleOutside2,isParent2);
+        return new ResponseEntity<>(call1 + "|"+ call2 , HttpStatus.OK);
     }
+
+
     /*@GetMapping(value = "/rest/genealogy/{idGenealogy}/pedigree/{idPedigree}/list-people-tree" , produces = "application/json")
     public List<ConfigTree>  getAllListPeopleViewTree(
             Principal principal,

@@ -964,8 +964,14 @@
                     timeout: 600000,
                     success: function (data) {
                         console.log("SUCCESS : ", data);
+                        data  = data.split("|")
+                        var name1 =$("#imgPeopleRelationName1").text();
+                        var name2 =$("#imgPeopleRelationName2").text();
+                        $("#resultXemQuanHe").html(
+                            '<p>'+name1+' gọi '+name2+' là:'+ data[0]+'</p>'+
+                                '<p class="pull-right">'+name2+' gọi '+ name1+' là: '+data[1]+ '</p>'
+                        );
                         $("#btnXacNhanXemQuanHe").prop("disabled", false);
-                        $("#resultXemQuanHe").html(data);
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
@@ -1061,8 +1067,5 @@
     /*]]>*/
 </script>
 
-<script type="text/javascript">
-
-</script>
 </body>
 </html>

@@ -35,6 +35,9 @@
             <!-- Your Page Content Here -->
 
             <div class="box box-info">
+                <div class="box-header with-border">
+                    <a th:href="'/files/Import_Pedigree_Example.xlsx'" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus"></span><span >Tải mẫu</span></a>
+                </div>
                 <form id="fileUploadForm" class="form" method="post" th:action="'/genealogy/'+${idGenealogy}+'/pedigree/'+${idPedigree}+'/import'">
                     <input type="hidden" class="form-control" id="inputIdGenealogy" placeholder="Email" th:value="${idGenealogy}"/>
                     <input type="hidden" class="form-control" id="inputIdPedigree" placeholder="Email" th:value="${idPedigree}"/>

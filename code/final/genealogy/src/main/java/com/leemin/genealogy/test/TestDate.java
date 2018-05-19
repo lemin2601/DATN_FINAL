@@ -15,5 +15,7 @@ public class TestDate {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        String parentKey1 = "R_123";
+        System.out.println(Long.parseLong(parentKey1.substring(parentKey1.lastIndexOf("_")+1)));
     }
 }
